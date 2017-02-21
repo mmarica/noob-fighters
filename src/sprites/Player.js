@@ -44,7 +44,7 @@ export default class extends Phaser.Sprite {
             this.setOrientationFrame()
         }
 
-        if (this.keys.up.isDown) //&& this.players[0].body.touching.down
+        if (this.keys.up.isDown && this.body.touching.down)
         {
             this.body.velocity.y = -350;
         }
