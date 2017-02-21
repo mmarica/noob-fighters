@@ -13,7 +13,8 @@ export default class extends Phaser.State {
                     game: this.game,
                     x: 100,
                     y: this.world.centerY,
-                    keys: { 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D }
+                    keys: { 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D },
+                    orientation: 'right',
                 })
             ),
             this.game.add.existing(
@@ -21,7 +22,8 @@ export default class extends Phaser.State {
                     game: this.game,
                     x: this.world.width - 100,
                     y: this.world.centerY,
-                    keys: { 'up': Phaser.KeyCode.UP, 'down': Phaser.KeyCode.DOWN, 'left': Phaser.KeyCode.LEFT, 'right': Phaser.KeyCode.RIGHT }
+                    keys: { 'up': Phaser.KeyCode.UP, 'down': Phaser.KeyCode.DOWN, 'left': Phaser.KeyCode.LEFT, 'right': Phaser.KeyCode.RIGHT },
+                    orientation: 'left',
                 })
             )
         ]
