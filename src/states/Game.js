@@ -7,6 +7,8 @@ export default class extends Phaser.State {
     preload () {}
 
     create () {
+        game.add.sprite(0, 0, 'bg');
+
         this.players = [
             this.game.add.existing(
                 new Player({
