@@ -7,7 +7,8 @@ export default class extends Phaser.State {
     preload () {}
 
     create () {
-        game.add.sprite(0, 0, 'bg');
+        game.add.sprite(0, 0, 'bg')
+        this.addGround()
 
         this.players = [
             this.game.add.existing(
@@ -34,6 +35,9 @@ export default class extends Phaser.State {
     }
 
     update() {
+        for (var player of this.players) {
+            this.game.physics.arcade.collide(player, this.ground);
+        }
     }
 
     addBanner () {
@@ -45,5 +49,12 @@ export default class extends Phaser.State {
         banner.fill = '#00c6ff'
         banner.smoothed = false
         banner.anchor.setTo(0.5)
+    }
+
+    addGround ()
+    {
+        this.ground = this.game.add.tileSprite(0, this.world.height - 48, 1280, 48, 'ground')
+        this.game.physics.arcade.enable(this.ground)
+        this.ground.body.immovable = true
     }
 }

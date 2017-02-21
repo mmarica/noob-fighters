@@ -16,6 +16,7 @@ export default class extends Phaser.State {
         //
         this.load.spritesheet('dude', './assets/images/dude.png', 32, 48)
         this.load.image('bg', './assets/images/bg.png')
+        this.load.image('ground', './assets/images/ground.png')
     }
 
     create () {
