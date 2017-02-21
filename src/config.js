@@ -1,5 +1,5 @@
 export default {
-  gameWidth: 1280,
-  gameHeight: 800,
-  localStorageName: 'noob-fighters'
+    gameWidth: 1280,
+    gameHeight: 800,
+    localStorageName: 'noob-fighters'
 }
