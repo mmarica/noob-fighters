@@ -9,7 +9,7 @@ export default class extends Phaser.State {
     preload () {}
 
     create () {
-        game.add.sprite(0, 0, 'bg')
+        this.game.add.sprite(0, 0, 'bg')
 
         this.ground = this.game.add.existing(
             new Ground({
@@ -17,15 +17,58 @@ export default class extends Phaser.State {
             })
         )
 
+        let height = 752
+        const step = 160
+
         this.ledges = [
             this.game.add.existing(
                 new Ledge({
                     game: this.game,
+                    x: 0,
+                    y: height - step,
+                    length: 1
+                })
+            ),
+            this.game.add.existing(
+                new Ledge({
+                    game: this.game,
+                    x: this.world.width - 128 * 3,
+                    y: height - step,
+                    length: 1
+                })
+            ),
+            this.game.add.existing(
+                new Ledge({
+                    game: this.game,
                     x: 200,
-                    y: 580,
+                    y: height - 2 * step,
                     length: 5
                 })
-            )
+            ),
+            this.game.add.existing(
+                new Ledge({
+                    game: this.game,
+                    x: 0,
+                    y: height - 3 * step,
+                    length: 0
+                })
+            ),
+            this.game.add.existing(
+                new Ledge({
+                    game: this.game,
+                    x: this.world.width - 128 * 6,
+                    y: height - 3 * step,
+                    length: 0
+                })
+            ),
+            this.game.add.existing(
+                new Ledge({
+                    game: this.game,
+                    x: this.world.width - 128 * 2,
+                    y: height - 3 * step,
+                    length: 0
+                })
+            ),
         ]
 
         this.players = [
@@ -33,7 +76,7 @@ export default class extends Phaser.State {
                 new Player({
                     game: this.game,
                     x: 100,
-                    y: this.world.centerY,
+                    y: this.world.height - 48 - 24,
                     keys: { 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D },
                     orientation: 'right',
                 })
@@ -42,17 +85,19 @@ export default class extends Phaser.State {
                 new Player({
                     game: this.game,
                     x: this.world.width - 100,
-                    y: this.world.centerY,
+                    y: this.world.height - 48 - 24,
                     keys: { 'up': Phaser.KeyCode.UP, 'down': Phaser.KeyCode.DOWN, 'left': Phaser.KeyCode.LEFT, 'right': Phaser.KeyCode.RIGHT },
                     orientation: 'left',
                 })
-            )
+            ),
         ]
 
         this.addBanner()
     }
 
     update() {
+        this.game.physics.arcade.collide(this.players[0], this.players[1]);
+
         for (let player of this.players) {
             this.game.physics.arcade.collide(player, this.ground);
 
