@@ -3,7 +3,7 @@ import Phaser from 'phaser'
 export default class extends Phaser.Sprite {
 
     constructor ({ game, x, y, keys, orientation }) {
-        super(game, x, y, 'dude', 4)
+        super(game, x, y, 'dude', orientation == 'left' ? 0 : 5)
 
         this.orientation = orientation
         this.anchor.setTo(0.5)
@@ -16,7 +16,6 @@ export default class extends Phaser.Sprite {
 
         this.animations.add('left', [0, 1, 2, 3], 10, true);
         this.animations.add('right', [5, 6, 7, 8], 10, true);
-        this.setOrientationFrame()
 
         this.keys = this.game.input.keyboard.addKeys(keys);
     }
@@ -41,7 +40,7 @@ export default class extends Phaser.Sprite {
         {
             this.animations.stop();
             this.body.velocity.x = 0;
-            this.setOrientationFrame()
+            this.frame = this.orientation == 'left' ? 0 : 5
         }
 
         if (this.keys.up.isDown && this.body.touching.down)
@@ -49,9 +48,4 @@ export default class extends Phaser.Sprite {
             this.body.velocity.y = -350;
         }
     }
-
-    setOrientationFrame () {
-        this.frame = this.orientation == 'left' ? 0 : 5
-    }
-
 }
