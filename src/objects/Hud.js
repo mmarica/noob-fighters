@@ -1,41 +1,77 @@
 import Phaser from 'phaser'
 
+const MARGIN = 40
+const HBAR_Y = 80
+const HBAR_WIDTH = 400
+const HBAR_HEIGHT = 24
+const HBAR_STROKE = 2
+
 export default class extends Phaser.Group {
+
     constructor ({ game, p1, p2 }) {
         super(game)
 
+        this.health = [100, 100]
+        this.name = [p1, p2]
+        this.playerName = []
+        this.hbar = []
+
+        for (let i = 0; i < 2; i++) {
+            this.playerName.push(this._createPlayerName(i))
+            this.hbar.push(this._createHealthBar(i))
+            this._updateHealthBar(i)
+        }
+
         this._addBanner()
-        this._addPlayerStatus(p1, 1)
-        this._addPlayerStatus(p2, 2)
     }
 
-    create () {
-    }
+    _createPlayerName (id) {
+        let x = id == 0 ? MARGIN :  this.game.world.width - MARGIN
 
-    _addBanner () {
-        let banner = new Phaser.Text(this.game, this.game.world.centerX, 40, 'Noob Fighters')
-        banner.font = 'Bangers'
-        banner.padding.set(10, 16)
-        banner.fontSize = 40
-        banner.fill = '#00c6ff'
-        banner.smoothed = true
-        this.add(banner)
-    }
-
-    _addPlayerStatus (name, id) {
-        const health_witdh  = 200
-        const margin = 40
-
-        let x = id == 1 ? margin :  this.game.world.width - margin
-
-        let playerName = new Phaser.Text(this.game, x, 40, name)
+        let playerName = new Phaser.Text(this.game, x, 40, this.name[id])
         playerName.font = 'Bangers'
         playerName.fontSize = 20
         playerName.fill = '#fcff00'
         playerName.stroke = '#c600ff';
         playerName.strokeThickness = 3;
         playerName.smoothed = true
-        playerName.anchor.setTo(id == 1 ? 0 : 1, 0)
-        this.add(playerName)
+        playerName.anchor.setTo(id == 0 ? 0 : 1, 0)
+
+        return this.add(playerName)
+    }
+
+    _createHealthBar (id) {
+        return this.add(game.add.graphics())
+    }
+
+    _updateHealthBar (id) {
+        // compute the horizontal position depending on player id
+        let x = id == 0 ? MARGIN + HBAR_STROKE : this.game.world.width - MARGIN - HBAR_WIDTH - 2 * HBAR_STROKE
+
+        // delete the current healtbar
+        let hbar = this.hbar[id];
+        hbar.clear()
+
+        // create the "empty health" container
+        hbar.lineStyle(HBAR_STROKE, 0xFFFFFF);
+        hbar.beginFill(0x000000);
+        hbar.drawRect(x, HBAR_Y, HBAR_WIDTH + 2 * HBAR_STROKE, HBAR_HEIGHT + 2 * HBAR_STROKE);
+
+        // draw the actual health
+        hbar.lineStyle(0);
+        hbar.beginFill(0xFF0000);
+        hbar.drawRect(x + HBAR_STROKE, HBAR_Y + HBAR_STROKE, HBAR_WIDTH * this.health[id] / 100, HBAR_HEIGHT);
+
+    }
+
+    _addBanner () {
+        let banner = new Phaser.Text(this.game, this.game.world.centerX, 20, 'Noob Fighters')
+        banner.anchor.setTo(0.5, 0)
+        banner.font = 'Bangers'
+        banner.padding.set(10, 16)
+        banner.fontSize = 40
+        banner.fill = '#00c6ff'
+        banner.smoothed = true
+        this.add(banner)
     }
 }
