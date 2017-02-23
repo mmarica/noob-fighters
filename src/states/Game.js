@@ -3,18 +3,18 @@ import Phaser from 'phaser'
 import Player from '../sprites/Player'
 import Ground from '../sprites/Ground'
 import Ledge from '../sprites/Ledge'
+import Hud from '../objects/Hud'
 
 export default class extends Phaser.State {
     init () {}
+
     preload () {}
 
     create () {
         this.game.add.sprite(0, 0, 'bg')
 
         this.ground = this.game.add.existing(
-            new Ground({
-                game: this.game
-            })
+            new Ground({ game: this.game })
         )
 
         let height = 752
@@ -92,7 +92,13 @@ export default class extends Phaser.State {
             ),
         ]
 
-        this.addBanner()
+        this.hud = this.game.add.existing(
+            new Hud({
+                game: this.game,
+                p1: 'Noobacca',
+                p2: 'Jean-Noob Piccard',
+            })
+        )
     }
 
     update() {
@@ -104,16 +110,5 @@ export default class extends Phaser.State {
             for (let ledge of this.ledges)
                 this.game.physics.arcade.collide(player, ledge);
         }
-    }
-
-    addBanner () {
-        const bannerText = 'Noob Fighters'
-        let banner = this.add.text(this.world.centerX, 40, bannerText)
-        banner.font = 'Bangers'
-        banner.padding.set(10, 16)
-        banner.fontSize = 40
-        banner.fill = '#00c6ff'
-        banner.smoothed = true
-        banner.anchor.setTo(0.5)
     }
 }
