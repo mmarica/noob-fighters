@@ -11,6 +11,8 @@ export default class extends Phaser.State {
     preload () {}
 
     create () {
+        this.hit = this.game.add.audio('hit');
+
         this.game.add.sprite(0, 0, 'bg')
 
         this.ground = this.game.add.existing(
@@ -75,9 +77,16 @@ export default class extends Phaser.State {
             this.game.add.existing(
                 new Player({
                     game: this.game,
+                    id: 0,
                     x: 100,
                     y: this.world.height - 48 - 24,
-                    keys: { 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D },
+                    keys: {
+                        'up': Phaser.KeyCode.W,
+                        'down': Phaser.KeyCode.S,
+                        'left': Phaser.KeyCode.A,
+                        'right': Phaser.KeyCode.D,
+                        'fire': Phaser.KeyCode.B
+                    },
                     orientation: 'right',
                 })
             ),
@@ -86,11 +95,23 @@ export default class extends Phaser.State {
                     game: this.game,
                     x: this.world.width - 100,
                     y: this.world.height - 48 - 24,
-                    keys: { 'up': Phaser.KeyCode.UP, 'down': Phaser.KeyCode.DOWN, 'left': Phaser.KeyCode.LEFT, 'right': Phaser.KeyCode.RIGHT },
+                    id: 1,
+                    keys: {
+                        'up': Phaser.KeyCode.UP,
+                        'down': Phaser.KeyCode.DOWN,
+                        'left': Phaser.KeyCode.LEFT,
+                        'right': Phaser.KeyCode.RIGHT,
+                        'fire': Phaser.KeyCode.BACKWARD_SLASH
+                    },
                     orientation: 'left',
                 })
             ),
         ]
+
+        this.weapons = []
+        for (let i = 0; i < 2; i++) {
+            this.weapons.push(this.players[i].getWeapon())
+        }
 
         this.hud = this.game.add.existing(
             new Hud({
@@ -104,11 +125,20 @@ export default class extends Phaser.State {
     update() {
         this.game.physics.arcade.collide(this.players[0], this.players[1]);
 
+        this.game.physics.arcade.overlap(this.weapons[1].bullets, [this.players[0]], this.hitPlayer, null, this);
+        this.game.physics.arcade.overlap(this.weapons[0].bullets, [this.players[1]], this.hitPlayer, null, this);
+
         for (let player of this.players) {
             this.game.physics.arcade.collide(player, this.ground);
 
             for (let ledge of this.ledges)
                 this.game.physics.arcade.collide(player, ledge);
         }
+    }
+
+    hitPlayer (player, bullet) {
+        bullet.kill()
+        console.log(player.id)
+        this.hit.play()
     }
 }

@@ -2,8 +2,10 @@ import Phaser from 'phaser'
 
 export default class extends Phaser.Sprite {
 
-    constructor ({ game, x, y, keys, orientation }) {
+    constructor ({ game, id, x, y, keys, orientation }) {
         super(game, x, y, 'dude', orientation == 'left' ? 0 : 5)
+
+        this.id = id
 
         this.orientation = orientation
         this.anchor.setTo(0.5)
@@ -18,6 +20,14 @@ export default class extends Phaser.Sprite {
         this.animations.add('right', [5, 6, 7, 8], 10, true);
 
         this.keys = this.game.input.keyboard.addKeys(keys);
+
+        this.weapon = this.game.add.weapon(5, 'bullet')
+        this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
+        this.weapon.bulletSpeed = 400
+        this.weapon.fireRate = 1000
+        this.weapon.trackSprite(this, 0, 0);
+
+        this.blaster = this.game.add.audio('blaster');
     }
 
     create () {
@@ -43,9 +53,21 @@ export default class extends Phaser.Sprite {
             this.frame = this.orientation == 'left' ? 0 : 5
         }
 
+        if (this.keys.fire.isDown)
+        {
+            this.weapon.fireAngle = this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT
+            if (this.weapon.fire()) {
+                this.blaster.play()
+            }
+        }
+
         if (this.keys.up.isDown && this.body.touching.down)
         {
             this.body.velocity.y = -350;
         }
+    }
+
+    getWeapon () {
+        return this.weapon
     }
 }
