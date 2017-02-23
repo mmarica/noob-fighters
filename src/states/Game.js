@@ -138,7 +138,7 @@ export default class extends Phaser.State {
 
     hitPlayer (player, bullet) {
         bullet.kill()
-        console.log(player.id)
         this.hit.play()
+        this.hud.decreaseHealth(player.id, 10)
     }
 }

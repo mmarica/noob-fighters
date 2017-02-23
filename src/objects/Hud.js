@@ -74,4 +74,9 @@ export default class extends Phaser.Group {
         banner.smoothed = true
         this.add(banner)
     }
+
+    decreaseHealth (id, amount) {
+        this.health[id] =  Math.max(0, this.health[id] - amount)
+        this._updateHealthBar(id)
+    }
 }
