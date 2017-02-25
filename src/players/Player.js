@@ -2,8 +2,8 @@ import Phaser from 'phaser'
 
 export default class extends Phaser.Sprite {
 
-    constructor ({ game, id, x, y, keys, orientation }) {
-        super(game, x, y, 'dude', orientation == 'left' ? 0 : 5)
+    constructor ({ game, id, x, y, asset, keys, orientation }) {
+        super(game, x, y, asset, orientation == 'left' ? 0 : 4)
 
         this.id = id
 
@@ -12,12 +12,12 @@ export default class extends Phaser.Sprite {
 
         this.game.physics.arcade.enable(this)
 
-        this.body.bounce.y = 0.2;
+        // this.body.bounce.y = 0.2;
         this.body.gravity.y = 300;
         this.body.collideWorldBounds = true;
 
-        this.animations.add('left', [0, 1, 2, 3], 10, true);
-        this.animations.add('right', [5, 6, 7, 8], 10, true);
+        this.animations.add('left', [0, 1, 2, 3], 5, true);
+        this.animations.add('right', [4, 5, 6, 7], 5, true);
 
         this.keys = this.game.input.keyboard.addKeys(keys);
 
@@ -50,7 +50,7 @@ export default class extends Phaser.Sprite {
         {
             this.animations.stop();
             this.body.velocity.x = 0;
-            this.frame = this.orientation == 'left' ? 0 : 5
+            this.frame = this.orientation == 'left' ? 0 : 4
         }
 
         if (this.keys.fire.isDown)

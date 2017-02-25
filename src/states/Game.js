@@ -1,6 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
-import Player from '../sprites/Player'
+import Noobacca from '../players/Noobacca'
+import Alien from '../players/Alien'
 import Ground from '../sprites/Ground'
 import Ledge from '../sprites/Ledge'
 import Hud from '../objects/Hud'
@@ -75,7 +76,7 @@ export default class extends Phaser.State {
 
         this.players = [
             this.game.add.existing(
-                new Player({
+                new Alien({
                     game: this.game,
                     id: 0,
                     x: 100,
@@ -91,11 +92,11 @@ export default class extends Phaser.State {
                 })
             ),
             this.game.add.existing(
-                new Player({
+                new Noobacca({
                     game: this.game,
-                    x: this.world.width - 100,
-                    y: this.world.height - 48 - 24,
                     id: 1,
+                    x: this.world.width - 100,
+                    y: this.world.height - 64 - 24,
                     keys: {
                         'up': Phaser.KeyCode.UP,
                         'down': Phaser.KeyCode.DOWN,
