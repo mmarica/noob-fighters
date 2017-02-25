@@ -14,7 +14,6 @@ export default class extends Phaser.Sprite {
 
         this.game.physics.arcade.enable(this)
 
-        // this.body.bounce.y = 0.2;
         this.body.gravity.y = 300;
         this.body.collideWorldBounds = true;
 
@@ -23,11 +22,7 @@ export default class extends Phaser.Sprite {
 
         this.keys = this.game.input.keyboard.addKeys(keys);
 
-        this.weapon = this.game.add.weapon(5, 'bullet')
-        this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
-        this.weapon.bulletSpeed = 400
-        this.weapon.fireRate = 1000
-        this.weapon.trackSprite(this, 0, 0);
+        this.weapon = this._addWeapon()
 
         this.blaster = this.game.add.audio('blaster');
     }

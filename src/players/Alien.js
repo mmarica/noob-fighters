@@ -19,4 +19,15 @@ export default class extends Player {
             },
         })
     }
+
+    _addWeapon () {
+        let weapon = this.game.add.weapon(5, 'blaster_bullet')
+
+        weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
+        weapon.bulletSpeed = 700
+        weapon.fireRate = 1000
+        weapon.trackSprite(this, 0, 0);
+
+        return weapon;
+    }
 }
