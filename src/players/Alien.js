@@ -11,7 +11,12 @@ export default class extends Player {
             y: y,
             asset: 'alien',
             keys: keys,
-            orientation : orientation,
+            orientation: orientation,
+            animations: {
+                'left': [0, 1, 2, 3],
+                'right': [4, 5, 6, 7],
+                'right_still': 4,
+            },
         })
     }
 }
