@@ -82,11 +82,11 @@ export default class extends Phaser.State {
                     x: 100,
                     y: this.world.height - 48 - 24,
                     keys: {
-                        'up': Phaser.KeyCode.W,
-                        'down': Phaser.KeyCode.S,
-                        'left': Phaser.KeyCode.A,
-                        'right': Phaser.KeyCode.D,
-                        'fire': Phaser.KeyCode.B
+                        'up': Phaser.KeyCode.R,
+                        'down': Phaser.KeyCode.F,
+                        'left': Phaser.KeyCode.D,
+                        'right': Phaser.KeyCode.G,
+                        'fire': Phaser.KeyCode.Q
                     },
                     orientation: 'right',
                 })
@@ -102,7 +102,7 @@ export default class extends Phaser.State {
                         'down': Phaser.KeyCode.DOWN,
                         'left': Phaser.KeyCode.LEFT,
                         'right': Phaser.KeyCode.RIGHT,
-                        'fire': Phaser.KeyCode.BACKWARD_SLASH
+                        'fire': Phaser.KeyCode.CLOSED_BRACKET
                     },
                     orientation: 'left',
                 })
