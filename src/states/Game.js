@@ -131,6 +131,10 @@ export default class extends Phaser.State {
         this.game.physics.arcade.overlap(this.weapons[1].bullets, [this.players[0]], this.hitPlayer, null, this);
         this.game.physics.arcade.overlap(this.weapons[0].bullets, [this.players[1]], this.hitPlayer, null, this);
 
+        for (let weapon of this.weapons)
+            for (let ledge of this.ledges)
+                this.game.physics.arcade.overlap(weapon.bullets, ledge, this.hitLedge, null, this);
+
         for (let player of this.players) {
             this.game.physics.arcade.collide(player, this.ground);
 
@@ -143,5 +147,9 @@ export default class extends Phaser.State {
         bullet.kill()
         player.playHitSound()
         this.hud.decreaseHealth(player.id, 10)
+    }
+
+    hitLedge (bullet, ledge) {
+        bullet.kill()
     }
 }
