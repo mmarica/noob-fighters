@@ -28,12 +28,11 @@ export default class extends Phaser.Group {
     _createPlayerName (id) {
         let x = id == 0 ? MARGIN :  this.game.world.width - MARGIN
 
-        let playerName = new Phaser.Text(this.game, x, 40, this.name[id])
-        playerName.font = 'Bangers'
+        let playerName = new Phaser.Text(this.game, x, 50, this.name[id])
+        playerName.font = 'Russo One'
         playerName.fontSize = 20
-        playerName.fill = '#fcff00'
-        playerName.stroke = '#c600ff';
-        playerName.strokeThickness = 3;
+        playerName.fill = '#fff'
+        playerName.shadow = 2;
         playerName.smoothed = true
         playerName.anchor.setTo(id == 0 ? 0 : 1, 0)
 
@@ -65,9 +64,9 @@ export default class extends Phaser.Group {
     }
 
     _addBanner () {
-        let banner = new Phaser.Text(this.game, this.game.world.centerX, 20, 'Noob Fighters')
+        let banner = new Phaser.Text(this.game, this.game.world.centerX, 20, 'NOOB FIGHTERS')
         banner.anchor.setTo(0.5, 0)
-        banner.font = 'Bangers'
+        banner.font = 'Paytone One'
         banner.padding.set(10, 16)
         banner.fontSize = 40
         banner.fill = '#00c6ff'

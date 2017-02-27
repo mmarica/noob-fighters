@@ -11,7 +11,7 @@ export default class extends Phaser.State {
     preload () {
         WebFont.load({
             google: {
-                families: ['Bangers']
+                families: ['Paytone One', 'Russo One']
             },
             active: this.fontsLoaded
         })

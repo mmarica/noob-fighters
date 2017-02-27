@@ -82,7 +82,7 @@ export default class extends Phaser.State {
                     game: this.game,
                     id: 0,
                     x: 100,
-                    y: this.world.height - 48 - 24,
+                    y: this.world.height - 42/2 - 24,
                     keys: {
                         'up': Phaser.KeyCode.R,
                         'down': Phaser.KeyCode.F,
@@ -98,7 +98,7 @@ export default class extends Phaser.State {
                     game: this.game,
                     id: 1,
                     x: this.world.width - 100,
-                    y: this.world.height - 64 - 24,
+                    y: this.world.height - 64/2 - 24,
                     keys: {
                         'up': Phaser.KeyCode.UP,
                         'down': Phaser.KeyCode.DOWN,
@@ -119,8 +119,8 @@ export default class extends Phaser.State {
         this.hud = this.game.add.existing(
             new Hud({
                 game: this.game,
-                p1: 'Noobacca',
-                p2: 'Jean-Noob Piccard',
+                p1: 'JEAN-NOOB PICCARD',
+                p2: 'NOOBACCA',
             })
         )
     }
