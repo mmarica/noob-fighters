@@ -15,6 +15,9 @@ export default class extends Phaser.State {
 
         this.game.add.sprite(0, 0, 'bg')
 
+        let music = this.game.add.audio('music')
+        music.loopFull(0.6)
+
         this.ground = this.game.add.existing(
             new Ground({ game: this.game })
         )

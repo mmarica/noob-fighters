@@ -27,6 +27,7 @@ export default class extends Phaser.State {
         this.game.load.audio('noobacca_shoot', 'assets/audio/noobacca_shoot.mp3');
         this.game.load.audio('alien_hit', 'assets/audio/alien_hit.mp3');
         this.game.load.audio('noobacca_hit', 'assets/audio/noobacca_hit.mp3');
+        this.game.load.audio('music', 'assets/audio/dwarf_planet_factory.mp3');
     }
 
     create () {
