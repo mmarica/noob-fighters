@@ -18,6 +18,9 @@ export default class extends Player {
                 'right_still': 4,
             },
         })
+
+        this.weaponSound = this.game.add.audio('alien_shoot');
+        this.hitSound = this.game.add.audio('alien_hit');
     }
 
     _addWeapon () {

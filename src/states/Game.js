@@ -12,7 +12,6 @@ export default class extends Phaser.State {
     preload () {}
 
     create () {
-        this.hit = this.game.add.audio('hit');
 
         this.game.add.sprite(0, 0, 'bg')
 
@@ -139,7 +138,7 @@ export default class extends Phaser.State {
 
     hitPlayer (player, bullet) {
         bullet.kill()
-        this.hit.play()
+        player.playHitSound()
         this.hud.decreaseHealth(player.id, 10)
     }
 }

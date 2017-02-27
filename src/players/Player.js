@@ -5,7 +5,7 @@ export default class extends Phaser.Sprite {
     constructor ({ game, id, x, y, asset, keys, orientation, animations }) {
         super(game, x, y, asset, orientation == 'left' ? 0 : animations['right_still'])
 
-        this.speed = 200;
+        this.speed = 300;
         this.rightStillFrame = animations['right_still']
 
         this.id = id
@@ -15,7 +15,7 @@ export default class extends Phaser.Sprite {
 
         this.game.physics.arcade.enable(this)
 
-        this.body.gravity.y = 300;
+        this.body.gravity.y = 1000;
         this.body.collideWorldBounds = true;
 
         this.animations.add('left', animations['left'], 10, true);
@@ -24,8 +24,6 @@ export default class extends Phaser.Sprite {
         this.keys = this.game.input.keyboard.addKeys(keys);
 
         this.weapon = this._addWeapon()
-
-        this.blaster = this.game.add.audio('blaster');
     }
 
     create () {
@@ -55,14 +53,18 @@ export default class extends Phaser.Sprite {
         {
             this.weapon.fireAngle = this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT
             if (this.weapon.fire()) {
-                this.blaster.play()
+                this.weaponSound.play()
             }
         }
 
         if (this.keys.up.isDown && this.body.touching.down)
         {
-            this.body.velocity.y = -320;
+            this.body.velocity.y = -600;
         }
+    }
+
+    playHitSound () {
+        this.hitSound.play()
     }
 
     getWeapon () {

@@ -23,8 +23,10 @@ export default class extends Phaser.State {
         this.load.image('ledge_right', './assets/images/ledge_right.png')
         this.load.image('blaster_bullet', './assets/images/blaster_bullet.png')
         this.load.image('energy_bullet', './assets/images/energy_bullet.png')
-        this.game.load.audio('blaster', 'assets/audio/blaster.mp3');
-        this.game.load.audio('hit', 'assets/audio/hit.wav');
+        this.game.load.audio('alien_shoot', 'assets/audio/alien_shoot.mp3');
+        this.game.load.audio('noobacca_shoot', 'assets/audio/noobacca_shoot.mp3');
+        this.game.load.audio('alien_hit', 'assets/audio/alien_hit.mp3');
+        this.game.load.audio('noobacca_hit', 'assets/audio/noobacca_hit.mp3');
     }
 
     create () {

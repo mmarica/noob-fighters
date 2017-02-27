@@ -18,6 +18,9 @@ export default class extends Player {
                 'right_still': 6,
             },
         })
+
+        this.weaponSound = this.game.add.audio('noobacca_shoot');
+        this.hitSound = this.game.add.audio('noobacca_hit');
     }
 
     _addWeapon () {
