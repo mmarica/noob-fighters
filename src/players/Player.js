@@ -5,6 +5,7 @@ export default class extends Phaser.Sprite {
     constructor ({ game, id, x, y, asset, keys, orientation, animations }) {
         super(game, x, y, asset, orientation == 'left' ? 0 : animations['right_still'])
 
+        this.speed = 200;
         this.rightStillFrame = animations['right_still']
 
         this.id = id
@@ -33,13 +34,13 @@ export default class extends Phaser.Sprite {
     update () {
         if (this.keys.left.isDown)
         {
-            this.body.velocity.x = -150;
+            this.body.velocity.x = -(this.speed);
             this.animations.play('left');
             this.orientation = 'left'
         }
         else if (this.keys.right.isDown)
         {
-            this.body.velocity.x = 150;
+            this.body.velocity.x = this.speed;
             this.animations.play('right');
             this.orientation = 'right'
         }
@@ -60,7 +61,7 @@ export default class extends Phaser.Sprite {
 
         if (this.keys.up.isDown && this.body.touching.down)
         {
-            this.body.velocity.y = -350;
+            this.body.velocity.y = -320;
         }
     }
 
