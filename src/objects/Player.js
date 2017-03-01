@@ -2,8 +2,10 @@ import Phaser from 'phaser'
 
 export default class extends Phaser.Sprite {
 
-    constructor ({ game, id, data, x, y, keys }) {
+    constructor ({ game, id, type, x, y, keys }) {
         let orientation = id == 0 ? "right" : "left"
+        let data = game.cache.getJSON("players")[type]
+
         super(game, x, y, data["sprite"]["asset"], data["sprite"][orientation]["frame"])
 
         this.keys = keys
@@ -31,6 +33,42 @@ export default class extends Phaser.Sprite {
 
         this.leftDown = false
         this.rightDown = false
+    }
+
+    create () {
+    }
+
+    update () {
+        if (this.leftDown) {
+            this.body.velocity.x = -(this.speed)
+            this.animations.play('left')
+            this.orientation = 'left'
+        } else if (this.rightDown) {
+            this.body.velocity.x = this.speed
+            this.animations.play('right')
+            this.orientation = 'right'
+        } else {
+            this.animations.stop();
+            this.body.velocity.x = 0;
+            this.frame = this.data["sprite"][this.orientation]["frame"]
+        }
+    }
+
+    getWeapon () {
+        return this.weapon
+    }
+
+    getHealth () {
+        return this.health
+    }
+
+    decreaseHealth (amount) {
+        this.health = Math.max(0, this.health - amount)
+        return this.health
+    }
+
+    playHitSound () {
+        this.hitSound.play()
     }
 
     keyDown(char) {
@@ -77,42 +115,6 @@ export default class extends Phaser.Sprite {
         }
 
         return false
-    }
-
-    create () {
-    }
-
-    update () {
-        if (this.leftDown) {
-            this.body.velocity.x = -(this.speed)
-            this.animations.play('left')
-            this.orientation = 'left'
-        } else if (this.rightDown) {
-            this.body.velocity.x = this.speed
-            this.animations.play('right')
-            this.orientation = 'right'
-        } else {
-            this.animations.stop();
-            this.body.velocity.x = 0;
-            this.frame = this.data["sprite"][this.orientation]["frame"]
-        }
-    }
-
-    playHitSound () {
-        this.hitSound.play()
-    }
-
-    getWeapon () {
-        return this.weapon
-    }
-
-    decreaseHealth (amount) {
-        this.health = Math.max(0, this.health - amount)
-        return this.health
-    }
-
-    getHealth () {
-        return this.health
     }
 
     _addWeapon () {
