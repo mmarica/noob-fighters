@@ -24,10 +24,10 @@ export default class extends Phaser.State {
         for (let id = 0; id < 2; id++) {
             let weapon = this.players[id].getWeapon();
 
-            this.game.physics.arcade.overlap(weapon.bullets, [this.players[1 - id]], this.hitPlayer, null, this);
+            this.game.physics.arcade.overlap([this.players[1 - id]], weapon.bullets, this.hitPlayer, null, this);
 
             for (let obstacle of this.obstacles)
-                this.game.physics.arcade.overlap(weapon.bullets, obstacle, this.hitObstacle, null, this);
+                this.game.physics.arcade.overlap(obstacle, weapon.bullets, this.hitObstacle);
 
             for (let obstacle of this.obstacles)
                 this.game.physics.arcade.collide(this.players[id], obstacle);
@@ -48,7 +48,7 @@ export default class extends Phaser.State {
         }
     }
 
-    hitObstacle (bullet, ledge) {
+    hitObstacle (ledge, bullet) {
         bullet.kill()
     }
 
