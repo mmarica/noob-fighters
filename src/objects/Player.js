@@ -72,49 +72,41 @@ export default class extends Phaser.Sprite {
     }
 
     keyDown(char) {
-        if (char["code"] == this.keys["fire"]) {
-            this.weapon.fireAngle = this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT
+        switch (char["code"]) {
+            case this.keys["fire"]:
+                this.weapon.fireAngle = this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT
 
-            if (this.weapon.fire()) {
-                this.weaponSound.play()
-            }
+                if (this.weapon.fire()) {
+                    this.weaponSound.play()
+                }
+                break;
 
-            return true
+            case this.keys["up"]:
+                if (this.body.touching.down) {
+                    this.body.velocity.y = -(this.data["physics"]["jump"]);
+                }
+                break;
+
+            case this.keys["left"]:
+                this.leftDown = true
+                break;
+
+            case this.keys["right"]:
+                this.rightDown = true
+                break;
         }
-
-        if (char["code"] == this.keys["up"]) {
-            if (this.body.touching.down) {
-                this.body.velocity.y = -(this.data["physics"]["jump"]);
-            }
-
-            return true
-        }
-
-        if (char["code"] == this.keys["left"]) {
-            this.leftDown = true
-            return true
-        }
-
-        if (char["code"] == this.keys["right"]) {
-            this.rightDown = true
-            return true
-        }
-
-        return false
     }
 
     keyUp(char) {
-        if (char["code"] == this.keys["left"]) {
-            this.leftDown = false
-            return true
-        }
+        switch (char["code"]) {
+            case this.keys["left"]:
+                this.leftDown = false
+                break;
 
-        if (char["code"] == this.keys["right"]) {
-            this.rightDown = false
-            return true
+            case this.keys["right"]:
+                this.rightDown = false
+                break;
         }
-
-        return false
     }
 
     _addWeapon () {

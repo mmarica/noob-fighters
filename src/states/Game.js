@@ -114,14 +114,12 @@ export default class extends Phaser.State {
 
     _keyDown (char) {
         for (let player of this.players)
-            if (player.keyDown(char))
-                return
+            player.keyDown(char)
     }
 
     _keyUp (char) {
         for (let player of this.players)
-            if (player.keyUp(char))
-                return
+            player.keyUp(char)
     }
 
     _startMusic () {
