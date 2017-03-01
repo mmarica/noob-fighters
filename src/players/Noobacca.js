@@ -24,7 +24,7 @@ export default class extends Player {
     }
 
     _addWeapon () {
-        let weapon = this.game.add.weapon(5, 'energy_bullet')
+        let weapon = this.game.add.weapon(5, 'noobacca_projectile')
 
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
         weapon.bulletSpeed = 1000

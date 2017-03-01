@@ -13,9 +13,9 @@ export default class extends Player {
             keys: keys,
             orientation: orientation,
             animations: {
-                'left': [0, 1, 2, 3],
-                'right': [4, 5, 6, 7],
-                'right_still': 4,
+                'left': [0, 1, 2, 3, 4],
+                'right': [5, 6, 7, 8, 9],
+                'right_still': 5,
             },
         })
 
@@ -24,7 +24,7 @@ export default class extends Player {
     }
 
     _addWeapon () {
-        let weapon = this.game.add.weapon(5, 'blaster_bullet')
+        let weapon = this.game.add.weapon(5, 'alien_projectile')
 
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
         weapon.bulletSpeed = 700

@@ -14,15 +14,15 @@ export default class extends Phaser.State {
         //
         // load your assets here
         //
-        this.load.spritesheet('alien', './assets/images/alien.png', 32, 42)
+        this.load.spritesheet('alien', './assets/images/alien.png', 64, 32)
         this.load.spritesheet('noobacca', './assets/images/noobacca.png', 36, 64)
         this.load.image('bg', './assets/images/bg.png')
         this.load.image('ground', './assets/images/ground.png')
         this.load.image('ledge_left', './assets/images/ledge_left.png')
         this.load.image('ledge_center', './assets/images/ledge_center.png')
         this.load.image('ledge_right', './assets/images/ledge_right.png')
-        this.load.image('blaster_bullet', './assets/images/blaster_bullet.png')
-        this.load.image('energy_bullet', './assets/images/energy_bullet.png')
+        this.load.image('alien_projectile', './assets/images/alien_projectile.png')
+        this.load.image('noobacca_projectile', './assets/images/noobacca_projectile.png')
         this.game.load.audio('alien_shoot', 'assets/audio/alien_shoot.mp3');
         this.game.load.audio('noobacca_shoot', 'assets/audio/noobacca_shoot.mp3');
         this.game.load.audio('alien_hit', 'assets/audio/alien_hit.mp3');
