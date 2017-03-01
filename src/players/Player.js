@@ -5,7 +5,8 @@ export default class extends Phaser.Sprite {
     constructor ({ game, id, x, y, asset, keys, orientation, animations }) {
         super(game, x, y, asset, orientation == 'left' ? 0 : animations['right_still'])
 
-        this.speed = 300;
+        this.health = 10
+        this.speed = 300
         this.rightStillFrame = animations['right_still']
 
         this.id = id
@@ -16,10 +17,10 @@ export default class extends Phaser.Sprite {
         this.game.physics.arcade.enable(this)
 
         this.body.gravity.y = 1000;
-        this.body.collideWorldBounds = true;
+        this.body.collideWorldBounds = true
 
-        this.animations.add('left', animations['left'], 10, true);
-        this.animations.add('right', animations['right'], 10, true);
+        this.animations.add('left', animations['left'], 10, true)
+        this.animations.add('right', animations['right'], 10, true)
 
         this.keys = this.game.input.keyboard.addKeys(keys);
 
@@ -32,14 +33,14 @@ export default class extends Phaser.Sprite {
     update () {
         if (this.keys.left.isDown)
         {
-            this.body.velocity.x = -(this.speed);
-            this.animations.play('left');
+            this.body.velocity.x = -(this.speed)
+            this.animations.play('left')
             this.orientation = 'left'
         }
         else if (this.keys.right.isDown)
         {
-            this.body.velocity.x = this.speed;
-            this.animations.play('right');
+            this.body.velocity.x = this.speed
+            this.animations.play('right')
             this.orientation = 'right'
         }
         else
@@ -69,5 +70,14 @@ export default class extends Phaser.Sprite {
 
     getWeapon () {
         return this.weapon
+    }
+
+    decreaseHealth (amount) {
+        this.health = Math.max(0, this.health - amount)
+        return this.health
+    }
+
+    getHealth () {
+        return this.health
     }
 }

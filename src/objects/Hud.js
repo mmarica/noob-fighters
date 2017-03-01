@@ -8,10 +8,10 @@ const HBAR_STROKE = 2
 
 export default class extends Phaser.Group {
 
-    constructor ({ game, p1, p2 }) {
+    constructor ({ game, p1, p1Health, p2, p2Health }) {
         super(game)
 
-        this.health = [100, 100]
+        this.health = [p1Health, p2Health]
         this.name = [p1, p2]
         this.playerName = []
         this.hbar = []
@@ -74,8 +74,8 @@ export default class extends Phaser.Group {
         this.add(banner)
     }
 
-    decreaseHealth (id, amount) {
-        this.health[id] =  Math.max(0, this.health[id] - amount)
+    updateHealth (id, value) {
+        this.health[id] =  value
         this._updateHealthBar(id)
     }
 }

@@ -119,7 +119,9 @@ export default class extends Phaser.State {
             new Hud({
                 game: this.game,
                 p1: 'JEAN-NOOB PICCARD',
+                p1Health: this.players[0].getHealth(),
                 p2: 'NOOBACCA',
+                p2Health: this.players[1].getHealth(),
             })
         )
 
@@ -156,7 +158,9 @@ export default class extends Phaser.State {
     hitPlayer (player, bullet) {
         bullet.kill()
         player.playHitSound()
-        this.hud.decreaseHealth(player.id, 10)
+
+        let health = player.decreaseHealth(10)
+        this.hud.updateHealth(player.id, health)
     }
 
     hitLedge (bullet, ledge) {
