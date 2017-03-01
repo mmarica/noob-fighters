@@ -1,4 +1,5 @@
 /* globals __DEV__ */
+import ProTracker from 'proTracker'
 import Phaser from 'phaser'
 import Noobacca from '../players/Noobacca'
 import Alien from '../players/Alien'
@@ -9,14 +10,12 @@ import Hud from '../objects/Hud'
 export default class extends Phaser.State {
     init () {}
 
-    preload () {}
+    preload () {
+        this.game.load.binary('music', 'assets/audio/music/xracecar_-_when_elysium_wavers.mod', this.modLoaded, this);
+    }
 
     create () {
-
         this.game.add.sprite(0, 0, 'bg')
-
-        let music = this.game.add.audio('music')
-        music.loopFull(0.6)
 
         this.ground = this.game.add.existing(
             new Ground({ game: this.game })
@@ -123,6 +122,14 @@ export default class extends Phaser.State {
                 p2: 'NOOBACCA',
             })
         )
+
+        this.module = new ProTracker()
+        this.module.onReady = function() {
+            this.play();
+        };
+
+        this.module.buffer = this.musicBuffer;
+        this.module.parse();
     }
 
     update() {
@@ -151,5 +158,10 @@ export default class extends Phaser.State {
 
     hitLedge (bullet, ledge) {
         bullet.kill()
+    }
+
+    modLoaded (key, data) {
+        this.musicBuffer = new Uint8Array(data)
+        return this.musicBuffer
     }
 }
