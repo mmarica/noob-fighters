@@ -2,8 +2,7 @@
 import ProTracker from 'proTracker'
 import Phaser from 'phaser'
 import Player from '../objects/Player'
-import Ground from '../objects/Ground'
-import Ledge from '../objects/Ledge'
+import Cemetery from '../objects/Playground/Cemetery'
 import Hud from '../objects/Hud'
 
 export default class extends Phaser.State {
@@ -15,65 +14,11 @@ export default class extends Phaser.State {
         let playerData = this.game.cache.getJSON("players")
         let config = this.game.cache.getJSON("config")
 
-        this.game.add.sprite(0, 0, 'bg')
-
-        this.ground = this.game.add.existing(
-            new Ground({ game: this.game })
+        this.playGround = this.game.add.existing(
+            new Cemetery({ game: this.game })
         )
 
-        let height = 752
-        const step = 130
-
-        this.ledges = [
-            this.game.add.existing(
-                new Ledge({
-                    game: this.game,
-                    x: 0,
-                    y: height - step,
-                    length: 3
-                })
-            ),
-            this.game.add.existing(
-                new Ledge({
-                    game: this.game,
-                    x: this.world.width - 64 * 4 - 24,
-                    y: height - step,
-                    length: 3
-                })
-            ),
-            this.game.add.existing(
-                new Ledge({
-                    game: this.game,
-                    x: 310,
-                    y: height - 2 * step,
-                    length: 10
-                })
-            ),
-            this.game.add.existing(
-                new Ledge({
-                    game: this.game,
-                    x: 0,
-                    y: height - 3 * step,
-                    length: 2
-                })
-            ),
-            this.game.add.existing(
-                new Ledge({
-                    game: this.game,
-                    x: this.world.width - 64 * 12,
-                    y: height - 3 * step,
-                    length: 3
-                })
-            ),
-            this.game.add.existing(
-                new Ledge({
-                    game: this.game,
-                    x: this.world.width - 64 * 4 + 30,
-                    y: height - 3 * step,
-                    length: 2
-                })
-            ),
-        ]
+        this.obstacles = this.playGround.getObstacles()
 
         this.players = [
             this.game.add.existing(
@@ -138,14 +83,12 @@ export default class extends Phaser.State {
         this.game.physics.arcade.overlap(this.weapons[0].bullets, [this.players[1]], this.hitPlayer, null, this);
 
         for (let weapon of this.weapons)
-            for (let ledge of this.ledges)
-                this.game.physics.arcade.overlap(weapon.bullets, ledge, this.hitLedge, null, this);
+            for (let obstacle of this.obstacles)
+                this.game.physics.arcade.overlap(weapon.bullets, obstacle, this.hitObstacle, null, this);
 
         for (let player of this.players) {
-            this.game.physics.arcade.collide(player, this.ground);
-
-            for (let ledge of this.ledges)
-                this.game.physics.arcade.collide(player, ledge);
+            for (let obstacle of this.obstacles)
+                this.game.physics.arcade.collide(player, obstacle);
         }
     }
 
@@ -163,7 +106,7 @@ export default class extends Phaser.State {
         }
     }
 
-    hitLedge (bullet, ledge) {
+    hitObstacle (bullet, ledge) {
         bullet.kill()
     }
 
