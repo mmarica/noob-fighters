@@ -125,7 +125,10 @@ export default class extends Phaser.State {
 
         this.module = new ProTracker()
         this.module.onReady = function() {
-            this.play();
+            this.play()
+        };
+        this.module.onStop = function() {
+            this.play()
         };
 
         this.module.buffer = this.musicBuffer;
