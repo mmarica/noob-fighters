@@ -1,20 +1,20 @@
 /* globals __DEV__ */
 import ProTracker from 'proTracker'
 import Phaser from 'phaser'
-import Noobacca from '../players/Noobacca'
-import Alien from '../players/Alien'
-import Ground from '../sprites/Ground'
-import Ledge from '../sprites/Ledge'
+import Player from '../objects/Player'
+import Ground from '../objects/Ground'
+import Ledge from '../objects/Ledge'
 import Hud from '../objects/Hud'
 
 export default class extends Phaser.State {
-    init () {}
-
     preload () {
         this.game.load.binary('music', 'assets/audio/music/xracecar_-_when_elysium_wavers.mod', this.modLoaded, this);
     }
 
     create () {
+        let playerData = this.game.cache.getJSON("players")
+        let config = this.game.cache.getJSON("config")
+
         this.game.add.sprite(0, 0, 'bg')
 
         this.ground = this.game.add.existing(
@@ -77,35 +77,23 @@ export default class extends Phaser.State {
 
         this.players = [
             this.game.add.existing(
-                new Alien({
+                new Player({
                     game: this.game,
                     id: 0,
+                    data: playerData['Noobien'],
                     x: 100,
                     y: this.world.height - 42/2 - 24,
-                    keys: {
-                        'up': Phaser.KeyCode.R,
-                        'down': Phaser.KeyCode.F,
-                        'left': Phaser.KeyCode.D,
-                        'right': Phaser.KeyCode.G,
-                        'fire': Phaser.KeyCode.Q
-                    },
-                    orientation: 'right',
+                    keys: config["keys"]["p1"]
                 })
             ),
             this.game.add.existing(
-                new Noobacca({
+                new Player({
                     game: this.game,
                     id: 1,
+                    data: playerData['Noobacca'],
                     x: this.world.width - 100,
                     y: this.world.height - 64/2 - 24,
-                    keys: {
-                        'up': Phaser.KeyCode.UP,
-                        'down': Phaser.KeyCode.DOWN,
-                        'left': Phaser.KeyCode.LEFT,
-                        'right': Phaser.KeyCode.RIGHT,
-                        'fire': Phaser.KeyCode.CLOSED_BRACKET
-                    },
-                    orientation: 'left',
+                    keys: config["keys"]["p2"]
                 })
             ),
         ]
@@ -135,6 +123,12 @@ export default class extends Phaser.State {
 
         this.module.buffer = this.musicBuffer;
         this.module.parse();
+
+        //@TODO: this hard-coded part must be rewritten to take into account the keys from config.json
+        this.game.input.keyboard.addKeyCapture([Phaser.KeyCode.S, Phaser.KeyCode.Z, Phaser.KeyCode.X, Phaser.KeyCode.C])
+        this.game.input.keyboard.addKeyCapture([Phaser.KeyCode.UP, Phaser.KeyCode.DOWN, Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT])
+
+        this.game.input.keyboard.addCallbacks(this, this.keyDown, this.keyUp);
     }
 
     update() {
@@ -176,5 +170,19 @@ export default class extends Phaser.State {
     modLoaded (key, data) {
         this.musicBuffer = new Uint8Array(data)
         return this.musicBuffer
+    }
+
+    keyDown(char) {
+        char.unwatch = true
+        for (let player of this.players)
+            if (player.keyDown(char))
+                return
+    }
+
+    keyUp(char) {
+        char.unwatch = true
+        for (let player of this.players)
+            if (player.keyUp(char))
+                return
     }
 }

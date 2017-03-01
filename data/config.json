@@ -1,0 +1,18 @@
+{
+  "keys": {
+    "p1": {
+      "up": "KeyS",
+      "down": "KeyX",
+      "left": "KeyZ",
+      "right": "KeyC",
+      "fire": "ControlLeft"
+    },
+    "p2": {
+      "up": "ArrowUp",
+      "down": "ArrowDown",
+      "left": "ArrowLeft",
+      "right": "ArrowRight",
+      "fire": "ControlRight"
+    }
+  }
+}

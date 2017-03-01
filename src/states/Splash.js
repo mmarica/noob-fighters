@@ -27,6 +27,9 @@ export default class extends Phaser.State {
         this.game.load.audio('noobacca_shoot', 'assets/audio/noobacca_shoot.mp3');
         this.game.load.audio('alien_hit', 'assets/audio/alien_hit.mp3');
         this.game.load.audio('noobacca_hit', 'assets/audio/noobacca_hit.mp3');
+
+        this.game.load.json('config', 'data/config.json')
+        this.game.load.json('players', 'data/players.json')
     }
 
     create () {
