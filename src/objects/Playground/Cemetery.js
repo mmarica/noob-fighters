@@ -73,25 +73,120 @@ export default class extends Phaser.Group {
             game.add.existing(
                 new Crate({
                     game: game,
-                    x: game.world.centerX - 106 / 2,
-                    y: game.world.height - 106 - 24,
+                    x: game.world.centerX - 92 / 2,
+                    y: game.world.height - 92 - 24,
                 })
             ),
             game.add.existing(
                 new Crate({
                     game: game,
-                    x: 121,
-                    y: game.world.height - 106 - 24 - step * 3 - 24,
+                    x: 134,
+                    y: game.world.height - 92 - 24 - step * 3 - 24,
                 })
             ),
             game.add.existing(
                 new Crate({
                     game: game,
-                    x: game.world.width - 106 - 121,
-                    y: game.world.height - 106 - 24 - step * 3 - 24,
+                    x: game.world.width - 92 - 134,
+                    y: game.world.height - 92 - 24 - step * 3 - 24,
                 })
             ),
         ]
+
+        game.add.sprite(
+            game.world.centerX - 286 / 2,
+            game.world.height - 239 - 24 - step * 3 - 24,
+            'tree'
+        );
+
+        game.add.sprite(
+            game.world.centerX - 48 / 2 - 50,
+            game.world.height - 24 - 24 - step * 3 - 24,
+            'skeleton'
+        );
+
+        game.add.sprite(
+            20,
+            game.world.height - 55 - 24,
+            'tombstone1'
+        );
+
+        game.add.sprite(
+            0,
+            game.world.height - 20 - 24,
+            'bush2'
+        );
+
+        game.add.sprite(
+            game.world.width - 54 - 20,
+            game.world.height - 55 - 24,
+            'tombstone1'
+        );
+
+        game.add.sprite(
+            game.world.width - 40,
+            game.world.height - 20 - 24,
+            'bush2'
+        );
+        game.add.sprite(
+            game.world.width - 40,
+            game.world.height - 20 - 24,
+            'bush2'
+        );
+
+        game.add.sprite(
+            210,
+            game.world.height - 41 - 24 - step - 24,
+            'bush1'
+        );
+
+        game.add.sprite(
+            game.world.width - 210 - 40 - 20,
+            game.world.height - 41 - 24 - step - 24,
+            'bush1'
+        );
+
+        game.add.sprite(
+            game.world.centerX - 55 / 2,
+            game.world.height - 55 - 24 - 2 * step - 24,
+            'tombstone1'
+        );
+
+        game.add.sprite(
+            game.world.centerX - 53 / 2 - 240,
+            game.world.height - 76 - 24 - 2 * step - 24,
+            'tombstone2'
+        );
+
+        game.add.sprite(
+            game.world.centerX - 40 / 2 - 270,
+            game.world.height - 20 - 24 - 2 * step - 24,
+            'bush2'
+        );
+
+        game.add.sprite(
+            game.world.centerX - 53 / 2 + 240,
+            game.world.height - 76 - 24 - 2 * step - 24,
+            'tombstone2'
+        );
+
+        game.add.sprite(
+            game.world.centerX - 40 / 2 + 270,
+            game.world.height - 20 - 24 - 2 * step - 24,
+            'bush2'
+        );
+
+        game.add.sprite(
+            20,
+            game.world.height - 87 - 24 - step - 24,
+            'sign1'
+        );
+
+        game.add.sprite(
+            game.world.width - 100,
+            game.world.height - 93 - 24 - step - 24,
+            'sign2'
+        );
     }
 
     getObstacles () {
