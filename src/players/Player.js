@@ -5,7 +5,7 @@ export default class extends Phaser.Sprite {
     constructor ({ game, id, x, y, asset, keys, orientation, animations }) {
         super(game, x, y, asset, orientation == 'left' ? 0 : animations['right_still'])
 
-        this.health = 10
+        this.health = 100
         this.speed = 300
         this.rightStillFrame = animations['right_still']
 

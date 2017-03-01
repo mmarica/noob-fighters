@@ -118,9 +118,9 @@ export default class extends Phaser.State {
         this.hud = this.game.add.existing(
             new Hud({
                 game: this.game,
-                p1: 'JEAN-NOOB PICCARD',
+                p1: 'Noobien',
                 p1Health: this.players[0].getHealth(),
-                p2: 'NOOBACCA',
+                p2: 'Noobacca',
                 p2Health: this.players[1].getHealth(),
             })
         )
@@ -161,6 +161,12 @@ export default class extends Phaser.State {
 
         let health = player.decreaseHealth(10)
         this.hud.updateHealth(player.id, health)
+
+        if (health == 0) {
+            this.module.onStop = function() {};
+            this.module.stop()
+            this.state.start('GameOver')
+        }
     }
 
     hitLedge (bullet, ledge) {
