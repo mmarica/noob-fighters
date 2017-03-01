@@ -3,47 +3,46 @@ import Phaser from 'phaser'
 export default class extends Phaser.Sprite {
 
     constructor ({ game, id, type, x, y, keys }) {
-        let orientation = id == 0 ? "right" : "left"
         let data = game.cache.getJSON("players")[type]
+        let orientation = id == 0 ? "right" : "left"
 
         super(game, x, y, data["sprite"]["asset"], data["sprite"][orientation]["frame"])
 
+        this.health = 100
+        this.id = id
+        this.orientation = orientation
         this.keys = keys
         this.data = data
-        this.health = 100
+
         this.speed = data["physics"]["speed"]
-
-        this.id = id
-
-        this.orientation = orientation
-        this.anchor.setTo(0.5)
-
         this.game.physics.arcade.enable(this)
-
-        this.body.gravity.y = this.data["physics"]["gravity"];
+        this.body.gravity.y = data["physics"]["gravity"];
         this.body.collideWorldBounds = true
 
+        this.anchor.setTo(0.5)
         this.animations.add('left', data["sprite"]["left"]["animation"], 10, true)
         this.animations.add('right', data["sprite"]["right"]["animation"], 10, true)
-
-        this.weapon = this._addWeapon()
 
         this.weaponSound = this.game.add.audio(data["sfx"]["shoot"]);
         this.hitSound = this.game.add.audio(data["sfx"]["hurt"]);
 
-        this.leftDown = false
-        this.rightDown = false
+        this.weapon = this._addWeapon()
+
+        this.fireIsPressed = false
+        this.upIsPressed = false
+        this.leftIsPressed = false
+        this.rightIsPressed = false
     }
 
     create () {
     }
 
     update () {
-        if (this.leftDown) {
+        if (this.leftIsPressed) {
             this.body.velocity.x = -(this.speed)
             this.animations.play('left')
             this.orientation = 'left'
-        } else if (this.rightDown) {
+        } else if (this.rightIsPressed) {
             this.body.velocity.x = this.speed
             this.animations.play('right')
             this.orientation = 'right'
@@ -74,37 +73,54 @@ export default class extends Phaser.Sprite {
     keyDown(char) {
         switch (char["code"]) {
             case this.keys["fire"]:
-                this.weapon.fireAngle = this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT
+                if (!this.fireIsPressed) {
+                    this.fireIsPressed = true;
 
-                if (this.weapon.fire()) {
-                    this.weaponSound.play()
+                    this.weapon.fireAngle = this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT
+
+                    if (this.weapon.fire()) {
+                        this.weaponSound.play()
+                    }
                 }
+
                 break;
 
             case this.keys["up"]:
-                if (this.body.touching.down) {
-                    this.body.velocity.y = -(this.data["physics"]["jump"]);
+                if (!this.upIsPressed) {
+                    this.upIsPressed = true;
+
+                    if (this.body.touching.down) {
+                        this.body.velocity.y = -(this.data["physics"]["jump"]);
+                    }
                 }
                 break;
 
             case this.keys["left"]:
-                this.leftDown = true
+                this.leftIsPressed = true
                 break;
 
             case this.keys["right"]:
-                this.rightDown = true
+                this.rightIsPressed = true
                 break;
         }
     }
 
     keyUp(char) {
         switch (char["code"]) {
+            case this.keys["fire"]:
+                this.fireIsPressed = false;
+                break;
+
+            case this.keys["up"]:
+                this.upIsPressed = false;
+                break;
+
             case this.keys["left"]:
-                this.leftDown = false
+                this.leftIsPressed = false
                 break;
 
             case this.keys["right"]:
-                this.rightDown = false
+                this.rightIsPressed = false
                 break;
         }
     }
