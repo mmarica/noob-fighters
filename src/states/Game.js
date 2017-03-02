@@ -1,13 +1,21 @@
 /* globals __DEV__ */
-import ProTracker from 'proTracker'
 import Phaser from 'phaser'
 import Player from '../objects/Player'
 import Cemetery from '../objects/Playground/Cemetery'
 import Hud from '../objects/Hud'
+import { centerGameObjects } from '../utils'
 
 export default class extends Phaser.State {
     preload () {
-        this.game.load.binary('music', 'assets/audio/music/xracecar_-_when_elysium_wavers.mod', this.modLoaded, this);
+        this.loaderBg = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBg')
+        this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar')
+        centerGameObjects([this.loaderBg, this.loaderBar])
+
+        this.load.setPreloadSprite(this.loaderBar)
+
+        Player.loadAssets(this.game, 'noobien')
+        Player.loadAssets(this.game, 'noobacca')
+        Cemetery.loadAssets(this.game)
     }
 
     create () {
@@ -15,7 +23,6 @@ export default class extends Phaser.State {
         this._addPlayers()
         this._addHud()
         this._initKeys()
-        this._startMusic()
         this._activatePlayers()
     }
 
@@ -65,17 +72,13 @@ export default class extends Phaser.State {
         bullet.kill()
     }
 
-    modLoaded (key, data) {
-        this.musicBuffer = new Uint8Array(data)
-        return this.musicBuffer
-    }
-
     _addPlayGround () {
         this.playGround = this.game.add.existing(
             new Cemetery({ game: this.game })
         )
 
         this.obstacles = this.playGround.getObstacles()
+        this.playGround.startMusic()
     }
 
     _addPlayers () {
@@ -118,9 +121,14 @@ export default class extends Phaser.State {
     }
 
     _initKeys () {
-        //@TODO: this hard-coded part must be rewritten to take into account the keys from config.json
-        this.game.input.keyboard.addKeyCapture([Phaser.KeyCode.S, Phaser.KeyCode.Z, Phaser.KeyCode.X, Phaser.KeyCode.C])
-        this.game.input.keyboard.addKeyCapture([Phaser.KeyCode.UP, Phaser.KeyCode.DOWN, Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT])
+        // capture all letter, arrow and control keys, just to be sure
+        this.game.input.keyboard.addKeyCapture([
+            Phaser.KeyCode.Q, Phaser.KeyCode.W, Phaser.KeyCode.E, Phaser.KeyCode.R, Phaser.KeyCode.T, Phaser.KeyCode.Y, Phaser.KeyCode.U, Phaser.KeyCode.I, Phaser.KeyCode.O, Phaser.KeyCode.P,
+            Phaser.KeyCode.A, Phaser.KeyCode.S, Phaser.KeyCode.D, Phaser.KeyCode.F, Phaser.KeyCode.G, Phaser.KeyCode.H, Phaser.KeyCode.J, Phaser.KeyCode.K, Phaser.KeyCode.L,
+            Phaser.KeyCode.Z, Phaser.KeyCode.X, Phaser.KeyCode.C, Phaser.KeyCode.V, Phaser.KeyCode.B, Phaser.KeyCode.N, Phaser.KeyCode.M,
+            Phaser.KeyCode.UP, Phaser.KeyCode.DOWN, Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT,
+            Phaser.KeyCode.CONTROL,  Phaser.KeyCode.ALT, Phaser.KeyCode.SHIFT,
+        ])
 
         this.game.input.keyboard.addCallbacks(this, this._keyDown, this._keyUp);
     }
@@ -133,18 +141,5 @@ export default class extends Phaser.State {
     _keyUp (char) {
         for (let player of this.players)
             player.keyUp(char)
-    }
-
-    _startMusic () {
-        this.module = new ProTracker()
-        this.module.onReady = function() {
-            this.play()
-        };
-        this.module.onStop = function() {
-            this.play()
-        };
-
-        this.module.buffer = this.musicBuffer;
-        this.module.parse();
     }
 }

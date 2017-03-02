@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import Ground from './Cemetery/Ground'
 import Ledge from './Cemetery/Ledge'
 import Crate from './Cemetery/Crate'
+import ProTracker from 'proTracker'
 
 export default class extends Phaser.Group {
 
@@ -191,5 +192,41 @@ export default class extends Phaser.Group {
 
     getObstacles () {
         return [this.ground, ...this.ledges, ...this.crates]
+    }
+
+    static loadAssets (game) {
+        game.load.image('bg', './assets/playgrounds/cemetery/images/bg.png')
+        game.load.image('ground', './assets/playgrounds/cemetery/images/ground.png')
+        game.load.image('ledge_left', './assets/playgrounds/cemetery/images/ledge_left.png')
+        game.load.image('ledge_center', './assets/playgrounds/cemetery/images/ledge_center.png')
+        game.load.image('ledge_right', './assets/playgrounds/cemetery/images/ledge_right.png')
+        game.load.image('crate', './assets/playgrounds/cemetery/images/crate.png')
+        game.load.image('tree', './assets/playgrounds/cemetery/images/tree.png')
+        game.load.image('bush1', './assets/playgrounds/cemetery/images/bush1.png')
+        game.load.image('bush2', './assets/playgrounds/cemetery/images/bush2.png')
+        game.load.image('skeleton', './assets/playgrounds/cemetery/images/skeleton.png')
+        game.load.image('tombstone1', './assets/playgrounds/cemetery/images/tombstone1.png')
+        game.load.image('tombstone2', './assets/playgrounds/cemetery/images/tombstone2.png')
+        game.load.image('sign1', './assets/playgrounds/cemetery/images/sign1.png')
+        game.load.image('sign2', './assets/playgrounds/cemetery/images/sign2.png')
+        game.load.binary('music', './assets/playgrounds/cemetery/sounds/music.mod', this.modLoaded, this);
+    }
+
+    modLoaded (key, data) {
+        this.musicBuffer = new Uint8Array(data)
+        return this.musicBuffer
+    }
+
+    startMusic () {
+        this.module = new ProTracker()
+        this.module.onReady = function() {
+            this.play()
+        };
+        this.module.onStop = function() {
+            this.play()
+        };
+
+        this.module.buffer = this.musicBuffer;
+        this.module.parse();
     }
 }

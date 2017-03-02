@@ -159,4 +159,13 @@ export default class extends Phaser.Sprite {
         this.body.velocity.x = 0;
         this.frame = this.data["sprite"][this.orientation]["frame"]
     }
+
+    static loadAssets (game, type) {
+        let data = game.cache.getJSON("players")[type]
+
+        game.load.spritesheet(type + "_player" , "./assets/players/" + type + "/images/player.png", data["sprite"]["width"], data["sprite"]["height"])
+        game.load.image(type + "_primary_bullet", "./assets/players/" + type + "/images/primary_bullet.png")
+        game.load.audio(type + "_primary_shoot", "./assets/players/" + type + "/sounds/primary_shoot.mp3");
+        game.load.audio(type + "_hurt", "./assets/players/" + type + "/sounds/hurt.mp3");
+    }
 }
