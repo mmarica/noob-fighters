@@ -11,31 +11,33 @@ export default class extends Phaser.State {
 
         this.load.setPreloadSprite(this.loaderBar)
 
-        //
-        // load your assets here
-        //
-        this.load.spritesheet('alien', './assets/images/alien.png', 65, 32)
-        this.load.spritesheet('noobacca', './assets/images/noobacca.png', 35, 64)
-        this.load.image('bg', './assets/images/bg.png')
-        this.load.image('ground', './assets/images/playground/cemetery/ground.png')
-        this.load.image('ledge_left', './assets/images/playground/cemetery/ledge_left.png')
-        this.load.image('ledge_center', './assets/images/playground/cemetery/ledge_center.png')
-        this.load.image('ledge_right', './assets/images/playground/cemetery/ledge_right.png')
-        this.load.image('crate', './assets/images/playground/cemetery/crate.png')
-        this.load.image('tree', './assets/images/playground/cemetery/tree.png')
-        this.load.image('bush1', './assets/images/playground/cemetery/bush1.png')
-        this.load.image('bush2', './assets/images/playground/cemetery/bush2.png')
-        this.load.image('skeleton', './assets/images/playground/cemetery/skeleton.png')
-        this.load.image('tombstone1', './assets/images/playground/cemetery/tombstone1.png')
-        this.load.image('tombstone2', './assets/images/playground/cemetery/tombstone2.png')
-        this.load.image('sign1', './assets/images/playground/cemetery/sign1.png')
-        this.load.image('sign2', './assets/images/playground/cemetery/sign2.png')
-        this.load.image('alien_projectile', './assets/images/alien_projectile.png')
-        this.load.image('noobacca_projectile', './assets/images/noobacca_projectile.png')
-        this.game.load.audio('alien_shoot', 'assets/audio/alien_shoot.mp3');
-        this.game.load.audio('noobacca_shoot', 'assets/audio/noobacca_shoot.mp3');
-        this.game.load.audio('alien_hit', 'assets/audio/alien_hit.mp3');
-        this.game.load.audio('noobacca_hit', 'assets/audio/noobacca_hit.mp3');
+        // cemetery playground
+        this.load.image('bg', './assets/playgrounds/cemetery/images/bg.png')
+        this.load.image('ground', './assets/playgrounds/cemetery/images/ground.png')
+        this.load.image('ledge_left', './assets/playgrounds/cemetery/images/ledge_left.png')
+        this.load.image('ledge_center', './assets/playgrounds/cemetery/images/ledge_center.png')
+        this.load.image('ledge_right', './assets/playgrounds/cemetery/images/ledge_right.png')
+        this.load.image('crate', './assets/playgrounds/cemetery/images/crate.png')
+        this.load.image('tree', './assets/playgrounds/cemetery/images/tree.png')
+        this.load.image('bush1', './assets/playgrounds/cemetery/images/bush1.png')
+        this.load.image('bush2', './assets/playgrounds/cemetery/images/bush2.png')
+        this.load.image('skeleton', './assets/playgrounds/cemetery/images/skeleton.png')
+        this.load.image('tombstone1', './assets/playgrounds/cemetery/images/tombstone1.png')
+        this.load.image('tombstone2', './assets/playgrounds/cemetery/images/tombstone2.png')
+        this.load.image('sign1', './assets/playgrounds/cemetery/images/sign1.png')
+        this.load.image('sign2', './assets/playgrounds/cemetery/images/sign2.png')
+
+        // noobien player type
+        this.load.spritesheet('noobien_player', './assets/players/noobien/images/player.png', 65, 32)
+        this.load.image('noobien_primary_bullet', './assets/players/noobien/images/primary_bullet.png')
+        this.game.load.audio('noobien_primary_shoot', './assets/players/noobien/sounds/primary_shoot.mp3');
+        this.game.load.audio('noobien_hurt', './assets/players/noobien/sounds/hurt.mp3');
+
+        // noobacca player type
+        this.load.spritesheet('noobacca_player', './assets/players/noobacca/images/player.png', 35, 64)
+        this.load.image('noobacca_primary_bullet', './assets/players/noobacca/images/primary_bullet.png')
+        this.game.load.audio('noobacca_primary_shoot', './assets/players/noobacca/sounds/primary_shoot.mp3');
+        this.game.load.audio('noobacca_hurt', './assets/players/noobacca/sounds/hurt.mp3');
 
         this.game.load.json('config', 'data/config.json')
         this.game.load.json('players', 'data/players.json')

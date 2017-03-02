@@ -6,11 +6,12 @@ export default class extends Phaser.Sprite {
         let data = game.cache.getJSON("players")[type]
         let orientation = id == 0 ? "right" : "left"
 
-        super(game, x, y, data["sprite"]["asset"], data["sprite"][orientation]["frame"])
+        super(game, x, y, type + "_player", data["sprite"][orientation]["frame"])
 
         this.health = 100
         this._isActive = false
         this.id = id
+        this.type = type
         this.orientation = orientation
         this.keys = keys
         this.data = data
@@ -24,8 +25,8 @@ export default class extends Phaser.Sprite {
         this.animations.add('left', data["sprite"]["left"]["animation"], 10, true)
         this.animations.add('right', data["sprite"]["right"]["animation"], 10, true)
 
-        this.weaponSound = this.game.add.audio(data["sfx"]["shoot"]);
-        this.hitSound = this.game.add.audio(data["sfx"]["hurt"]);
+        this.weaponSound = this.game.add.audio(type + "_primary_shoot");
+        this.hitSound = this.game.add.audio(type + "_hurt");
 
         this.weapon = this._addWeapon()
 
@@ -142,8 +143,8 @@ export default class extends Phaser.Sprite {
     }
 
     _addWeapon () {
-        let data = this.data["weapon"];
-        let weapon = this.game.add.weapon(data["max"], data["asset"])
+        let data = this.data["weapons"]["primary"];
+        let weapon = this.game.add.weapon(data["max"], this.type + "_primary_bullet")
 
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
         weapon.bulletSpeed = data["speed"]
