@@ -120,45 +120,46 @@ export default class extends Phaser.Group {
 
     // second level above ground
     _level2 () {
-        // middle ledge
+        // middle left
         this.ledges.push(
             game.add.existing(
                 new Ledge({
                     game: game,
-                    x: 310,
+                    x: 300,
                     y: this.startY - 2 * this.step,
-                    length: 10
+                    length: 3
                 })
             )
         )
-
-        // middle tombstone
         game.add.sprite(
-            game.world.centerX - 55 / 2,
-            game.world.height - 55 - 24 - 2 * this.step - 24,
-            'tombstone1'
-        );
-
-        // middle left
-        game.add.sprite(
-            game.world.centerX - 53 / 2 - 240,
+            game.world.centerX - 53 / 2 - 140,
             game.world.height - 76 - 24 - 2 * this.step - 24,
             'tombstone2'
         );
         game.add.sprite(
-            game.world.centerX - 40 / 2 - 270,
+            game.world.centerX - 40 / 2 - 170,
             game.world.height - 20 - 24 - 2 * this.step - 24,
             'bush2'
         );
 
         // middle right
+        this.ledges.push(
+            game.add.existing(
+                new Ledge({
+                    game: game,
+                    x: 700,
+                    y: this.startY - 2 * this.step,
+                    length: 3
+                })
+            )
+        )
         game.add.sprite(
-            game.world.centerX - 53 / 2 + 240,
+            game.world.centerX - 53 / 2 + 140,
             game.world.height - 76 - 24 - 2 * this.step - 24,
             'tombstone2'
         );
         game.add.sprite(
-            game.world.centerX - 40 / 2 + 270,
+            game.world.centerX - 40 / 2 + 170,
             game.world.height - 20 - 24 - 2 * this.step - 24,
             'bush2'
         );
