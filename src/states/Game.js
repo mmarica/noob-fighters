@@ -13,8 +13,12 @@ export default class extends Phaser.State {
 
         this.load.setPreloadSprite(this.loaderBar)
 
-        Player.loadAssets(this.game, 'noobien')
-        Player.loadAssets(this.game, 'noobacca')
+        // generate random players
+        this.types = this._randomPlayerTypes()
+
+        for (let type of this.types)
+            Player.loadAssets(this.game, type)
+
         Cemetery.loadAssets(this.game)
     }
 
@@ -83,15 +87,16 @@ export default class extends Phaser.State {
 
     _addPlayers () {
         let config = this.game.cache.getJSON("config")
+        let data = this.game.cache.getJSON("players")
 
         this.players = [
             this.game.add.existing(
                 new Player({
                     game: this.game,
                     id: 0,
-                    type: 'noobien',
+                    type: this.types[0],
                     x: 100,
-                    y: this.world.height - 42/2 - 24,
+                    y: this.world.height - data[this.types[0]]["sprite"]["height"] / 2 - 24,
                     keys: config["keys"]["p1"]
                 })
             ),
@@ -99,9 +104,9 @@ export default class extends Phaser.State {
                 new Player({
                     game: this.game,
                     id: 1,
-                    type: 'noobacca',
+                    type: this.types[1],
                     x: this.world.width - 100,
-                    y: this.world.height - 64/2 - 24,
+                    y: this.world.height - data[this.types[1]]["sprite"]["height"] / 2 - 24,
                     keys: config["keys"]["p2"]
                 })
             ),
@@ -141,5 +146,19 @@ export default class extends Phaser.State {
     _keyUp (char) {
         for (let player of this.players)
             player.keyUp(char)
+    }
+
+    _randomPlayerTypes () {
+        const possibleTypes = ['noobien', 'noobacca']
+
+        let types = [possibleTypes[Math.round(Math.random() * (possibleTypes.length - 1))]]
+        let type = null
+
+        do {
+            type = possibleTypes[Math.round(Math.random() * (possibleTypes.length - 1))]
+        } while (type == types[0])
+
+        types.push(type)
+        return types
     }
 }
