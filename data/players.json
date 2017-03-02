@@ -8,14 +8,16 @@
         "frame": 0,
         "animation": {
           "start": 1,
-          "count": 12
+          "count": 12,
+          "rate": 20
         }
       },
       "right": {
         "frame": 13,
         "animation": {
           "start": 14,
-          "count": 12
+          "count": 12,
+          "rate": 20
         }
       }
     },
@@ -41,14 +43,16 @@
         "frame": 0,
         "animation": {
           "start": 1,
-          "count": 7
+          "count": 7,
+          "rate": 18
         }
       },
       "right": {
         "frame": 8,
         "animation": {
           "start": 9,
-          "count": 7
+          "count": 7,
+          "rate": 18
         }
       }
     },
@@ -74,14 +78,16 @@
         "frame": 0,
         "animation": {
           "start": 1,
-          "count": 6
+          "count": 6,
+          "rate": 16
         }
       },
       "right": {
         "frame": 7,
         "animation": {
           "start": 8,
-          "count": 6
+          "count": 6,
+          "rate": 16
         }
       }
     },

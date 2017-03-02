@@ -24,8 +24,11 @@ export default class extends Phaser.Sprite {
 
         this.anchor.setTo(0.5)
 
-        this.animations.add('left', this._getAnimationFrames(data["sprite"]["left"]["animation"]), 10, true)
-        this.animations.add('right', this._getAnimationFrames(data["sprite"]["right"]["animation"]), 10, true)
+        let leftAnimation = data["sprite"]["left"]["animation"]
+        this.animations.add('left', this._getAnimationFrames(leftAnimation), leftAnimation['rate'], true)
+
+        let rightAnimation = data["sprite"]["right"]["animation"]
+        this.animations.add('right', this._getAnimationFrames(rightAnimation), rightAnimation['rate'], true)
 
         this.weaponSound = this.game.add.audio(type + "_primary_shoot");
         this.hitSound = this.game.add.audio(type + "_hurt");
