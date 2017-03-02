@@ -148,7 +148,7 @@ export default class extends Phaser.State {
     }
 
     _randomPlayerTypes () {
-        const possibleTypes = ['noobien', 'noobacca']
+        const possibleTypes = ['noobien', 'indiana_noobes', 'noobacca']
 
         let types = [possibleTypes[Math.round(Math.random() * (possibleTypes.length - 1))]]
         let type = null
