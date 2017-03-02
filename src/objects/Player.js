@@ -52,9 +52,7 @@ export default class extends Phaser.Sprite {
                 this.orientation = 'right'
             }
         } else {
-            this.animations.stop();
-            this.body.velocity.x = 0;
-            this.frame = this.data["sprite"][this.orientation]["frame"]
+            this._stopAnimation()
         }
     }
 
@@ -64,6 +62,7 @@ export default class extends Phaser.Sprite {
 
     deactivate () {
         this._isActive = false
+        this._stopAnimation()
     }
 
     getWeapon () {
@@ -152,5 +151,11 @@ export default class extends Phaser.Sprite {
         weapon.trackSprite(this, 0, 0)
 
         return weapon;
+    }
+
+    _stopAnimation () {
+        this.animations.stop();
+        this.body.velocity.x = 0;
+        this.frame = this.data["sprite"][this.orientation]["frame"]
     }
 }
