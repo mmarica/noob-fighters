@@ -23,8 +23,9 @@ export default class extends Phaser.Sprite {
         this.body.collideWorldBounds = true
 
         this.anchor.setTo(0.5)
-        this.animations.add('left', data["sprite"]["left"]["animation"], 10, true)
-        this.animations.add('right', data["sprite"]["right"]["animation"], 10, true)
+
+        this.animations.add('left', this._getAnimationFrames(data["sprite"]["left"]["animation"]), 10, true)
+        this.animations.add('right', this._getAnimationFrames(data["sprite"]["right"]["animation"]), 10, true)
 
         this.weaponSound = this.game.add.audio(type + "_primary_shoot");
         this.hitSound = this.game.add.audio(type + "_hurt");
@@ -157,6 +158,16 @@ export default class extends Phaser.Sprite {
         weapon.trackSprite(this, 0, 0)
 
         return weapon;
+    }
+
+    _getAnimationFrames (animation) {
+        let frames = []
+
+        for (let i = 0; i < animation["count"]; i++)
+            frames.push(i +  animation["start"])
+
+        console.log(frames)
+        return frames
     }
 
     _stopAnimation () {

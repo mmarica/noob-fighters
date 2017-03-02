@@ -6,11 +6,17 @@
       "height": 32,
       "left": {
         "frame": 0,
-        "animation": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        "animation": {
+          "start": 1,
+          "count": 12
+        }
       },
       "right": {
         "frame": 13,
-        "animation": [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+        "animation": {
+          "start": 14,
+          "count": 12
+        }
       }
     },
     "physics": {
@@ -33,11 +39,17 @@
       "height": 64,
       "left": {
         "frame": 0,
-        "animation": [1, 2, 3, 4, 5, 6]
+        "animation": {
+          "start": 1,
+          "count": 6
+        }
       },
       "right": {
         "frame": 7,
-        "animation": [8, 9, 10, 11, 12, 13]
+        "animation": {
+          "start": 8,
+          "count": 6
+        }
       }
     },
     "physics": {
