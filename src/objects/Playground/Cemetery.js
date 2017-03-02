@@ -33,13 +33,33 @@ export default class extends Phaser.Group {
             new Ground({ game: game })
         )
 
+        // bottom crates
         this.crates.push(
-            // middle crate
+            game.add.existing(
+                new Crate({
+                    game: game,
+                    x: game.world.centerX - 92,
+                    y: game.world.height - 92 - 24,
+                })
+            )
+        )
+        this.crates.push(
+            game.add.existing(
+                new Crate({
+                    game: game,
+                    x: game.world.centerX,
+                    y: game.world.height - 92 - 24,
+                })
+            )
+        )
+
+        // middle top crate
+        this.crates.push(
             game.add.existing(
                 new Crate({
                     game: game,
                     x: game.world.centerX - 92 / 2,
-                    y: game.world.height - 92 - 24,
+                    y: game.world.height - 92 - 24 - 92,
                 })
             )
         )
@@ -132,12 +152,12 @@ export default class extends Phaser.Group {
             )
         )
         game.add.sprite(
-            game.world.centerX - 53 / 2 - 140,
+            game.world.centerX - 53 / 2 - 180,
             game.world.height - 76 - 24 - 2 * this.step - 24,
             'tombstone2'
         );
         game.add.sprite(
-            game.world.centerX - 40 / 2 - 170,
+            game.world.centerX - 40 / 2 - 210,
             game.world.height - 20 - 24 - 2 * this.step - 24,
             'bush2'
         );
@@ -154,12 +174,12 @@ export default class extends Phaser.Group {
             )
         )
         game.add.sprite(
-            game.world.centerX - 53 / 2 + 140,
+            game.world.centerX - 53 / 2 + 180,
             game.world.height - 76 - 24 - 2 * this.step - 24,
             'tombstone2'
         );
         game.add.sprite(
-            game.world.centerX - 40 / 2 + 170,
+            game.world.centerX - 40 / 2 + 210,
             game.world.height - 20 - 24 - 2 * this.step - 24,
             'bush2'
         );
