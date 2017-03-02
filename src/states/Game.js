@@ -16,6 +16,7 @@ export default class extends Phaser.State {
         this._addHud()
         this._initKeys()
         this._startMusic()
+        this._activatePlayers()
     }
 
     update() {
@@ -34,6 +35,18 @@ export default class extends Phaser.State {
         }
     }
 
+    _activatePlayers () {
+        for (let player of this.players) {
+            player.activate()
+        }
+    }
+
+    _deactivatePlayers () {
+        for (let player of this.players) {
+            player.deactivate()
+        }
+    }
+
     hitPlayer (player, bullet) {
         bullet.kill()
         player.playHitSound()
@@ -42,9 +55,9 @@ export default class extends Phaser.State {
         this.hud.updateHealth(player.id, health)
 
         if (health == 0) {
-            this.module.onStop = function() {};
+            this.module.onStop = function() {}
             this.module.stop()
-            this.state.start('GameOver')
+            this._deactivatePlayers()
         }
     }
 

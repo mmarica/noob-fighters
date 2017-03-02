@@ -9,6 +9,7 @@ export default class extends Phaser.Sprite {
         super(game, x, y, data["sprite"]["asset"], data["sprite"][orientation]["frame"])
 
         this.health = 100
+        this._isActive = false
         this.id = id
         this.orientation = orientation
         this.keys = keys
@@ -39,18 +40,30 @@ export default class extends Phaser.Sprite {
 
     update () {
         if (this.leftIsPressed) {
-            this.body.velocity.x = -(this.speed)
-            this.animations.play('left')
-            this.orientation = 'left'
+            if (this._isActive) {
+                this.body.velocity.x = -(this.speed)
+                this.animations.play('left')
+                this.orientation = 'left'
+            }
         } else if (this.rightIsPressed) {
-            this.body.velocity.x = this.speed
-            this.animations.play('right')
-            this.orientation = 'right'
+            if (this._isActive) {
+                this.body.velocity.x = this.speed
+                this.animations.play('right')
+                this.orientation = 'right'
+            }
         } else {
             this.animations.stop();
             this.body.velocity.x = 0;
             this.frame = this.data["sprite"][this.orientation]["frame"]
         }
+    }
+
+    activate () {
+        this._isActive = true
+    }
+
+    deactivate () {
+        this._isActive = false
     }
 
     getWeapon () {
@@ -62,7 +75,9 @@ export default class extends Phaser.Sprite {
     }
 
     decreaseHealth (amount) {
-        this.health = Math.max(0, this.health - amount)
+        if (this._isActive)
+            this.health = Math.max(0, this.health - amount)
+
         return this.health
     }
 
@@ -76,10 +91,12 @@ export default class extends Phaser.Sprite {
                 if (!this.fireIsPressed) {
                     this.fireIsPressed = true;
 
-                    this.weapon.fireAngle = this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT
+                    if (this._isActive) {
+                        this.weapon.fireAngle = this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT
 
-                    if (this.weapon.fire()) {
-                        this.weaponSound.play()
+                        if (this.weapon.fire()) {
+                            this.weaponSound.play()
+                        }
                     }
                 }
 
@@ -89,7 +106,7 @@ export default class extends Phaser.Sprite {
                 if (!this.upIsPressed) {
                     this.upIsPressed = true;
 
-                    if (this.body.touching.down) {
+                    if (this._isActive && this.body.touching.down) {
                         this.body.velocity.y = -(this.data["physics"]["jump"]);
                     }
                 }
