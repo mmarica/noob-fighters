@@ -12,181 +12,230 @@ export default class extends Phaser.Group {
 
         game.add.sprite(0, 0, 'bg')
 
+        this.startY = 752
+        this.step = 130
+
+        this.ledges = []
+        this.crates = []
+
+        this._level0()
+        this._level1()
+        this._level2()
+        this._level3()
+        this._level4()
+    }
+
+    // ground level
+    _level0 () {
+        let game = this.game
+
         this.ground = game.add.existing(
             new Ground({ game: game })
         )
 
-        let height = 752
-        const step = 130
-
-        this.ledges = [
-            game.add.existing(
-                new Ledge({
-                    game: game,
-                    x: 0,
-                    y: height - step,
-                    length: 3
-                })
-            ),
-            game.add.existing(
-                new Ledge({
-                    game: game,
-                    x: game.world.width - 64 * 4 - 24,
-                    y: height - step,
-                    length: 3
-                })
-            ),
-            game.add.existing(
-                new Ledge({
-                    game: game,
-                    x: 310,
-                    y: height - 2 * step,
-                    length: 10
-                })
-            ),
-            game.add.existing(
-                new Ledge({
-                    game: game,
-                    x: 0,
-                    y: height - 3 * step,
-                    length: 2
-                })
-            ),
-            game.add.existing(
-                new Ledge({
-                    game: game,
-                    x: game.world.width - 64 * 13,
-                    y: height - 3 * step,
-                    length: 5
-                })
-            ),
-            game.add.existing(
-                new Ledge({
-                    game: game,
-                    x: game.world.width - 64 * 4 + 30,
-                    y: height - 3 * step,
-                    length: 2
-                })
-            ),
-        ]
-
-        this.crates = [
+        this.crates.push(
+            // middle crate
             game.add.existing(
                 new Crate({
                     game: game,
                     x: game.world.centerX - 92 / 2,
                     y: game.world.height - 92 - 24,
                 })
-            ),
-            game.add.existing(
-                new Crate({
-                    game: game,
-                    x: 134,
-                    y: game.world.height - 92 - 24 - step * 3 - 24,
-                })
-            ),
-            game.add.existing(
-                new Crate({
-                    game: game,
-                    x: game.world.width - 92 - 134,
-                    y: game.world.height - 92 - 24 - step * 3 - 24,
-                })
-            ),
-        ]
+            )
+        )
 
-        game.add.sprite(
-            game.world.centerX - 286 / 2,
-            game.world.height - 239 - 24 - step * 3 - 24,
-            'tree'
-        );
-
-        game.add.sprite(
-            game.world.centerX - 48 / 2 - 50,
-            game.world.height - 24 - 24 - step * 3 - 24,
-            'skeleton'
-        );
-
+        // left tombstone and bush
         game.add.sprite(
             20,
             game.world.height - 55 - 24,
             'tombstone1'
         );
-
         game.add.sprite(
             0,
             game.world.height - 20 - 24,
             'bush2'
         );
 
+        // right tombstone and bush
         game.add.sprite(
             game.world.width - 54 - 20,
             game.world.height - 55 - 24,
             'tombstone1'
         );
-
         game.add.sprite(
             game.world.width - 40,
             game.world.height - 20 - 24,
             'bush2'
         );
-        game.add.sprite(
-            game.world.width - 40,
-            game.world.height - 20 - 24,
-            'bush2'
-        );
+    }
 
+    // first level above ground
+    _level1 () {
+        let game = this.game
+
+        // left ledge, bush and sign
+        this.ledges.push(
+            game.add.existing(
+                new Ledge({
+                    game: game,
+                    x: 0,
+                    y: this.startY - this.step,
+                    length: 3
+                })
+            )
+        )
         game.add.sprite(
             210,
-            game.world.height - 41 - 24 - step - 24,
+            game.world.height - 41 - 24 - this.step - 24,
             'bush1'
         );
-
-        game.add.sprite(
-            game.world.width - 210 - 40 - 20,
-            game.world.height - 41 - 24 - step - 24,
-            'bush1'
-        );
-
-        game.add.sprite(
-            game.world.centerX - 55 / 2,
-            game.world.height - 55 - 24 - 2 * step - 24,
-            'tombstone1'
-        );
-
-        game.add.sprite(
-            game.world.centerX - 53 / 2 - 240,
-            game.world.height - 76 - 24 - 2 * step - 24,
-            'tombstone2'
-        );
-
-        game.add.sprite(
-            game.world.centerX - 40 / 2 - 270,
-            game.world.height - 20 - 24 - 2 * step - 24,
-            'bush2'
-        );
-
-        game.add.sprite(
-            game.world.centerX - 53 / 2 + 240,
-            game.world.height - 76 - 24 - 2 * step - 24,
-            'tombstone2'
-        );
-
-        game.add.sprite(
-            game.world.centerX - 40 / 2 + 270,
-            game.world.height - 20 - 24 - 2 * step - 24,
-            'bush2'
-        );
-
         game.add.sprite(
             20,
-            game.world.height - 87 - 24 - step - 24,
+            game.world.height - 87 - 24 - this.step - 24,
             'sign1'
         );
 
+        // right ledge, bush and sign
+        this.ledges.push(
+            game.add.existing(
+                new Ledge({
+                    game: game,
+                    x: game.world.width - 64 * 4 - 24,
+                    y: this.startY - this.step,
+                    length: 3
+                })
+            )
+        )
+        game.add.sprite(
+            game.world.width - 210 - 40 - 20,
+            game.world.height - 41 - 24 - this.step - 24,
+            'bush1'
+        );
         game.add.sprite(
             game.world.width - 100,
-            game.world.height - 93 - 24 - step - 24,
+            game.world.height - 93 - 24 - this.step - 24,
             'sign2'
+        );
+    }
+
+    // second level above ground
+    _level2 () {
+        // middle ledge
+        this.ledges.push(
+            game.add.existing(
+                new Ledge({
+                    game: game,
+                    x: 310,
+                    y: this.startY - 2 * this.step,
+                    length: 10
+                })
+            )
+        )
+
+        // middle tombstone
+        game.add.sprite(
+            game.world.centerX - 55 / 2,
+            game.world.height - 55 - 24 - 2 * this.step - 24,
+            'tombstone1'
+        );
+
+        // middle left
+        game.add.sprite(
+            game.world.centerX - 53 / 2 - 240,
+            game.world.height - 76 - 24 - 2 * this.step - 24,
+            'tombstone2'
+        );
+        game.add.sprite(
+            game.world.centerX - 40 / 2 - 270,
+            game.world.height - 20 - 24 - 2 * this.step - 24,
+            'bush2'
+        );
+
+        // middle right
+        game.add.sprite(
+            game.world.centerX - 53 / 2 + 240,
+            game.world.height - 76 - 24 - 2 * this.step - 24,
+            'tombstone2'
+        );
+        game.add.sprite(
+            game.world.centerX - 40 / 2 + 270,
+            game.world.height - 20 - 24 - 2 * this.step - 24,
+            'bush2'
+        );
+    }
+
+    // third level above ground
+    _level3 () {
+        let game = this.game
+
+        // left ledge and crate
+        this.ledges.push(
+            game.add.existing(
+                new Ledge({
+                    game: game,
+                    x: 0,
+                    y: this.startY - 3 * this.step + 20,
+                    length: 2
+                })
+            )
+        )
+        this.crates.push(
+            game.add.existing(
+                new Crate({
+                    game: game,
+                    x: 134,
+                    y: game.world.height - 92 - 24 - this.step * 3 - 24 + 20,
+                })
+            )
+        )
+
+        // right ledge and crate
+        this.ledges.push(
+            game.add.existing(
+                new Ledge({
+                    game: game,
+                    x: game.world.width - 64 * 4 + 30,
+                    y: this.startY - 3 * this.step + 20,
+                    length: 2
+                })
+            )
+        )
+        this.crates.push(
+            game.add.existing(
+                new Crate({
+                    game: game,
+                    x: game.world.width - 92 - 134,
+                    y: game.world.height - 92 - 24 - this.step * 3 - 24 + 20,
+                })
+            )
+        )
+    }
+
+    // fourth level above ground
+    _level4 () {
+        let game = this.game
+
+        this.ledges.push(
+            game.add.existing(
+                new Ledge({
+                    game: game,
+                    x: game.world.width - 64 * 13,
+                    y: this.startY - 3 * this.step - 35,
+                    length: 5
+                })
+            )
+        )
+
+        game.add.sprite(
+            game.world.centerX - 286 / 2,
+            game.world.height - 239 - 24 - this.step * 3 - 24 - 35,
+            'tree'
+        );
+
+        game.add.sprite(
+            game.world.centerX - 48 / 2 - 50,
+            game.world.height - 24 - 24 - this.step * 3 - 24 - 35,
+            'skeleton'
         );
     }
 

@@ -169,7 +169,6 @@ export default class extends Phaser.Sprite {
         for (let i = 0; i < animation["count"]; i++)
             frames.push(i +  animation["start"])
 
-        console.log(frames)
         return frames
     }
 
