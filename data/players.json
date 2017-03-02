@@ -24,7 +24,7 @@
       "asset": "alien_projectile",
       "max": 5,
       "speed": 700,
-      "rate": 1000
+      "rate": 700
     }
   },
   "noobacca": {
@@ -52,7 +52,7 @@
       "asset": "noobacca_projectile",
       "max": 5,
       "speed": 700,
-      "rate": 1000
+      "rate": 700
     }
   }
 }
