@@ -1,5 +1,6 @@
 {
   "noobien": {
+    "name": "Noobien",
     "sprite": {
       "width": 65,
       "height": 32,
@@ -26,6 +27,7 @@
     }
   },
   "noobacca": {
+    "name": "Noobacca",
     "sprite": {
       "width": 35,
       "height": 64,

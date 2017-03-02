@@ -1,7 +1,8 @@
 import Phaser from 'phaser'
 
 const MARGIN = 40
-const HBAR_Y = 80
+const HBAR_Y = 8
+const NAME_MARGIN = 8
 const HBAR_WIDTH = 400
 const HBAR_HEIGHT = 24
 const HBAR_STROKE = 2
@@ -17,8 +18,8 @@ export default class extends Phaser.Group {
         this.hbar = []
 
         for (let i = 0; i < 2; i++) {
-            this.playerName.push(this._createPlayerName(i))
             this.hbar.push(this._createHealthBar(i))
+            this.playerName.push(this._createPlayerName(i))
             this._updateHealthBar(i)
         }
 
@@ -26,9 +27,9 @@ export default class extends Phaser.Group {
     }
 
     _createPlayerName (id) {
-        let x = id == 0 ? MARGIN :  this.game.world.width - MARGIN
+        let x = id == 0 ? MARGIN + NAME_MARGIN :  this.game.world.width - MARGIN - NAME_MARGIN
 
-        let playerName = new Phaser.Text(this.game, x, 50, this.name[id])
+        let playerName = new Phaser.Text(this.game, x, NAME_MARGIN, this.name[id])
         playerName.font = 'Russo One'
         playerName.fontSize = 20
         playerName.fill = '#fff'
@@ -64,7 +65,7 @@ export default class extends Phaser.Group {
     }
 
     _addBanner () {
-        let banner = new Phaser.Text(this.game, this.game.world.centerX, 20, 'NOOB FIGHTERS')
+        let banner = new Phaser.Text(this.game, this.game.world.centerX, -10, 'NOOB FIGHTERS')
         banner.anchor.setTo(0.5, 0)
         banner.font = 'Paytone One'
         banner.padding.set(10, 16)

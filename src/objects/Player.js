@@ -12,6 +12,7 @@ export default class extends Phaser.Sprite {
         this._isActive = false
         this.id = id
         this.type = type
+        this.name = data["name"]
         this.orientation = orientation
         this.keys = keys
         this.data = data
@@ -68,6 +69,10 @@ export default class extends Phaser.Sprite {
 
     getWeapon () {
         return this.weapon
+    }
+
+    getName () {
+        return this.name
     }
 
     getHealth () {

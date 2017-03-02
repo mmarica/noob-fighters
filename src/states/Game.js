@@ -66,9 +66,8 @@ export default class extends Phaser.State {
         this.hud.updateHealth(player.id, health)
 
         if (health == 0) {
-            this.module.onStop = function() {}
-            this.module.stop()
             this._deactivatePlayers()
+            this.playGround.stopMusic()
         }
     }
 
@@ -117,9 +116,9 @@ export default class extends Phaser.State {
         this.hud = this.game.add.existing(
             new Hud({
                 game: this.game,
-                p1: 'Noobien',
+                p1: this.players[0].getName(),
                 p1Health: this.players[0].getHealth(),
-                p2: 'Noobacca',
+                p2: this.players[1].getName(),
                 p2Health: this.players[1].getHealth(),
             })
         )

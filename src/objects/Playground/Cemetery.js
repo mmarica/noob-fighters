@@ -229,4 +229,9 @@ export default class extends Phaser.Group {
         this.module.buffer = this.musicBuffer;
         this.module.parse();
     }
+
+    stopMusic () {
+        this.module.onStop = function() {}
+        this.module.stop()
+    }
 }
