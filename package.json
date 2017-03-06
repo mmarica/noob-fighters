@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "webpack",
     "deploy": "webpack --config webpack.production.config.js",
+    "archive": "tar zcfv noob-fighters.tar.gz assets data dist index.html",
     "test": "standard"
   },
   "license": "MIT",
