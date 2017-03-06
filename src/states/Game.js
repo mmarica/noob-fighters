@@ -20,6 +20,9 @@ export default class extends Phaser.State {
             Player.loadAssets(this.game, type)
 
         Cemetery.loadAssets(this.game)
+
+        this.musicKey = this.game.cache.getJSON("config")["keys"]["music"]
+        this.musicIsPressed = false
     }
 
     create () {
@@ -138,11 +141,20 @@ export default class extends Phaser.State {
     }
 
     _keyDown (char) {
+        if (char["code"] == this.musicKey)
+            if (!this.musicPressed) {
+                this.musicPressed = true
+                this.playGround.toggleMusic()
+            }
+
         for (let player of this.players)
             player.keyDown(char)
     }
 
     _keyUp (char) {
+        if (char["code"] == this.musicKey)
+            this.musicPressed = false
+
         for (let player of this.players)
             player.keyUp(char)
     }

@@ -300,4 +300,8 @@ export default class extends Phaser.Group {
         this.module.onStop = function() {}
         this.module.stop()
     }
+
+    toggleMusic () {
+        this.module.pause()
+    }
 }
