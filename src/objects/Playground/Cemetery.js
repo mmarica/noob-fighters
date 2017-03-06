@@ -279,16 +279,12 @@ export default class extends Phaser.Group {
         game.load.image('tombstone2', './assets/playgrounds/cemetery/images/tombstone2.png')
         game.load.image('sign1', './assets/playgrounds/cemetery/images/sign1.png')
         game.load.image('sign2', './assets/playgrounds/cemetery/images/sign2.png')
-        game.load.binary('music', './assets/playgrounds/cemetery/sounds/music.mod', this.modLoaded, this);
-    }
-
-    modLoaded (key, data) {
-        this.musicBuffer = new Uint8Array(data)
-        return this.musicBuffer
+        game.load.binary('music', './assets/playgrounds/cemetery/sounds/music.mod');
     }
 
     startMusic () {
         this.module = new ProTracker()
+        this.module.repeat
         this.module.onReady = function() {
             this.play()
         };
@@ -296,7 +292,7 @@ export default class extends Phaser.Group {
             this.play()
         };
 
-        this.module.buffer = this.musicBuffer;
+        this.module.buffer = new Uint8Array(this.game.cache.getBinary('music'));
         this.module.parse();
     }
 

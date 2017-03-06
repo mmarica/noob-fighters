@@ -28,6 +28,7 @@ export default class extends Phaser.State {
         this._addHud()
         this._initKeys()
         this._activatePlayers()
+        this.playGround.startMusic()
     }
 
     update() {
@@ -81,7 +82,6 @@ export default class extends Phaser.State {
         )
 
         this.obstacles = this.playGround.getObstacles()
-        this.playGround.startMusic()
     }
 
     _addPlayers () {
