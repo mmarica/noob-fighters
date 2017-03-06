@@ -71,7 +71,9 @@ export default class extends Phaser.State {
 
         if (health == 0) {
             this._deactivatePlayers()
-            this.playGround.stopMusic()
+            //this.game.time.events.add(Phaser.Timer.SECOND * 1, this.gameOver, this, player.id);
+            this.camera.fade('#000000');
+            this.camera.onFadeComplete.add(this.gameOver, this, null, player.id);
         }
     }
 
@@ -171,5 +173,10 @@ export default class extends Phaser.State {
 
         types.push(type)
         return types
+    }
+
+    gameOver (id) {
+        this.playGround.stopMusic()
+        this.game.state.start("GameOver", true, false, this.players[1 - id].type);
     }
 }
