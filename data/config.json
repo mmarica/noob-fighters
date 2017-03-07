@@ -6,14 +6,16 @@
       "down": "KeyX",
       "left": "KeyZ",
       "right": "KeyC",
-      "fire": "ControlLeft"
+      "fire_primary": "ControlLeft",
+      "fire_secondary": "ShiftLeft"
     },
     "p2": {
       "up": "ArrowUp",
       "down": "ArrowDown",
       "left": "ArrowLeft",
       "right": "ArrowRight",
-      "fire": "ControlRight"
+      "fire_primary": "ControlRight",
+      "fire_secondary": "ShiftRight"
     }
   }
 }

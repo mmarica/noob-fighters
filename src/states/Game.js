@@ -23,6 +23,8 @@ export default class extends Phaser.State {
 
         this.musicKey = this.game.cache.getJSON("config")["keys"]["music"]
         this.musicIsPressed = false
+        
+        this.explosionSound = this.game.add.audio("explosion");
     }
 
     create () {
@@ -38,15 +40,20 @@ export default class extends Phaser.State {
         this.game.physics.arcade.collide(this.players[0], this.players[1]);
 
         for (let id = 0; id < 2; id++) {
-            let weapon = this.players[id].getWeapon();
+            let primaryWeapon = this.players[id].getPrimaryWeapon()
 
-            this.game.physics.arcade.overlap([this.players[1 - id]], weapon.bullets, this.hitPlayer, null, this);
-
-            for (let obstacle of this.obstacles)
-                this.game.physics.arcade.overlap(obstacle, weapon.bullets, this.hitObstacle);
+            this.game.physics.arcade.overlap([this.players[1 - id]], primaryWeapon.bullets, this.hitPlayer, null, this)
 
             for (let obstacle of this.obstacles)
-                this.game.physics.arcade.collide(this.players[id], obstacle);
+                this.game.physics.arcade.overlap(obstacle, primaryWeapon.bullets, this.hitObstacle)
+
+            for (let obstacle of this.obstacles)
+                this.game.physics.arcade.collide(this.players[id], obstacle)
+
+            let secondaryWeapon = this.players[id].getSecondaryWeapon()
+
+            for (let obstacle of this.obstacles)
+                this.game.physics.arcade.collide(obstacle, secondaryWeapon.bullets)
         }
     }
 
@@ -64,16 +71,7 @@ export default class extends Phaser.State {
 
     hitPlayer (player, bullet) {
         bullet.kill()
-        player.playHitSound()
-
-        let health = player.decreaseHealth(10)
-        this.hud.updateHealth(player.id, health)
-
-        if (health == 0) {
-            this._deactivatePlayers()
-            this.camera.fade('#000000');
-            this.camera.onFadeComplete.addOnce(this.gameOver, this, 0, 1 - player.id);
-        }
+        this._hurtPlayer(player, 10)
     }
 
     hitObstacle (ledge, bullet) {
@@ -100,7 +98,8 @@ export default class extends Phaser.State {
                     type: this.types[0],
                     x: 100,
                     y: this.world.height - data[this.types[0]]["sprite"]["height"] / 2 - 24,
-                    keys: config["keys"]["p1"]
+                    keys: config["keys"]["p1"],
+                    context: this
                 })
             ),
             this.game.add.existing(
@@ -110,7 +109,8 @@ export default class extends Phaser.State {
                     type: this.types[1],
                     x: this.world.width - 100,
                     y: this.world.height - data[this.types[1]]["sprite"]["height"] / 2 - 24,
-                    keys: config["keys"]["p2"]
+                    keys: config["keys"]["p2"],
+                    context: this
                 })
             ),
         ]
@@ -177,5 +177,40 @@ export default class extends Phaser.State {
     gameOver (id) {
         this.playGround.stopMusic()
         this.game.state.start("GameOver", true, false, this.players[id].type);
+    }
+
+    onSecondaryExplosion (bullet) {
+        const radius = 130
+        const damage = 25
+
+        let explosion = this.game.add.sprite(bullet.body.x,bullet.body.y,"explosion")
+        explosion.animations.add("explode", null ,50,false)
+        explosion.anchor.setTo(0.5,0.5)
+        let exp = explosion.animations.play("explode")
+        exp.onComplete.add(function () {
+            explosion.kill()
+        }, explosion)
+        this.explosionSound.play()
+
+        for (let player of this.players) {
+            let distance = this.game.physics.arcade.distanceBetween(bullet, player)
+
+            if (distance < radius)
+                this._hurtPlayer(player, Math.round(damage * (radius - distance) / radius))
+        }
+
+    }
+
+    _hurtPlayer (player, damage) {
+        player.playHitSound()
+
+        let health = player.decreaseHealth(damage)
+        this.hud.updateHealth(player.id, health)
+
+        if (health == 0) {
+            this._deactivatePlayers()
+            this.camera.fade('#000000');
+            this.camera.onFadeComplete.addOnce(this.gameOver, this, 0, 1 - player.id);
+        }
     }
 }

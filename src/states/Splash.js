@@ -7,6 +7,10 @@ export default class extends Phaser.State {
     preload () {
         this.loaderBg = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBg')
         this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar')
+
+        this.game.load.spritesheet('explosion', './assets/common/images/explosion.png', 64, 64, 23);
+        this.game.load.audio('explosion', './assets/common/sounds/explosion.wav', 64, 64, 23);
+
         centerGameObjects([this.loaderBg, this.loaderBar])
 
         this.load.setPreloadSprite(this.loaderBar)
