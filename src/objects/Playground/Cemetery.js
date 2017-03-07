@@ -38,8 +38,8 @@ export default class extends Phaser.Group {
             game.add.existing(
                 new Crate({
                     game: game,
-                    x: game.world.centerX - 92,
-                    y: game.world.height - 92 - 24,
+                    x: game.world.centerX - 85,
+                    y: game.world.height - 85 - 24,
                 })
             )
         )
@@ -48,7 +48,7 @@ export default class extends Phaser.Group {
                 new Crate({
                     game: game,
                     x: game.world.centerX,
-                    y: game.world.height - 92 - 24,
+                    y: game.world.height - 85 - 24,
                 })
             )
         )
@@ -58,8 +58,8 @@ export default class extends Phaser.Group {
             game.add.existing(
                 new Crate({
                     game: game,
-                    x: game.world.centerX - 92 / 2,
-                    y: game.world.height - 92 - 24 - 92,
+                    x: game.world.centerX - 85 / 2,
+                    y: game.world.height - 85 - 24 - 85,
                 })
             )
         )
@@ -204,8 +204,8 @@ export default class extends Phaser.Group {
             game.add.existing(
                 new Crate({
                     game: game,
-                    x: 134,
-                    y: game.world.height - 92 - 24 - this.step * 3 - 24 + 20,
+                    x: 142,
+                    y: game.world.height - 85 - 24 - this.step * 3 - 24 + 20,
                 })
             )
         )
@@ -225,8 +225,8 @@ export default class extends Phaser.Group {
             game.add.existing(
                 new Crate({
                     game: game,
-                    x: game.world.width - 92 - 134,
-                    y: game.world.height - 92 - 24 - this.step * 3 - 24 + 20,
+                    x: game.world.width - 85 - 142,
+                    y: game.world.height - 85 - 24 - this.step * 3 - 24 + 20,
                 })
             )
         )
