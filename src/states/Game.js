@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 import Player from '../objects/Player'
 import Cemetery from '../objects/Playground/Cemetery'
 import Hud from '../objects/Hud'
+import Powerup from '../objects/Powerup'
 import { centerGameObjects } from '../utils'
 
 export default class extends Phaser.State {
@@ -20,11 +21,14 @@ export default class extends Phaser.State {
             Player.loadAssets(this.game, type)
 
         Cemetery.loadAssets(this.game)
+        Powerup.loadAssets(this.game)
 
         this.musicKey = this.game.cache.getJSON("config")["keys"]["music"]
         this.musicIsPressed = false
         
         this.explosionSound = this.game.add.audio("explosion");
+
+        this.powerup = null
     }
 
     create () {
@@ -34,6 +38,7 @@ export default class extends Phaser.State {
         this._initKeys()
         this._activatePlayers()
         this.playGround.startMusic()
+        this._startPowerupTimer()
     }
 
     update() {
@@ -41,6 +46,10 @@ export default class extends Phaser.State {
 
         for (let id = 0; id < 2; id++) {
             let primaryWeapon = this.players[id].getPrimaryWeapon()
+
+            if (this.powerup != null)
+                this.game.physics.arcade.overlap(this.players[id], this.powerup, this.takePowerup, null, this)
+
 
             this.game.physics.arcade.overlap([this.players[1 - id]], primaryWeapon.bullets, this.hitPlayer, null, this)
 
@@ -74,6 +83,10 @@ export default class extends Phaser.State {
         this._hurtPlayer(player, 10)
     }
 
+    takePowerup (player, powerup) {
+        powerup.take(player)
+    }
+
     hitObstacle (ledge, bullet) {
         bullet.kill()
     }
@@ -84,6 +97,7 @@ export default class extends Phaser.State {
         )
 
         this.obstacles = this.playGround.getObstacles()
+        this.powerupSpots = this.playGround.getPowerupSpots()
     }
 
     _addPlayers () {
@@ -212,5 +226,57 @@ export default class extends Phaser.State {
             this.camera.fade('#000000');
             this.camera.onFadeComplete.addOnce(this.gameOver, this, 0, 1 - player.id);
         }
+    }
+
+    _addPowerup () {
+        if (this.powerup != null)
+            return;
+
+        let type = Powerup.getRandomType(false)
+
+        let spot = this.powerupSpots[Math.round(Math.random() * (this.powerupSpots.length - 1))]
+
+        this.powerup = this.game.add.existing(
+            new Powerup({
+                game: this.game,
+                type: type,
+                x: spot.x,
+                y: spot.y,
+                context: this
+            })
+        )
+    }
+
+    onPowerupExpire () {
+        this.powerup = null
+        this._startPowerupTimer()
+    }
+
+    onPowerupTakeHealth (player) {
+        let health = player.increaseHealth(20)
+        this.hud.updateHealth(player.id, health)
+    }
+
+    onPowerupTakeSpeed (player) {
+        let amount = Math.round(player.speed * 1.3);
+        player.speed += amount
+
+        let event = this.game.time.events.add(Phaser.Timer.SECOND * 10, this.decreasePlayerSpeed, this, player, amount);
+    }
+
+    decreasePlayerSpeed (player, amount) {
+        player.speed -= amount
+    }
+
+    onPowerupTakeDamage (player) {
+    }
+
+    onPowerupTakeTrap (player) {
+        this._hurtPlayer(player, 20)
+    }
+
+    _startPowerupTimer () {
+        let seconds = 1 + Math.round(Math.random() * 1)
+        let event = this.game.time.events.add(Phaser.Timer.SECOND * seconds, this._addPowerup, this);
     }
 }

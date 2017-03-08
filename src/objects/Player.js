@@ -99,6 +99,13 @@ export default class extends Phaser.Sprite {
         return this.health
     }
 
+    increaseHealth (amount) {
+        if (this._isActive)
+            this.health = Math.min(100, this.health + amount)
+
+        return this.health
+    }
+
     playHitSound () {
         this.hitSound.play()
     }

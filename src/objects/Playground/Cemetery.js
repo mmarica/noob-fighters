@@ -260,6 +260,23 @@ export default class extends Phaser.Group {
         );
     }
 
+    getPowerupSpots () {
+        return [
+            {x: this.game.world.centerX - 176, y: 326},
+            {x: this.game.world.centerX + 160, y: 326},
+            {x: 60, y: 381},
+            {x: this.game.world.width - 60, y: 381},
+            {x: 360, y: 491},
+            {x: this.game.world.width - 360, y: 491},
+            {x: 180, y: 621},
+            {x: this.game.world.width - 180, y: 621},
+            {x: this.game.world.centerX - 58, y: this.game.world.height - 108},
+            {x: this.game.world.centerX + 58, y: this.game.world.height - 108},
+            {x: 16, y: this.game.world.height -24},
+            {x: this.game.world.width - 16, y: this.game.world.height -24},
+        ]
+    }
+
     getObstacles () {
         return [this.ground, ...this.ledges, ...this.crates]
     }
