@@ -1,6 +1,8 @@
 # Noob Fighters
 
-Simple game built with Phaser.
+Simple (but fun) split-screen game built with Phaser.
+
+Play it live at: http://www.mihai-marica.ro/noob-fighters/. Keep in mind this is a work in progress!
 
 ## Installation
 
@@ -22,3 +24,49 @@ Access the game at:
 http://localhost:3000
 ```
 
+## Keyboard shortcuts
+Toggle music: M
+
+### Player 1
+Left: Z
+Jump: S
+Right: C
+Primary weapon: Left Ctrl
+Secondary Weapon: Left Shift
+
+### Player 1
+Left: Left arrow
+Jump: Up arrow
+Right: Right arrow
+Primary weapon: Right Ctrl
+Secondary Weapon: Right Shift
+
+## Features
+### Start menu
+No menu at the moment, you dive right into the fight!
+
+### Players
+Players are chosen randomly at the start of the game. At the moment, the available types are:
++ Noobien
++ Noobacca
++ Indiana Noobes
+
+### Playgrounds
+Only one playground is available at the moment: Cemetery.
+
+### TODO
++ Add power-ups
+    + health boost
+    + speed boost
+    + weapon damage boost
+    + trap (health decrease)
+    + surprise (get one of the above, randomly; good luck!)
++ Add more players
+    + Snoob Dog
+    + Jean-Noob Piccard
+    + Popeye the Sailor Noob
+    + Scooby Noob
+    + Hannoobal Lecter
+    + Noob Vader
+    + Noob Raider
++ Add more playgrounds
