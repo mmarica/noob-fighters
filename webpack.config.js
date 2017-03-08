@@ -1,3 +1,4 @@
+const WebpackShellPlugin = require('webpack-shell-plugin');
 var path = require('path')
 var webpack = require('webpack')
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
@@ -10,56 +11,57 @@ var p2 = path.join(phaserModule, 'build/custom/p2.js')
 var proTracker = path.join(__dirname, '/node_modules/protracker/dist/Protracker.js')
 
 var definePlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true'))
+    __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true'))
 })
 
 module.exports = {
-  entry: {
-    app: [
-      'babel-polyfill',
-      path.resolve(__dirname, 'src/main.js')
+    entry: {
+        app: [
+            'babel-polyfill',
+            path.resolve(__dirname, 'src/main.js')
+        ],
+        vendor: ['pixi', 'p2', 'phaser', 'webfontloader', 'proTracker']
+    },
+    devtool: 'cheap-source-map',
+    output: {
+        pathinfo: true,
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: './dist/',
+        filename: 'bundle.js'
+    },
+    watch: true,
+    plugins: [
+        definePlugin,
+        new WebpackShellPlugin({onBuildStart:['echo "Webpack Start"'], onBuildEnd:['./dev_update_version.sh ; echo "Webpack End"']}),
+        new webpack.optimize.CommonsChunkPlugin({ name: 'vendor'/* chunkName= */, filename: 'vendor.bundle.js'/* filename= */}),
+        new BrowserSyncPlugin({
+            host: process.env.IP || 'localhost',
+            port: process.env.PORT || 3000,
+            server: {
+                baseDir: ['./', './build']
+            }
+        })
     ],
-    vendor: ['pixi', 'p2', 'phaser', 'webfontloader', 'proTracker']
-  },
-  devtool: 'cheap-source-map',
-  output: {
-    pathinfo: true,
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: './dist/',
-    filename: 'bundle.js'
-  },
-  watch: true,
-  plugins: [
-    definePlugin,
-    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor'/* chunkName= */, filename: 'vendor.bundle.js'/* filename= */}),
-    new BrowserSyncPlugin({
-      host: process.env.IP || 'localhost',
-      port: process.env.PORT || 3000,
-      server: {
-        baseDir: ['./', './build']
-      }
-    })
-  ],
-  module: {
-    rules: [
-      { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'src') },
-      { test: /pixi\.js/, use: ['expose-loader?PIXI'] },
-      { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },
-      { test: /p2\.js/, use: ['expose-loader?p2'] },
-      { test: /proTracker\.js/, use: ['expose-loader?ProTracker'] }
-    ]
-  },
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
-  },
-  resolve: {
-    alias: {
-      'phaser': phaser,
-      'pixi': pixi,
-      'p2': p2,
-      'proTracker': proTracker
+    module: {
+        rules: [
+            { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'src') },
+            { test: /pixi\.js/, use: ['expose-loader?PIXI'] },
+            { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },
+            { test: /p2\.js/, use: ['expose-loader?p2'] },
+            { test: /proTracker\.js/, use: ['expose-loader?ProTracker'] }
+        ]
+    },
+    node: {
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty'
+    },
+    resolve: {
+        alias: {
+            'phaser': phaser,
+            'pixi': pixi,
+            'p2': p2,
+            'proTracker': proTracker
+        }
     }
-  }
 }
