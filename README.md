@@ -28,18 +28,18 @@ http://localhost:3000
 Toggle music: M
 
 ### Player 1
-Left: Z
-Jump: S
-Right: C
-Primary weapon: Left Ctrl
-Secondary Weapon: Left Shift
++ Left: Z
++ Jump: S
++ Right: C
++ Primary weapon: Left Ctrl
++ Secondary Weapon: Left Shift
 
 ### Player 1
-Left: Left arrow
-Jump: Up arrow
-Right: Right arrow
-Primary weapon: Right Ctrl
-Secondary Weapon: Right Shift
++ Left: Left arrow
++ Jump: Up arrow
++ Right: Right arrow
++ Primary weapon: Right Ctrl
++ Secondary Weapon: Right Shift
 
 ## Features
 ### Start menu
