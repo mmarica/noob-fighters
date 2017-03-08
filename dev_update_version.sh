@@ -2,5 +2,5 @@
 
 # apply the value for the version GET param
 version="?version="+$(date +%s)
-sed -i 's/#!version!#/'$version'/g' index.html
-sed -i 's/#!version!#/'$version'/g' dist/bundle.js
+sed -i 's/?__version__/'$version'/g' index.html
+sed -i 's/?__version__/'$version'/g' dist/bundle.js

@@ -227,12 +227,12 @@ export default class extends Phaser.Sprite {
     static loadAssets (game, type) {
         let data = game.cache.getJSON("players")[type]
 
-        game.load.spritesheet(type + "_player" , "./assets/players/" + type + "/images/player.png#!version!#", data["sprite"]["width"], data["sprite"]["height"])
-        game.load.image(type + "_primary_bullet", "./assets/players/" + type + "/images/primary_bullet.png#!version!#")
-        game.load.image(type + "_secondary_bullet", "./assets/players/" + type + "/images/secondary_bullet.png#!version!#")
-        game.load.audio(type + "_primary_shoot", "./assets/players/" + type + "/sounds/primary_shoot.mp3#!version!#");
-        game.load.audio(type + "_secondary_shoot", "./assets/players/" + type + "/sounds/secondary_shoot.mp3#!version!#");
-        game.load.audio(type + "_hurt", "./assets/players/" + type + "/sounds/hurt.mp3#!version!#");
+        game.load.spritesheet(type + "_player" , "./assets/players/" + type + "/images/player.png?__version__", data["sprite"]["width"], data["sprite"]["height"])
+        game.load.image(type + "_primary_bullet", "./assets/players/" + type + "/images/primary_bullet.png?__version__")
+        game.load.image(type + "_secondary_bullet", "./assets/players/" + type + "/images/secondary_bullet.png?__version__")
+        game.load.audio(type + "_primary_shoot", "./assets/players/" + type + "/sounds/primary_shoot.mp3?__version__");
+        game.load.audio(type + "_secondary_shoot", "./assets/players/" + type + "/sounds/secondary_shoot.mp3?__version__");
+        game.load.audio(type + "_hurt", "./assets/players/" + type + "/sounds/hurt.mp3?__version__");
     }
 
     secondaryExplode (bullet) {
