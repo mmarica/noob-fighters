@@ -58,7 +58,7 @@ Only one playground is available at the moment: Cemetery.
 + Add power-ups
     + health boost
     + speed boost
-    + weapon damage boost
+    + damage boost
     + trap (health decrease)
     + surprise (get one of the above, randomly; good luck!)
 + Add more players
