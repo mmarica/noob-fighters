@@ -265,21 +265,21 @@ export default class extends Phaser.Group {
     }
 
     static loadAssets (game) {
-        game.load.image('bg', './assets/playgrounds/cemetery/images/bg.png')
-        game.load.image('ground', './assets/playgrounds/cemetery/images/ground.png')
-        game.load.image('ledge_left', './assets/playgrounds/cemetery/images/ledge_left.png')
-        game.load.image('ledge_center', './assets/playgrounds/cemetery/images/ledge_center.png')
-        game.load.image('ledge_right', './assets/playgrounds/cemetery/images/ledge_right.png')
-        game.load.image('crate', './assets/playgrounds/cemetery/images/crate.png')
-        game.load.image('tree', './assets/playgrounds/cemetery/images/tree.png')
-        game.load.image('bush1', './assets/playgrounds/cemetery/images/bush1.png')
-        game.load.image('bush2', './assets/playgrounds/cemetery/images/bush2.png')
-        game.load.image('skeleton', './assets/playgrounds/cemetery/images/skeleton.png')
-        game.load.image('tombstone1', './assets/playgrounds/cemetery/images/tombstone1.png')
-        game.load.image('tombstone2', './assets/playgrounds/cemetery/images/tombstone2.png')
-        game.load.image('sign1', './assets/playgrounds/cemetery/images/sign1.png')
-        game.load.image('sign2', './assets/playgrounds/cemetery/images/sign2.png')
-        game.load.binary('music', './assets/playgrounds/cemetery/sounds/music.mod');
+        game.load.image('bg', './assets/playgrounds/cemetery/images/bg.png#!version!#')
+        game.load.image('ground', './assets/playgrounds/cemetery/images/ground.png#!version!#')
+        game.load.image('ledge_left', './assets/playgrounds/cemetery/images/ledge_left.png#!version!#')
+        game.load.image('ledge_center', './assets/playgrounds/cemetery/images/ledge_center.png#!version!#')
+        game.load.image('ledge_right', './assets/playgrounds/cemetery/images/ledge_right.png#!version!#')
+        game.load.image('crate', './assets/playgrounds/cemetery/images/crate.png#!version!#')
+        game.load.image('tree', './assets/playgrounds/cemetery/images/tree.png#!version!#')
+        game.load.image('bush1', './assets/playgrounds/cemetery/images/bush1.png#!version!#')
+        game.load.image('bush2', './assets/playgrounds/cemetery/images/bush2.png#!version!#')
+        game.load.image('skeleton', './assets/playgrounds/cemetery/images/skeleton.png#!version!#')
+        game.load.image('tombstone1', './assets/playgrounds/cemetery/images/tombstone1.png#!version!#')
+        game.load.image('tombstone2', './assets/playgrounds/cemetery/images/tombstone2.png#!version!#')
+        game.load.image('sign1', './assets/playgrounds/cemetery/images/sign1.png#!version!#')
+        game.load.image('sign2', './assets/playgrounds/cemetery/images/sign2.png#!version!#')
+        game.load.binary('music', './assets/playgrounds/cemetery/sounds/music.mod#!version!#');
     }
 
     startMusic () {
