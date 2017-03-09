@@ -3,3 +3,9 @@ export const centerGameObjects = (objects) => {
         object.anchor.setTo(0.5)
     })
 }
+
+if (!__DEV__) {
+    var console = {}
+    console.log = function(){}
+    window.console = console
+}
