@@ -32,7 +32,7 @@ module.exports = {
     watch: true,
     plugins: [
         definePlugin,
-        new WebpackShellPlugin({onBuildStart:['echo "Webpack Start"'], onBuildEnd:['./dev_update_version.sh ; echo "Webpack End"']}),
+        new WebpackShellPlugin({onBuildStart:['echo "Webpack Start"'], onBuildEnd:['echo "Webpack End"']}),
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor'/* chunkName= */, filename: 'vendor.bundle.js'/* filename= */}),
         new BrowserSyncPlugin({
             host: process.env.IP || 'localhost',
