@@ -37,11 +37,8 @@ export default class extends Phaser.State {
         this._addHud()
         this._initKeys()
         this._activatePlayers()
-        this.playGround.startMusic()
-        // this._startPowerupTimer()
-
-
-        this._addPowerup()
+        if (!__DEV__) this.playGround.startMusic()
+        this._startPowerupTimer()
     }
 
     update() {
