@@ -23,13 +23,13 @@ export default class extends Phaser.Sprite {
         this.kill()
     }
 
-    static getRandomType (excludeTrap) {
-        const types = ['health', 'speed', /*'damage',*/ 'trap', 'surprise']
+    static getRandomType (excludeSurprise) {
+        const types = ['health', 'speed', 'damage', 'trap', 'surprise']
 
         while (true) {
             let type = types[Math.round(Math.random() * (types.length - 1))]
 
-            if (excludeTrap && type == "trap")
+            if (excludeSurprise && type == "surprise")
                 continue
 
             return type
@@ -37,22 +37,31 @@ export default class extends Phaser.Sprite {
     }
 
     take (player) {
-        let type = this.type == 'surprise' ? this.getRandomType(true) : this.type
+        let type = this.type
+
+        if (this.type == 'surprise') {
+            type = this.constructor.getRandomType(true)
+            if (__DEV__) console.log('[power-up] surprise  => ' + type)
+        }
 
         switch (type) {
             case "health":
+                if (__DEV__) console.log('[power-up] taken health')
                 this.context.onPowerupTakeHealth(player)
                 break
 
             case "speed":
+                if (__DEV__) console.log('[power-up] taken speed')
                 this.context.onPowerupTakeSpeed(player)
                 break
 
             case "damage":
+                if (__DEV__) console.log('[power-up] taken damage')
                 this.context.onPowerupTakeDamage(player)
                 break
 
             case "trap":
+                if (__DEV__) console.log('[power-up] taken trap')
                 this.context.onPowerupTakeTrap(player)
                 break
         }

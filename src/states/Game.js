@@ -38,7 +38,10 @@ export default class extends Phaser.State {
         this._initKeys()
         this._activatePlayers()
         this.playGround.startMusic()
-        this._startPowerupTimer()
+        // this._startPowerupTimer()
+
+
+        this._addPowerup()
     }
 
     update() {
@@ -236,15 +239,17 @@ export default class extends Phaser.State {
 
         let spot = this.powerupSpots[Math.round(Math.random() * (this.powerupSpots.length - 1))]
 
-        this.powerup = this.game.add.existing(
-            new Powerup({
-                game: this.game,
-                type: type,
-                x: spot.x,
-                y: spot.y,
-                context: this
-            })
-        )
+        let x = new Powerup({
+            game: this.game,
+            type: type,
+            x: spot.x,
+            y: spot.y,
+            context: this
+        })
+
+
+        this.powerup = this.game.add.existing(x)
+        this.powerup = this.game.add.existing(x)
     }
 
     onPowerupExpire () {
@@ -269,6 +274,7 @@ export default class extends Phaser.State {
     }
 
     onPowerupTakeDamage (player) {
+        console.log('Not implemented!')
     }
 
     onPowerupTakeTrap (player) {
