@@ -16,6 +16,9 @@ export default class extends Phaser.State {
 
         this.playKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.playKey.onDown.add(this.playKeyDown, this)
+
+        this.sound = this.game.add.audio("game_over")
+        this.sound.play()
     }
 
     update() {}

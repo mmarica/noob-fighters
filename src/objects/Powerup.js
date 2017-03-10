@@ -50,7 +50,8 @@ export default class extends Phaser.Sprite {
         }
 
         if (__DEV__) console.log('[power-up] taken ' + type)
-        this.sounds[type].play()
+
+        this.sounds["take_" + type].play()
 
         switch (type) {
             case "health":
@@ -84,5 +85,8 @@ export default class extends Phaser.Sprite {
         game.load.image('powerup_surprise', './assets/common/images/powerups/surprise.png?__version__');
         game.load.audio('powerup_appear', './assets/common/sounds/powerups/appear.mp3?__version__');
         game.load.audio('powerup_take_health', './assets/common/sounds/powerups/take_health.mp3?__version__');
+        game.load.audio('powerup_take_trap', './assets/common/sounds/powerups/take_trap.mp3?__version__');
+        game.load.audio('powerup_take_speed', './assets/common/sounds/powerups/take_speed.mp3?__version__');
+        game.load.audio('powerup_take_damage', './assets/common/sounds/powerups/take_damage.mp3?__version__');
     }
 }

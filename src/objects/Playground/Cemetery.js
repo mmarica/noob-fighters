@@ -314,6 +314,8 @@ export default class extends Phaser.Group {
     }
 
     stopMusic () {
+        if (__DEV__) return
+
         this.module.onStop = function() {}
         this.module.stop()
     }
