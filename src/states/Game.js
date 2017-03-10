@@ -271,7 +271,7 @@ export default class extends Phaser.State {
     }
 
     onPowerupTakeDamage (player) {
-        console.warn('Not implemented!')
+        console.log('Not implemented!')
     }
 
     onPowerupTakeTrap (player) {

@@ -12,10 +12,15 @@ export default class extends Phaser.Sprite {
 
         this.game.physics.arcade.enable(this)
 
-        this.appearSound = this.game.add.audio("powerup_appear");
-        this.appearSound.play()
+        const types = ['appear', 'take_health', 'take_speed', 'take_damage', 'take_trap']
+        this.sounds = []
+        for (let type of types) {
+            this.sounds[type] = this.game.add.audio("powerup_" + type);
+        }
 
-        this.game.time.events.add(Phaser.Timer.SECOND * 8, this.expire, this);
+        this.sounds['appear'].play()
+
+        this.game.time.events.add(Phaser.Timer.SECOND * 10, this.expire, this);
     }
 
     expire () {
@@ -44,24 +49,23 @@ export default class extends Phaser.Sprite {
             if (__DEV__) console.log('[power-up] surprise  => ' + type)
         }
 
+        if (__DEV__) console.log('[power-up] taken ' + type)
+        this.sounds[type].play()
+
         switch (type) {
             case "health":
-                if (__DEV__) console.log('[power-up] taken health')
                 this.context.onPowerupTakeHealth(player)
                 break
 
             case "speed":
-                if (__DEV__) console.log('[power-up] taken speed')
                 this.context.onPowerupTakeSpeed(player)
                 break
 
             case "damage":
-                if (__DEV__) console.log('[power-up] taken damage')
                 this.context.onPowerupTakeDamage(player)
                 break
 
             case "trap":
-                if (__DEV__) console.log('[power-up] taken trap')
                 this.context.onPowerupTakeTrap(player)
                 break
         }
@@ -79,5 +83,6 @@ export default class extends Phaser.Sprite {
         game.load.image('powerup_trap', './assets/common/images/powerups/trap.png?__version__');
         game.load.image('powerup_surprise', './assets/common/images/powerups/surprise.png?__version__');
         game.load.audio('powerup_appear', './assets/common/sounds/powerups/appear.mp3?__version__');
+        game.load.audio('powerup_take_health', './assets/common/sounds/powerups/take_health.mp3?__version__');
     }
 }
