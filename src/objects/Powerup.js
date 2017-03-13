@@ -12,7 +12,7 @@ export default class extends Phaser.Sprite {
 
         this.game.physics.arcade.enable(this)
 
-        const types = ['appear', 'take_health', 'take_speed', 'take_damage', 'take_trap']
+        const types = ['appear', 'disappear', 'take_health', 'take_speed', 'take_damage', 'take_trap']
         this.sounds = []
         for (let type of types) {
             this.sounds[type] = this.game.add.audio("powerup_" + type);
@@ -20,10 +20,11 @@ export default class extends Phaser.Sprite {
 
         this.sounds['appear'].play()
 
-        this.game.time.events.add(Phaser.Timer.SECOND * 10, this.expire, this);
+        this.timer = this.game.time.events.add(Phaser.Timer.SECOND * 10, this.expire, this);
     }
 
     expire () {
+        this.sounds['disappear'].play()
         this.context.onPowerupExpire()
         this.kill()
     }
@@ -42,6 +43,8 @@ export default class extends Phaser.Sprite {
     }
 
     take (player) {
+        this.game.time.events.remove(this.timer)
+        
         let type = this.type
 
         if (this.type == 'surprise') {
@@ -84,6 +87,7 @@ export default class extends Phaser.Sprite {
         game.load.image('powerup_trap', './assets/common/images/powerups/trap.png?__version__');
         game.load.image('powerup_surprise', './assets/common/images/powerups/surprise.png?__version__');
         game.load.audio('powerup_appear', './assets/common/sounds/powerups/appear.mp3?__version__');
+        game.load.audio('powerup_disappear', './assets/common/sounds/powerups/disappear.mp3?__version__');
         game.load.audio('powerup_take_health', './assets/common/sounds/powerups/take_health.mp3?__version__');
         game.load.audio('powerup_take_trap', './assets/common/sounds/powerups/take_trap.mp3?__version__');
         game.load.audio('powerup_take_speed', './assets/common/sounds/powerups/take_speed.mp3?__version__');
