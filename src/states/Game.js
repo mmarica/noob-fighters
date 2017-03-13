@@ -250,7 +250,6 @@ export default class extends Phaser.State {
     }
 
     onPowerupExpire () {
-        this.powerup = null
         this._startPowerupTimer()
     }
 
@@ -286,7 +285,9 @@ export default class extends Phaser.State {
     }
 
     _startPowerupTimer () {
+        this.powerup = null
         let seconds = 10 + Math.round(Math.random() * 10)
+        console.log("[power-up] next in " + seconds + " seconds")
         let event = this.game.time.events.add(Phaser.Timer.SECOND * seconds, this._addPowerup, this);
     }
 }
