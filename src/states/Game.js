@@ -255,11 +255,15 @@ export default class extends Phaser.State {
     }
 
     onPowerupTakeHealth (player) {
+        this._startPowerupTimer()
+
         let health = player.increaseHealth(20)
         this.hud.updateHealth(player.id, health)
     }
 
     onPowerupTakeSpeed (player) {
+        this._startPowerupTimer()
+
         let amount = Math.round(player.speed * 1.3);
         player.speed += amount
 
@@ -267,14 +271,17 @@ export default class extends Phaser.State {
     }
 
     decreasePlayerSpeed (player, amount) {
+        this._startPowerupTimer()
         player.speed -= amount
     }
 
     onPowerupTakeDamage (player) {
+        this._startPowerupTimer()
         console.log('Not implemented!')
     }
 
     onPowerupTakeTrap (player) {
+        this._startPowerupTimer()
         this._hurtPlayer(player, 20)
     }
 

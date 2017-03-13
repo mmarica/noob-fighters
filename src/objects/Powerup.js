@@ -18,12 +18,16 @@ export default class extends Phaser.Sprite {
             this.sounds[type] = this.game.add.audio("powerup_" + type);
         }
 
+        const duration = 10
+
+        console.log('[power-up] appeared for ' + duration + ' seconds: ' + type)
         this.sounds['appear'].play()
 
-        this.timer = this.game.time.events.add(Phaser.Timer.SECOND * 10, this.expire, this);
+        this.timer = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.expire, this);
     }
 
     expire () {
+        console.log('[power-up] expired')
         this.sounds['disappear'].play()
         this.context.onPowerupExpire()
         this.kill()
@@ -49,10 +53,10 @@ export default class extends Phaser.Sprite {
 
         if (this.type == 'surprise') {
             type = this.constructor.getRandomType(true)
-            if (__DEV__) console.log('[power-up] surprise  => ' + type)
+            console.log('[power-up] surprise  => ' + type)
         }
 
-        if (__DEV__) console.log('[power-up] taken ' + type)
+        console.log('[power-up] taken: ' + type)
 
         this.sounds["take_" + type].play()
 
