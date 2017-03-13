@@ -30,7 +30,7 @@ export default class extends Phaser.Sprite {
     }
 
     static getRandomType (excludeSurprise) {
-        const types = ['health', 'speed', 'damage', 'trap', 'surprise']
+        const types = ['health', 'speed', /*'damage',*/ 'trap', 'surprise']
 
         while (true) {
             let type = types[Math.round(Math.random() * (types.length - 1))]
