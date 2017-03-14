@@ -3,9 +3,7 @@ import Phaser from 'phaser'
 export default class extends Phaser.Sprite {
 
     constructor ({ game, type, x, y, onPowerupExpire, onPowerupTakeHealth, onPowerupTakeSpeed, onPowerupTakeDamage, onPowerupTakeTrap }) {
-        let data = game.cache.getJSON("players")[type]
         super(game, x, y, "powerup_" + type)
-
         this.type = type
 
         this.onPowerupExpire = onPowerupExpire
@@ -15,8 +13,16 @@ export default class extends Phaser.Sprite {
         this.onPowerupTakeTrap = onPowerupTakeTrap
 
         this.anchor.setTo(0.5, 1)
-
         this.game.physics.arcade.enable(this)
+
+        let data = game.cache.getJSON("config")["power-ups"]
+        this.appearDuration = data["appear"]["duration"]
+        this.healthAmount = data["health"]["amount"]
+        this.speedDuration = data["speed"]["duration"]
+        this.speedPercentage = data["speed"]["percentage"]
+        this.damageDuration = data["damage"]["duration"]
+        this.damagePercentage = data["damage"]["percentage"]
+        this.trapAmount = data["trap"]["amount"]
 
         const types = ['appear', 'disappear', 'take_health', 'take_speed', 'take_damage', 'take_trap']
         this.sounds = []
@@ -28,9 +34,8 @@ export default class extends Phaser.Sprite {
         this.animations.play("default")
         this.sounds['appear'].play()
 
-        const duration = 10
-        console.log('[power-up] appeared for ' + duration + ' seconds: ' + type)
-        this.timer = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.expire, this);
+        console.log('[power-up] appeared for ' + this.appearDuration + ' seconds: ' + type)
+        this.timer = this.game.time.events.add(Phaser.Timer.SECOND * this.appearDuration, this.expire, this);
     }
 
     expire () {
@@ -77,19 +82,19 @@ export default class extends Phaser.Sprite {
 
         switch (type) {
             case "health":
-                this.onPowerupTakeHealth.method.bind(this.onPowerupExpire.object)(player)
+                this.onPowerupTakeHealth.method.bind(this.onPowerupTakeHealth.object)(player, this.healthAmount)
                 break
 
             case "speed":
-                this.onPowerupTakeSpeed.method.bind(this.onPowerupExpire.object)(player)
+                this.onPowerupTakeSpeed.method.bind(this.onPowerupTakeSpeed.object)(player, this.speedDuration, this.speedPercentage)
                 break
 
             case "damage":
-                this.onPowerupTakeDamage.method.bind(this.onPowerupTakeDamage.object)(player)
+                this.onPowerupTakeDamage.method.bind(this.onPowerupTakeDamage.object)(player, this.damageDuration, this.damagePercentage)
                 break
 
             case "trap":
-                this.onPowerupTakeTrap.method.bind(this.onPowerupTakeTrap.object)(player)
+                this.onPowerupTakeTrap.method.bind(this.onPowerupTakeTrap.object)(player, this.trapAmount)
                 break
         }
 

@@ -23,9 +23,13 @@ export default class extends Phaser.State {
         Cemetery.loadAssets(this.game)
         Powerup.loadAssets(this.game)
 
-        this.musicKey = this.game.cache.getJSON("config")["keys"]["music"]
+        let config = this.game.cache.getJSON("config")
+
+        this.musicKey = config["keys"]["music"]
         this.musicIsPressed = false
         
+        this.powerupInterval = config["power-ups"]["appear"]["interval"]
+        this.powerupIntervalVariation = config["power-ups"]["appear"]["interval_variation"]
 
         this.powerup = null
     }
@@ -263,19 +267,17 @@ export default class extends Phaser.State {
         this._startPowerupTimer()
     }
 
-    onPowerupTakeHealth (player) {
+    onPowerupTakeHealth (player, amount) {
         this._startPowerupTimer()
-        const amount = 30
+
+        console.log("[player " + (player.id + 1) + "] health +" + amount)
 
         let health = player.increaseHealth(amount)
         this.hud.updateHealth(player.id, health)
     }
 
-    onPowerupTakeSpeed (player) {
+    onPowerupTakeSpeed (player, duration, percentage) {
         this._startPowerupTimer()
-
-        const duration = 10
-        const percentage = 30
 
         console.log("[player " + (player.id + 1) + "] speed +" + percentage + "% for " + duration + " seconds")
 
@@ -288,13 +290,11 @@ export default class extends Phaser.State {
     decreasePlayerSpeed (player, amount) {
         this._startPowerupTimer()
         player.speed -= amount
+        console.log("[player " + (player.id + 1) + "] speed back to normal")
     }
 
-    onPowerupTakeDamage (player) {
+    onPowerupTakeDamage (player, duration, percentage) {
         this._startPowerupTimer()
-
-        const percentage = 100
-        const duration = 10
 
         console.log("[player " + (player.id + 1) + "] damage +" + percentage + "% for " + duration + " seconds")
 
@@ -307,14 +307,14 @@ export default class extends Phaser.State {
         console.log("[player " + (player.id + 1) + "] damage back to normal")
     }
 
-    onPowerupTakeTrap (player) {
+    onPowerupTakeTrap (player, amount) {
         this._startPowerupTimer()
-        this._hurtPlayer(player, 20)
+        this._hurtPlayer(player, amount)
     }
 
     _startPowerupTimer () {
         this.powerup = null
-        let seconds = 10 + Math.round(Math.random() * 10)
+        let seconds = this.powerupInterval + Math.round(Math.random() * this.powerupIntervalVariation)
         console.log("[power-up] next in " + seconds + " seconds")
         let event = this.game.time.events.add(Phaser.Timer.SECOND * seconds, this._addPowerup, this);
     }
