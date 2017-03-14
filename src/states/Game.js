@@ -212,10 +212,7 @@ export default class extends Phaser.State {
     }
 
     _hurtPlayer (player, damage) {
-        console.log("[player " + (player.id + 1) + "] taken damage: " + damage)
-        player.playHitSound()
-
-        let health = player.decreaseHealth(damage)
+        let health = player.hurt(damage)
         this.hud.updateHealth(player.id, health)
 
         if (health == 0) {
@@ -286,42 +283,18 @@ export default class extends Phaser.State {
 
     onPowerupTakeHealth (player, amount) {
         this._startPowerupTimer()
-
-        console.log("[player " + (player.id + 1) + "] health +" + amount)
-
-        let health = player.increaseHealth(amount)
+        let health = player.boostHealth(amount)
         this.hud.updateHealth(player.id, health)
     }
 
     onPowerupTakeSpeed (player, duration, percentage) {
         this._startPowerupTimer()
-
-        console.log("[player " + (player.id + 1) + "] speed +" + percentage + "% for " + duration + " seconds")
-
-        let amount = Math.round(player.speed * percentage / 100);
-        player.speed += amount
-
-        let event = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.decreasePlayerSpeed, this, player, amount);
-    }
-
-    decreasePlayerSpeed (player, amount) {
-        this._startPowerupTimer()
-        player.speed -= amount
-        console.log("[player " + (player.id + 1) + "] speed back to normal")
+        player.boostSpeed(duration, percentage)
     }
 
     onPowerupTakeDamage (player, duration, percentage) {
         this._startPowerupTimer()
-
-        console.log("[player " + (player.id + 1) + "] damage +" + percentage + "% for " + duration + " seconds")
-
-        player.setDamagePercentage(100 + percentage)
-        let event = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.resetPlayerDamage, this, player);
-    }
-
-    resetPlayerDamage (player) {
-        player.setDamagePercentage(100)
-        console.log("[player " + (player.id + 1) + "] damage back to normal")
+        player.boostDamage(duration, percentage)
     }
 
     onPowerupTakeTrap (player, amount) {

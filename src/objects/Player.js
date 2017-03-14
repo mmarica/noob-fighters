@@ -20,7 +20,8 @@ export default class extends Phaser.Sprite {
         this.keys = keys
         this.data = data
 
-        this.speed = data["physics"]["speed"]
+        this.defaultSpeed = data["physics"]["speed"]
+        this.speed = this.defaultSpeed
         this.game.physics.arcade.enable(this)
         this.body.gravity.y = data["physics"]["gravity"];
         this.body.collideWorldBounds = true
@@ -43,6 +44,11 @@ export default class extends Phaser.Sprite {
         this.upIsPressed = false
         this.leftIsPressed = false
         this.rightIsPressed = false
+
+        this.tintIndex = 0
+        this._defaultTint()
+
+        this.game.time.events.loop(60, this.switchTint, this);
     }
 
     create () {
@@ -91,22 +97,14 @@ export default class extends Phaser.Sprite {
         return this.health
     }
 
-    decreaseHealth (amount) {
+    hurt (amount) {
+        console.log("[player " + (this.id + 1) + "] taken damage: " + amount)
+        this.hitSound.play()
+
         if (this._isActive)
             this.health = Math.max(0, this.health - amount)
 
         return this.health
-    }
-
-    increaseHealth (amount) {
-        if (this._isActive)
-            this.health = Math.min(100, this.health + amount)
-
-        return this.health
-    }
-
-    playHitSound () {
-        this.hitSound.play()
     }
 
     setDamagePercentage (percentage) {
@@ -217,6 +215,58 @@ export default class extends Phaser.Sprite {
         this.animations.stop();
         this.body.velocity.x = 0;
         this.frame = this.data["sprite"][this.orientation]["frame"]
+    }
+
+    boostHealth (amount) {
+        console.log("[player " + (this.id + 1) + "] health + " + amount)
+
+        if (this._isActive)
+            this.health = Math.min(100, this.health + amount)
+
+        return this.health
+    }
+
+    boostSpeed (duration, percentage) {
+        console.log("[player " + (this.id + 1) + "] speed +" + percentage + "% for " + duration + " seconds")
+        this.speed = Math.round(this.defaultSpeed * (100 + percentage) / 100)
+        let event = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.boostSpeedExpired, this);
+        this._speedTint()
+    }
+
+    boostSpeedExpired () {
+        console.log("[player " + (this.id + 1) + "] speed back to normal")
+        this.speed = this.defaultSpeed
+        this._defaultTint()
+    }
+
+    boostDamage (duration, percentage) {
+        this._damageTint()
+        console.log("[player " + (this.id + 1) + "] damage +" + percentage + "% for " + duration + " seconds")
+        this.setDamagePercentage(100 + percentage)
+        let event = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.boostDamageExpired, this);
+    }
+
+    boostDamageExpired () {
+        this._defaultTint()
+        console.log("[player " + (this.id + 1) + "] damage back to normal")
+        this.setDamagePercentage(100)
+    }
+
+    switchTint () {
+        this.tintIndex = 1 - this.tintIndex
+        this.tint = this.tintIndex == 1 ? this.tintColor : 0xFFFFFF
+    }
+
+    _defaultTint () {
+        this.tintColor = 0xFFFFFF
+    }
+
+    _damageTint () {
+        this.tintColor = 0xFF4444
+    }
+
+    _speedTint () {
+        this.tintColor = 0x44FF44
     }
 
     static loadAssets (game, type) {

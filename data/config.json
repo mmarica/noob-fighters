@@ -22,7 +22,7 @@
     "appear": {
       "interval": 10,
       "interval_variation": 5,
-      "duration": 12
+      "duration": 15
     },
     "health": {
       "amount": 35
