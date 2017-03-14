@@ -20,18 +20,24 @@ export default class extends Phaser.Sprite {
 
         this.animations.add("default", null, 15, true)
         this.animations.play("default")
-
-        const duration = 10
-
-        console.log('[power-up] appeared for ' + duration + ' seconds: ' + type)
         this.sounds['appear'].play()
 
+        const duration = 10
+        console.log('[power-up] appeared for ' + duration + ' seconds: ' + type)
         this.timer = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.expire, this);
     }
 
     expire () {
         console.log('[power-up] expired')
         this.sounds['disappear'].play()
+
+        let disappear = this.game.add.sprite(this.body.x, this.body.y, "powerup_disappear")
+        disappear.animations.add("poof", null, 15, false)
+        let animation = disappear.animations.play("poof")
+        animation.onComplete.add(function () {
+            disappear.kill()
+        }, disappear, this)
+
         this.context.onPowerupExpire()
         this.kill()
     }
@@ -93,6 +99,7 @@ export default class extends Phaser.Sprite {
         game.load.spritesheet('powerup_damage', './assets/common/images/powerups/damage.png?__version__', 32, 32);
         game.load.spritesheet('powerup_trap', './assets/common/images/powerups/trap.png?__version__', 32, 32);
         game.load.spritesheet('powerup_surprise', './assets/common/images/powerups/surprise.png?__version__', 32, 32);
+        game.load.spritesheet('powerup_disappear', './assets/common/images/powerups/disappear.png?__version__', 32, 32);
         game.load.audio('powerup_appear', './assets/common/sounds/powerups/appear.mp3?__version__');
         game.load.audio('powerup_disappear', './assets/common/sounds/powerups/disappear.mp3?__version__');
         game.load.audio('powerup_take_health', './assets/common/sounds/powerups/take_health.mp3?__version__');
