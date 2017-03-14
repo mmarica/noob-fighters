@@ -40,7 +40,11 @@
         "speed": 380,
         "rate": 700,
         "gravity": 500,
-        "duration": 1500
+        "duration": 1500,
+        "sprite": {
+          "width": 37,
+          "height": 35
+        }
       }
     }
   },
@@ -85,7 +89,11 @@
         "speed": 380,
         "rate": 700,
         "gravity": 500,
-        "duration": 1500
+        "duration": 1500,
+        "sprite": {
+          "width": 64,
+          "height": 64
+        }
       }
     }
   },
@@ -130,7 +138,11 @@
         "speed": 380,
         "rate": 700,
         "gravity": 500,
-        "duration": 1500
+        "duration": 1500,
+        "sprite": {
+          "width": 64,
+          "height": 64
+        }
       }
     }
   }
