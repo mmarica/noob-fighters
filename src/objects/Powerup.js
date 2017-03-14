@@ -2,12 +2,18 @@ import Phaser from 'phaser'
 
 export default class extends Phaser.Sprite {
 
-    constructor ({ game, type, x, y, context }) {
+    constructor ({ game, type, x, y, onPowerupExpire, onPowerupTakeHealth, onPowerupTakeSpeed, onPowerupTakeDamage, onPowerupTakeTrap }) {
         let data = game.cache.getJSON("players")[type]
         super(game, x, y, "powerup_" + type)
 
         this.type = type
-        this.context = context
+
+        this.onPowerupExpire = onPowerupExpire
+        this.onPowerupTakeHealth = onPowerupTakeHealth
+        this.onPowerupTakeSpeed = onPowerupTakeSpeed
+        this.onPowerupTakeDamage = onPowerupTakeDamage
+        this.onPowerupTakeTrap = onPowerupTakeTrap
+
         this.anchor.setTo(0.5, 1)
 
         this.game.physics.arcade.enable(this)
@@ -38,7 +44,7 @@ export default class extends Phaser.Sprite {
             disappear.kill()
         }, disappear, this)
 
-        this.context.onPowerupExpire()
+        this.onPowerupExpire.method.bind(this.onPowerupExpire.object)()
         this.kill()
     }
 
@@ -71,19 +77,19 @@ export default class extends Phaser.Sprite {
 
         switch (type) {
             case "health":
-                this.context.onPowerupTakeHealth(player)
+                this.onPowerupTakeHealth.method.bind(this.onPowerupExpire.object)(player)
                 break
 
             case "speed":
-                this.context.onPowerupTakeSpeed(player)
+                this.onPowerupTakeSpeed.method.bind(this.onPowerupExpire.object)(player)
                 break
 
             case "damage":
-                this.context.onPowerupTakeDamage(player)
+                this.onPowerupTakeDamage.method.bind(this.onPowerupTakeDamage.object)(player)
                 break
 
             case "trap":
-                this.context.onPowerupTakeTrap(player)
+                this.onPowerupTakeTrap.method.bind(this.onPowerupTakeTrap.object)(player)
                 break
         }
 

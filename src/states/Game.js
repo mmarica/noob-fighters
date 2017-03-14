@@ -234,7 +234,26 @@ export default class extends Phaser.State {
             type: type,
             x: spot.x,
             y: spot.y,
-            context: this
+            onPowerupExpire: {
+                object: this,
+                method: this.onPowerupExpire,
+            },
+            onPowerupTakeHealth: {
+                object: this,
+                method: this.onPowerupTakeHealth,
+            },
+            onPowerupTakeSpeed: {
+                object: this,
+                method: this.onPowerupTakeSpeed,
+            },
+            onPowerupTakeDamage: {
+                object: this,
+                method: this.onPowerupTakeDamage,
+            },
+            onPowerupTakeTrap: {
+                object: this,
+                method: this.onPowerupTakeTrap,
+            }
         })
 
         this.powerup = this.game.add.existing(x)
