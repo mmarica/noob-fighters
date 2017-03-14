@@ -43,7 +43,7 @@ Toggle music: M
 
 ## Features
 ### Start menu
-No menu at the moment, you dive right into the fight!
+Simple menu at the moment, displaying the key bindings.
 
 ### Players
 Players are chosen randomly at the start of the game. At the moment, the available types are:
