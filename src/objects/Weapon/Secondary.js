@@ -21,6 +21,7 @@ export default class extends Phaser.Weapon {
 
         this.shootSound = this.game.add.audio(player.type + "_secondary_shoot");
         this.explosionSound = this.game.add.audio(player.type + "_secondary_explode");
+        this.explosionAnimationRate = data["sprite"]["animation"]["rate"]
 
         this.trackSprite(player)
         this.onKill.add(this._onExplode, this)
@@ -47,7 +48,7 @@ export default class extends Phaser.Weapon {
         console.log("[secondary] exploded at x: " + x + ", y: " + y + ", damage: " + damage + ", radius: " + radius)
 
         let sprite = this.game.add.sprite(x, y, this.player.type + "_secondary_explosion")
-        sprite.animations.add("explode", null, 50, false)
+        sprite.animations.add("explode", null, this.explosionAnimationRate, false)
         sprite.anchor.setTo(0.5,0.5)
 
         this.explosionSound.play()
