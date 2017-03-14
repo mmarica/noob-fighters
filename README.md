@@ -51,16 +51,17 @@ Players are chosen randomly at the start of the game. At the moment, the availab
 + Noobacca
 + Indiana Noobes
 
+### Power-ups
++ Health boost
++ Speed boost
++ Damage boost
++ Trap (health penalty)
++ Surprise (get one of the above, randomly; good luck!)
+
 ### Playgrounds
 Only one playground is available at the moment: Cemetery.
 
 ### TODO
-+ Add power-ups
-    + health boost
-    + speed boost
-    + damage boost
-    + trap (health decrease)
-    + surprise (get one of the above, randomly; good luck!)
 + Add more players
     + Snoob Dog
     + Jean-Noob Piccard
