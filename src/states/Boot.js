@@ -19,8 +19,8 @@ export default class extends Phaser.State {
         let text = this.add.text(this.world.centerX, this.world.centerY, 'loading fonts', { font: '16px Arial', fill: '#dddddd', align: 'center' })
         text.anchor.setTo(0.5, 0.5)
 
-        this.load.image('loaderBg', './assets/common/images/splash/loader-bg.png?__version__')
-        this.load.image('loaderBar', './assets/common/images/splash/loader-bar.png?__version__')
+        this.load.image('loaderBg', './assets/common/images/loader-bg.png?__version__')
+        this.load.image('loaderBar', './assets/common/images/loader-bar.png?__version__')
     }
 
     render () {

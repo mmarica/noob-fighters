@@ -26,7 +26,6 @@ export default class extends Phaser.State {
         this.musicKey = this.game.cache.getJSON("config")["keys"]["music"]
         this.musicIsPressed = false
         
-        this.explosionSound = this.game.add.audio("explosion");
 
         this.powerup = null
     }
@@ -193,29 +192,21 @@ export default class extends Phaser.State {
         this.game.state.start("GameOver", true, false, this.players[id].type);
     }
 
-    onSecondaryExplosion (bullet) {
-        const radius = 130
-        const damage = 25
-
-        let explosion = this.game.add.sprite(bullet.body.x,bullet.body.y,"explosion")
-        explosion.animations.add("explode", null ,50,false)
-        explosion.anchor.setTo(0.5,0.5)
-        let exp = explosion.animations.play("explode")
-        exp.onComplete.add(function () {
-            explosion.kill()
-        }, explosion)
-        this.explosionSound.play()
-
+    onSecondaryExplosion (x, y, damage, radius) {
         for (let player of this.players) {
-            let distance = this.game.physics.arcade.distanceBetween(bullet, player)
+            let distance = Math.round(this.game.physics.arcade.distanceToXY(player, x, y))
 
-            if (distance < radius)
-                this._hurtPlayer(player, Math.round(damage * (radius - distance) / radius))
+            if (distance < radius) {
+                console.log("[secondary] hit: player " + (player.id + 1) + ", distance: " + distance)
+                let playerDamage = Math.round(damage * (radius - distance) / radius)
+                this._hurtPlayer(player, playerDamage)
+            }
         }
 
     }
 
     _hurtPlayer (player, damage) {
+        console.log("[player " + (player.id + 1) + "] taken damage: " + damage)
         player.playHitSound()
 
         let health = player.decreaseHealth(damage)

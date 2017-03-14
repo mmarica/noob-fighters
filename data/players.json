@@ -35,7 +35,11 @@
       "secondary": {
         "max": 1,
         "speed": 380,
-        "rate": 700
+        "rate": 700,
+        "gravity": 500,
+        "duration": 1500,
+        "damage": 25,
+        "radius": 130
       }
     }
   },
@@ -75,7 +79,11 @@
       "secondary": {
         "max": 1,
         "speed": 380,
-        "rate": 700
+        "rate": 700,
+        "gravity": 500,
+        "duration": 1500,
+        "damage": 25,
+        "radius": 130
       }
     }
   },
@@ -115,7 +123,11 @@
       "secondary": {
         "max": 1,
         "speed": 380,
-        "rate": 700
+        "rate": 700,
+        "gravity": 500,
+        "duration": 1500,
+        "damage": 25,
+        "radius": 130
       }
     }
   }

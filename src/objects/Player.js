@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import SecondaryWeapon from './Weapon/Secondary'
 
 export default class extends Phaser.Sprite {
 
@@ -8,6 +9,7 @@ export default class extends Phaser.Sprite {
 
         super(game, x, y, type + "_player", data["sprite"][orientation]["frame"])
 
+        this.context = context
         this.health = 100
         this._isActive = false
         this.id = id
@@ -31,7 +33,6 @@ export default class extends Phaser.Sprite {
         this.animations.add('right', this._getAnimationFrames(rightAnimation), rightAnimation['rate'], true)
 
         this.primaryWeaponSound = this.game.add.audio(type + "_primary_shoot");
-        this.secondaryWeaponSound = this.game.add.audio(type + "_secondary_shoot");
         this.hitSound = this.game.add.audio(type + "_hurt");
 
         this.primaryWeapon = this._addPrimaryWeapon()
@@ -42,8 +43,6 @@ export default class extends Phaser.Sprite {
         this.upIsPressed = false
         this.leftIsPressed = false
         this.rightIsPressed = false
-
-        this.context = context
     }
 
     create () {
@@ -131,13 +130,8 @@ export default class extends Phaser.Sprite {
                 if (!this.fireSecondaryIsPressed) {
                     this.fireSecondaryIsPressed = true;
 
-                    if (this._isActive) {
-                        this.secondaryWeapon.fireAngle = this.orientation == 'left' ? 225 : -45
-
-                        if (this.secondaryWeapon.fire()) {
-                            this.secondaryWeaponSound.play()
-                        }
-                    }
+                    if (this._isActive)
+                        this.secondaryWeapon.fire(this.orientation == 'left' ? 225 : -45)
                 }
 
                 break;
@@ -200,18 +194,18 @@ export default class extends Phaser.Sprite {
 
     _addSecondaryWeapon () {
         let data = this.data["weapons"]["secondary"];
-        let weapon = this.game.add.weapon(data["max"], this.type + "_secondary_bullet")
-        weapon.bulletCollideWorldBounds = true
 
-        weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN
-        weapon.bulletSpeed = data["speed"]
-        weapon.bulletGravity.y = 500
-        weapon.bulletLifespan = 1500
-        weapon.bulletRotateToVelocity
-        weapon.fireRate = data["rate"]
-        weapon.trackSprite(this, 0, 0)
-
-        weapon.onKill.add(this.secondaryExplode, this, weapon)
+        let weapon = this.game.add.existing(
+            new SecondaryWeapon({
+                game: game,
+                data: this.data["weapons"]["secondary"],
+                player: this,
+                onExplode: {
+                    object: this.context,
+                    method: this.context.onSecondaryExplosion,
+                },
+            })
+        )
 
         return weapon;
     }
@@ -236,13 +230,9 @@ export default class extends Phaser.Sprite {
 
         game.load.spritesheet(type + "_player" , "./assets/players/" + type + "/images/player.png?__version__", data["sprite"]["width"], data["sprite"]["height"])
         game.load.image(type + "_primary_bullet", "./assets/players/" + type + "/images/primary_bullet.png?__version__")
-        game.load.image(type + "_secondary_bullet", "./assets/players/" + type + "/images/secondary_bullet.png?__version__")
         game.load.audio(type + "_primary_shoot", "./assets/players/" + type + "/sounds/primary_shoot.mp3?__version__");
-        game.load.audio(type + "_secondary_shoot", "./assets/players/" + type + "/sounds/secondary_shoot.mp3?__version__");
         game.load.audio(type + "_hurt", "./assets/players/" + type + "/sounds/hurt.mp3?__version__");
-    }
 
-    secondaryExplode (bullet) {
-        this.context.onSecondaryExplosion(bullet)
+        SecondaryWeapon.loadAssets(game, type)
     }
 }
