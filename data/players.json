@@ -28,18 +28,19 @@
     },
     "weapons": {
       "primary": {
+        "damage": 10,
         "max": 5,
         "speed": 1000,
         "rate": 700
       },
       "secondary": {
+        "damage": 25,
+        "radius": 130,
         "max": 1,
         "speed": 380,
         "rate": 700,
         "gravity": 500,
-        "duration": 1500,
-        "damage": 25,
-        "radius": 130
+        "duration": 1500
       }
     }
   },
@@ -72,18 +73,19 @@
     },
     "weapons": {
       "primary": {
+        "damage": 10,
         "max": 5,
         "speed": 1000,
         "rate": 700
       },
       "secondary": {
+        "damage": 25,
+        "radius": 130,
         "max": 1,
         "speed": 380,
         "rate": 700,
         "gravity": 500,
-        "duration": 1500,
-        "damage": 25,
-        "radius": 130
+        "duration": 1500
       }
     }
   },
@@ -116,18 +118,19 @@
     },
     "weapons": {
       "primary": {
+        "damage": 10,
         "max": 5,
         "speed": 1000,
         "rate": 700
       },
       "secondary": {
+        "damage": 25,
+        "radius": 130,
         "max": 1,
         "speed": 380,
         "rate": 700,
         "gravity": 500,
-        "duration": 1500,
-        "damage": 25,
-        "radius": 130
+        "duration": 1500
       }
     }
   }

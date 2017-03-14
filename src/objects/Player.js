@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import SecondaryWeapon from './Weapon/Secondary'
+import PrimaryWeapon from './Weapon/Primary'
 
 export default class extends Phaser.Sprite {
 
@@ -32,11 +33,10 @@ export default class extends Phaser.Sprite {
         let rightAnimation = data["sprite"]["right"]["animation"]
         this.animations.add('right', this._getAnimationFrames(rightAnimation), rightAnimation['rate'], true)
 
-        this.primaryWeaponSound = this.game.add.audio(type + "_primary_shoot");
         this.hitSound = this.game.add.audio(type + "_hurt");
 
-        this.primaryWeapon = this._addPrimaryWeapon()
-        this.secondaryWeapon = this._addSecondaryWeapon()
+        this._addPrimaryWeapon()
+        this._addSecondaryWeapon()
 
         this.firePrimaryIsPressed = false
         this.fireSecondaryIsPressed = false
@@ -109,26 +109,26 @@ export default class extends Phaser.Sprite {
         this.hitSound.play()
     }
 
+    setDamagePercentage (percentage) {
+        this.primaryWeapon.setDamagePercentage(percentage)
+        this.secondaryWeapon.setDamagePercentage(percentage)
+    }
+
     keyDown(char) {
         switch (char["code"]) {
             case this.keys["fire_primary"]:
                 if (!this.firePrimaryIsPressed) {
-                    this.firePrimaryIsPressed = true;
+                    this.firePrimaryIsPressed = true
 
-                    if (this._isActive) {
-                        this.primaryWeapon.fireAngle = this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT
-
-                        if (this.primaryWeapon.fire()) {
-                            this.primaryWeaponSound.play()
-                        }
-                    }
+                    if (this._isActive)
+                        this.primaryWeapon.fire(this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT)
                 }
 
                 break;
 
             case this.keys["fire_secondary"]:
                 if (!this.fireSecondaryIsPressed) {
-                    this.fireSecondaryIsPressed = true;
+                    this.fireSecondaryIsPressed = true
 
                     if (this._isActive)
                         this.secondaryWeapon.fire(this.orientation == 'left' ? 225 : -45)
@@ -181,23 +181,19 @@ export default class extends Phaser.Sprite {
     }
 
     _addPrimaryWeapon () {
-        let data = this.data["weapons"]["primary"];
-        let weapon = this.game.add.weapon(data["max"], this.type + "_primary_bullet")
-
-        weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
-        weapon.bulletSpeed = data["speed"]
-        weapon.fireRate = data["rate"]
-        weapon.trackSprite(this, 0, 0)
-
-        return weapon;
+        this.primaryWeapon = this.game.add.existing(
+            new PrimaryWeapon({
+                game: this.game,
+                data: this.data["weapons"]["primary"],
+                player: this,
+            })
+        )
     }
 
     _addSecondaryWeapon () {
-        let data = this.data["weapons"]["secondary"];
-
-        let weapon = this.game.add.existing(
+        this.secondaryWeapon = this.game.add.existing(
             new SecondaryWeapon({
-                game: game,
+                game: this.game,
                 data: this.data["weapons"]["secondary"],
                 player: this,
                 onExplode: {
@@ -206,8 +202,6 @@ export default class extends Phaser.Sprite {
                 },
             })
         )
-
-        return weapon;
     }
 
     _getAnimationFrames (animation) {
@@ -229,10 +223,9 @@ export default class extends Phaser.Sprite {
         let data = game.cache.getJSON("players")[type]
 
         game.load.spritesheet(type + "_player" , "./assets/players/" + type + "/images/player.png?__version__", data["sprite"]["width"], data["sprite"]["height"])
-        game.load.image(type + "_primary_bullet", "./assets/players/" + type + "/images/primary_bullet.png?__version__")
-        game.load.audio(type + "_primary_shoot", "./assets/players/" + type + "/sounds/primary_shoot.mp3?__version__");
         game.load.audio(type + "_hurt", "./assets/players/" + type + "/sounds/hurt.mp3?__version__");
 
+        PrimaryWeapon.loadAssets(game, type)
         SecondaryWeapon.loadAssets(game, type)
     }
 }

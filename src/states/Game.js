@@ -79,7 +79,9 @@ export default class extends Phaser.State {
 
     hitPlayer (player, bullet) {
         bullet.kill()
-        this._hurtPlayer(player, 10)
+
+        let damage = this.players[1 - player.id].getPrimaryWeapon().getComputedDamage()
+        this._hurtPlayer(player, damage)
     }
 
     takePowerup (player, powerup) {
@@ -235,8 +237,6 @@ export default class extends Phaser.State {
             context: this
         })
 
-
-        this.powerup = this.game.add.existing(x)
         this.powerup = this.game.add.existing(x)
     }
 
@@ -246,18 +246,24 @@ export default class extends Phaser.State {
 
     onPowerupTakeHealth (player) {
         this._startPowerupTimer()
+        const amount = 30
 
-        let health = player.increaseHealth(20)
+        let health = player.increaseHealth(amount)
         this.hud.updateHealth(player.id, health)
     }
 
     onPowerupTakeSpeed (player) {
         this._startPowerupTimer()
 
-        let amount = Math.round(player.speed * 1.3);
+        const duration = 10
+        const percentage = 30
+
+        console.log("[player " + (player.id + 1) + "] speed +" + percentage + "% for " + duration + " seconds")
+
+        let amount = Math.round(player.speed * percentage / 100);
         player.speed += amount
 
-        let event = this.game.time.events.add(Phaser.Timer.SECOND * 10, this.decreasePlayerSpeed, this, player, amount);
+        let event = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.decreasePlayerSpeed, this, player, amount);
     }
 
     decreasePlayerSpeed (player, amount) {
@@ -267,7 +273,19 @@ export default class extends Phaser.State {
 
     onPowerupTakeDamage (player) {
         this._startPowerupTimer()
-        console.log('Not implemented!')
+
+        const percentage = 100
+        const duration = 10
+
+        console.log("[player " + (player.id + 1) + "] damage +" + percentage + "% for " + duration + " seconds")
+
+        player.setDamagePercentage(100 + percentage)
+        let event = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.resetPlayerDamage, this, player);
+    }
+
+    resetPlayerDamage (player) {
+        player.setDamagePercentage(100)
+        console.log("[player " + (player.id + 1) + "] damage back to normal")
     }
 
     onPowerupTakeTrap (player) {
