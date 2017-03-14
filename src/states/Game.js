@@ -226,12 +226,29 @@ export default class extends Phaser.State {
     }
 
     _addPowerup () {
+        // if a power-up is already on the screen, abort
         if (this.powerup != null)
             return;
 
+        // generate a random type
         let type = Powerup.getRandomType(false)
 
-        let spot = this.powerupSpots[Math.round(Math.random() * (this.powerupSpots.length - 1))]
+        // choose a spot as farthest from the players as possible
+        let spots = []
+        for (let spot of this.powerupSpots) {
+            let distance1 = Math.round(this.game.physics.arcade.distanceToXY(this.players[0], spot.x, spot.y))
+            let distance2 = Math.round(this.game.physics.arcade.distanceToXY(this.players[1], spot.x, spot.y))
+            spots.push({
+                distance: Math.min(distance1, distance2),
+                x: spot.x,
+                y: spot.y,
+            })
+        }
+        spots.sort(function (x, y) {
+            return x.distance < y.distance ? 1 : -1
+        })
+
+        let spot = spots[0]
 
         let x = new Powerup({
             game: this.game,
