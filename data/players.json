@@ -206,5 +206,57 @@
         }
       }
     }
+  },
+  "nooberman": {
+    "name": "Nooberman",
+    "sprite": {
+      "width": 20,
+      "height": 30,
+      "left": {
+        "frame": 0,
+        "animation": {
+          "start": 1,
+          "count": 3,
+          "rate": 10
+        }
+      },
+      "right": {
+        "frame": 4,
+        "animation": {
+          "start": 5,
+          "count": 3,
+          "rate": 10
+        }
+      }
+    },
+    "physics": {
+      "speed": 260,
+      "gravity": 1000,
+      "jump": 600
+    },
+    "weapons": {
+      "primary": {
+        "damage": 10,
+        "max": 5,
+        "speed": 1000,
+        "rate": 700
+      },
+      "secondary": {
+        "damage": 35,
+        "radius": 160,
+        "max": 1,
+        "speed": 380,
+        "rate": 700,
+        "gravity": 500,
+        "duration": 1500,
+        "sprite": {
+          "width": 60,
+          "height": 60,
+          "animation": {
+            "rate": 15
+          }
+        }
+      }
+    }
   }
 }
