@@ -47,7 +47,7 @@ export default class extends Phaser.Group {
 
     playRandomSound () {
         let sound = this.sounds[Math.round(Math.random() * (this.sounds.length - 1))]
-        sound.play()
+        sound.play('', 0, 0.5)
         sound.onStop.add(
             function () {
                 this._setRandomSoundTimer()
@@ -336,7 +336,7 @@ export default class extends Phaser.Group {
     }
 
     startMusic () {
-        this.music.play('', 0, 1, true)
+        this.music.play('', 0, 0.25, true)
     }
 
     stopMusic () {
