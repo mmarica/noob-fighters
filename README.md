@@ -50,6 +50,7 @@ Players are chosen randomly at the start of the game. At the moment, the availab
 + Noobien
 + Noobacca
 + Indiana Noobes
++ Noobigi
 
 ### Power-ups
 + Health boost

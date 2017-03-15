@@ -154,5 +154,57 @@
         }
       }
     }
+  },
+  "noobigi": {
+    "name": "Noobigi",
+    "sprite": {
+      "width": 28,
+      "height": 40,
+      "left": {
+        "frame": 0,
+        "animation": {
+          "start": 1,
+          "count": 11,
+          "rate": 20
+        }
+      },
+      "right": {
+        "frame": 12,
+        "animation": {
+          "start": 13,
+          "count": 11,
+          "rate": 20
+        }
+      }
+    },
+    "physics": {
+      "speed": 260,
+      "gravity": 1000,
+      "jump": 650
+    },
+    "weapons": {
+      "primary": {
+        "damage": 15,
+        "max": 5,
+        "speed": 1000,
+        "rate": 700
+      },
+      "secondary": {
+        "damage": 25,
+        "radius": 130,
+        "max": 1,
+        "speed": 380,
+        "rate": 700,
+        "gravity": 500,
+        "duration": 1500,
+        "sprite": {
+          "width": 31,
+          "height": 31,
+          "animation": {
+            "rate": 15
+          }
+        }
+      }
+    }
   }
 }
