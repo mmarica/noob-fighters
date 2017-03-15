@@ -62,6 +62,8 @@ export default class extends Phaser.State {
                 this.game.physics.arcade.collide(this.players[id], obstacle)
 
             let secondaryWeapon = this.players[id].getSecondaryWeapon()
+            for (let player of this.players)
+                this.game.physics.arcade.collide(player, secondaryWeapon.bullets)
 
             for (let obstacle of this.obstacles)
                 this.game.physics.arcade.collide(obstacle, secondaryWeapon.bullets)
@@ -199,7 +201,6 @@ export default class extends Phaser.State {
                 this._hurtPlayer(player, playerDamage)
             }
         }
-
     }
 
     _hurtPlayer (player, damage) {
