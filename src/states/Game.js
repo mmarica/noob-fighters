@@ -1,4 +1,3 @@
-/* globals __DEV__ */
 import Phaser from 'phaser'
 import Player from '../objects/Player'
 import Cemetery from '../objects/Playground/Cemetery'
@@ -25,7 +24,6 @@ export default class extends Phaser.State {
 
         let config = this.game.cache.getJSON("config")
 
-        this.musicKey = config["keys"]["music"]
         this.musicIsPressed = false
         
         this.powerupInterval = config["power-ups"]["appear"]["interval"]
@@ -40,7 +38,7 @@ export default class extends Phaser.State {
         this._addHud()
         this._initKeys()
         this._activatePlayers()
-        if (!__DEV__) this.playGround.startMusic()
+        this.playGround.startMusic()
         this._startPowerupTimer()
     }
 
@@ -161,20 +159,11 @@ export default class extends Phaser.State {
     }
 
     _keyDown (char) {
-        if (char["code"] == this.musicKey)
-            if (!this.musicPressed) {
-                this.musicPressed = true
-                this.playGround.toggleMusic()
-            }
-
         for (let player of this.players)
             player.keyDown(char)
     }
 
     _keyUp (char) {
-        if (char["code"] == this.musicKey)
-            this.musicPressed = false
-
         for (let player of this.players)
             player.keyUp(char)
     }

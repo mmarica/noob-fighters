@@ -1,6 +1,5 @@
 {
   "keys": {
-    "music": "KeyM",
     "p1": {
       "up": "KeyS",
       "down": "KeyX",

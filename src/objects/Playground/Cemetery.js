@@ -23,6 +23,31 @@ export default class extends Phaser.Group {
         this._level2()
         this._level3()
         this._level4()
+
+        this.music = game.add.audio('ambiental')
+
+        let soundList = ["laugh", "moan", "sirens", "twilightzone"]
+        this.sounds = []
+        for (let sound of soundList) {
+            this.sounds.push(game.add.audio(sound))
+        }
+
+        this._setRandomSoundTimer()
+    }
+
+    _setRandomSoundTimer () {
+        const PAUSE = 10
+        this.game.time.events.add(Phaser.Timer.SECOND * PAUSE, this.playRandomSound, this);
+    }
+
+    playRandomSound () {
+        let sound = this.sounds[Math.round(Math.random() * (this.sounds.length - 1))]
+        sound.play()
+        sound.onStop.add(
+            function () {
+                this._setRandomSoundTimer()
+            }
+        , this);
     }
 
     // ground level
@@ -296,31 +321,19 @@ export default class extends Phaser.Group {
         game.load.image('tombstone2', './assets/playgrounds/cemetery/images/tombstone2.png?__version__')
         game.load.image('sign1', './assets/playgrounds/cemetery/images/sign1.png?__version__')
         game.load.image('sign2', './assets/playgrounds/cemetery/images/sign2.png?__version__')
-        game.load.binary('music', './assets/playgrounds/cemetery/sounds/music.mod?__version__');
+
+        game.load.audio('ambiental', './assets/playgrounds/cemetery/sounds/ambiental.mp3?__version__');
+        game.load.audio('laugh', './assets/playgrounds/cemetery/sounds/laugh.mp3?__version__');
+        game.load.audio('moan', './assets/playgrounds/cemetery/sounds/moan.mp3?__version__');
+        game.load.audio('sirens', './assets/playgrounds/cemetery/sounds/sirens.mp3?__version__');
+        game.load.audio('twilightzone', './assets/playgrounds/cemetery/sounds/twilightzone.mp3?__version__');
     }
 
     startMusic () {
-        this.module = new ProTracker()
-        this.module.repeat
-        this.module.onReady = function() {
-            this.play()
-        };
-        this.module.onStop = function() {
-            this.play()
-        };
-
-        this.module.buffer = new Uint8Array(this.game.cache.getBinary('music'));
-        this.module.parse();
+        this.music.play('', 0, 1, true)
     }
 
     stopMusic () {
-        if (__DEV__) return
-
-        this.module.onStop = function() {}
-        this.module.stop()
-    }
-
-    toggleMusic () {
-        this.module.pause()
+        this.music.stop()
     }
 }
