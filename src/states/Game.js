@@ -3,6 +3,7 @@ import Player from '../objects/Player'
 import Cemetery from '../objects/Playground/Cemetery'
 import Hud from '../objects/Hud'
 import Powerup from '../objects/Powerup'
+import FadingText from '../objects/FadingText'
 import { centerGameObjects } from '../utils'
 
 export default class extends Phaser.State {
@@ -210,6 +211,12 @@ export default class extends Phaser.State {
             this.camera.fade('#000000');
             this.camera.onFadeComplete.addOnce(this.gameOver, this, 0, 1 - player.id);
         }
+
+        this.game.add.existing(new FadingText({
+            game: this.game,
+            player: player,
+            text: "-" + damage + " HP"
+        }))
     }
 
     _addPowerup () {
@@ -275,16 +282,34 @@ export default class extends Phaser.State {
         this._startPowerupTimer()
         let health = player.boostHealth(amount)
         this.hud.updateHealth(player.id, health)
+
+        this.game.add.existing(new FadingText({
+            game: this.game,
+            player: player,
+            text: "+" + amount + " HP"
+        }))
     }
 
     onPowerupTakeSpeed (player, duration, percentage) {
         this._startPowerupTimer()
         player.boostSpeed(duration, percentage)
+
+        this.game.add.existing(new FadingText({
+            game: this.game,
+            player: player,
+            text: "+" + percentage + "% speed"
+        }))
     }
 
     onPowerupTakeDamage (player, duration, percentage) {
         this._startPowerupTimer()
         player.boostDamage(duration, percentage)
+
+        this.game.add.existing(new FadingText({
+            game: this.game,
+            player: player,
+            text: "+" + percentage + "% damage"
+        }))
     }
 
     onPowerupTakeTrap (player, amount) {
