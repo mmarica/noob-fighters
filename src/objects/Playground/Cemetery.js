@@ -11,6 +11,10 @@ export default class extends Phaser.Group {
         this.enableBody = true
 
         game.add.sprite(0, 0, 'bg')
+        this.clouds = [
+            game.add.sprite(200, 200, 'clouds'),
+            game.add.sprite(900, 650, 'clouds')
+        ]
 
         this.startY = 752
         this.step = 130
@@ -33,6 +37,7 @@ export default class extends Phaser.Group {
         }
 
         this._setRandomSoundTimer()
+        this.game.time.events.loop(50, this.moveClouds, this);
     }
 
     _setRandomSoundTimer () {
@@ -308,6 +313,7 @@ export default class extends Phaser.Group {
 
     static loadAssets (game) {
         game.load.image('bg', './assets/playgrounds/cemetery/images/bg.png?__version__')
+        game.load.image('clouds', './assets/playgrounds/cemetery/images/clouds.png?__version__')
         game.load.image('ground', './assets/playgrounds/cemetery/images/ground.png?__version__')
         game.load.image('ledge_left', './assets/playgrounds/cemetery/images/ledge_left.png?__version__')
         game.load.image('ledge_center', './assets/playgrounds/cemetery/images/ledge_center.png?__version__')
@@ -335,5 +341,14 @@ export default class extends Phaser.Group {
 
     stopMusic () {
         this.music.stop()
+    }
+
+    moveClouds () {
+        for (let i in this.clouds) {
+            this.clouds[i].x -= i * 0.5 + 0.3
+
+            if (this.clouds[i].x < 0 - this.clouds[i].width)
+                this.clouds[i].x = this.game.world.width
+        }
     }
 }
