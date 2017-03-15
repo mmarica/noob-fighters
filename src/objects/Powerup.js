@@ -41,16 +41,19 @@ export default class extends Phaser.Sprite {
     expire () {
         console.log('[power-up] expired')
         this.sounds['disappear'].play()
+        this._disappearAnimation()
 
+        this.onPowerupExpire.method.bind(this.onPowerupExpire.object)()
+        this.kill()
+    }
+
+    _disappearAnimation() {
         let disappear = this.game.add.sprite(this.body.x, this.body.y, "powerup_disappear")
         disappear.animations.add("poof", null, 15, false)
         let animation = disappear.animations.play("poof")
         animation.onComplete.add(function () {
             disappear.kill()
         }, disappear, this)
-
-        this.onPowerupExpire.method.bind(this.onPowerupExpire.object)()
-        this.kill()
     }
 
     static getRandomType (excludeSurprise) {
@@ -98,6 +101,7 @@ export default class extends Phaser.Sprite {
                 break
         }
 
+        this._disappearAnimation()
         this.kill()
     }
 
