@@ -50,7 +50,7 @@ export default class extends Phaser.Group {
         let sound = this.sounds[Math.round(Math.random() * (this.sounds.length - 1))]
         console.log("[cemetery] playing sound " + sound.key)
         sound.play('', 0, 0.4)
-        sound.onStop.add(
+        sound.onStop.addOnce(
             function (sound) {
                 console.log("[cemetery] finished playing sound " + sound.key)
                 this._setRandomSoundTimer()
