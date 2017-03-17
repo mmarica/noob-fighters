@@ -1,15 +1,56 @@
 import Phaser from 'phaser'
+import PlayerSelector from '../objects/Menu/PlayerSelector'
 import { centerGameObjects } from '../utils'
 
 export default class extends Phaser.State {
+    preload  () {
+        PlayerSelector.loadAssets(this.game)
+    }
+
     create () {
         this._addBanner()
         this._addPressKeyToPlay()
+        this._addP1Selector()
+        this._addP2Selector()
         this._addP1Keys()
         this._addP2Keys()
 
         let playKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         playKey.onDown.add(this.playKeyDown, this)
+    }
+
+    /**
+     * Add player 1 selector
+     *
+     * @private
+     */
+    _addP1Selector () {
+        this.p1Selector = this.game.add.existing(new PlayerSelector({
+            game: this.game,
+            x: 100,
+            y: 300,
+            keys: {
+                up: Phaser.Keyboard.S,
+                down: Phaser.Keyboard.X,
+            }
+        }))
+    }
+
+    /**
+     * Add player 2 selector
+     *
+     * @private
+     */
+    _addP2Selector () {
+        this.p2Selector = this.game.add.existing(new PlayerSelector({
+            game: this.game,
+            x: 1200,
+            y: 300,
+            keys: {
+                up: Phaser.Keyboard.UP,
+                down: Phaser.Keyboard.DOWN,
+            }
+        }))
     }
 
     /**
