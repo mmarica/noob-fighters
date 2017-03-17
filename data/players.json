@@ -184,7 +184,7 @@
     },
     "weapons": {
       "primary": {
-        "damage": 15,
+        "damage": 12,
         "max": 5,
         "speed": 1000,
         "rate": 700
