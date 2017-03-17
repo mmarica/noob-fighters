@@ -2,13 +2,15 @@ import Phaser from 'phaser'
 import { centerGameObjects } from '../utils'
 
 export default class extends Phaser.State {
-
+    /**
+     * Extract the winning player from parameters
+     *
+     * @param winningPlayerType
+     */
     init (winningPlayerType) {
         let data = this.game.cache.getJSON("players")
         this.winningPlayer = data[winningPlayerType]["name"]
     }
-
-    preload () {}
 
     create () {
         this._addPlayerWins()
@@ -21,8 +23,11 @@ export default class extends Phaser.State {
         this.sound.play()
     }
 
-    update() {}
-
+    /**
+     * Add winning player text
+     *
+     * @private
+     */
     _addPlayerWins () {
         let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY, this.winningPlayer + " wins!")
         text.font = 'Russo One'
@@ -34,6 +39,11 @@ export default class extends Phaser.State {
         this.game.add.existing(text)
     }
 
+    /**
+     * Add press key to play again text
+     *
+     * @private
+     */
     _addPressKeyToPlay () {
         let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY + 80, "Press space to play again")
         text.font = 'Russo One'
@@ -45,6 +55,9 @@ export default class extends Phaser.State {
         this.game.add.existing(text)
     }
 
+    /**
+     * Start to play again when pressing the key
+     */
     playKeyDown () {
         this.game.state.start("Game");
     }

@@ -2,8 +2,9 @@ import Phaser from 'phaser'
 import { centerGameObjects } from '../utils'
 
 export default class extends Phaser.State {
-    init () {}
-
+    /**
+     * Load common resources
+     */
     preload () {
         this.loaderBg = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBg')
         this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar')
@@ -18,6 +19,9 @@ export default class extends Phaser.State {
         this.load.json('players', 'data/players.json?__version__')
     }
 
+    /**
+     * Go to the start menu when common resources are loaded
+     */
     create () {
         this.state.start('Menu')
     }
