@@ -211,7 +211,7 @@
     "name": "Nooberman",
     "sprite": {
       "width": 20,
-      "height": 30,
+      "height": 31,
       "left": {
         "frame": 0,
         "animation": {
