@@ -42,17 +42,20 @@ export default class extends Phaser.Group {
 
     _setRandomSoundTimer () {
         const PAUSE = 10
+        console.log("[cemetery] next sound in " + PAUSE + " seconds")
         this.game.time.events.add(Phaser.Timer.SECOND * PAUSE, this.playRandomSound, this);
     }
 
     playRandomSound () {
         let sound = this.sounds[Math.round(Math.random() * (this.sounds.length - 1))]
-        sound.play('', 0, 0.5)
+        console.log("[cemetery] playing sound " + sound.key)
+        sound.play('', 0, 0.4)
         sound.onStop.add(
-            function () {
+            function (sound) {
+                console.log("[cemetery] finished playing sound " + sound.key)
                 this._setRandomSoundTimer()
             }
-        , this);
+        , this, sound);
     }
 
     // ground level
@@ -336,7 +339,7 @@ export default class extends Phaser.Group {
     }
 
     startMusic () {
-        this.music.play('', 0, 0.25, true)
+        this.music.play('', 0, 0.2, true)
     }
 
     stopMusic () {
