@@ -25,8 +25,6 @@ http://localhost:3000
 ```
 
 ## Keyboard shortcuts
-Toggle music: M
-
 ### Player 1
 + Left: Z
 + Jump: S
