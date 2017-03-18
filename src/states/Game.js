@@ -184,6 +184,7 @@ export default class extends Phaser.State {
             if (distance < radius) {
                 console.log("[secondary] hit: player " + (player.id + 1) + ", distance: " + distance)
                 let playerDamage = Math.round(damage * (radius - distance) / radius)
+                playerDamage = Math.max(1, playerDamage)
                 this._hurtPlayer(player, playerDamage)
             }
         }
