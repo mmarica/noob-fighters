@@ -7,15 +7,16 @@ import FadingText from '../objects/FadingText'
 import { centerGameObjects } from '../utils'
 
 export default class extends Phaser.State {
+    init (types) {
+        this.types = types
+    }
+
     preload () {
         this.loaderBg = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBg')
         this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar')
         centerGameObjects([this.loaderBg, this.loaderBar])
 
         this.load.setPreloadSprite(this.loaderBar)
-
-        // generate random players
-        this.types = this._randomPlayerTypes()
 
         for (let type of this.types)
             Player.loadAssets(this.game, type)
@@ -169,21 +170,6 @@ export default class extends Phaser.State {
     _keyUp (char) {
         for (let player of this.players)
             player.keyUp(char)
-    }
-
-    _randomPlayerTypes () {
-        const possibleTypes = ['noobien', 'indiana_noobes', 'noobacca', 'noobigi', 'nooberman']
-
-        let types = [possibleTypes[Math.round(Math.random() * (possibleTypes.length - 1))]]
-        let type = null
-
-        do {
-            type = possibleTypes[Math.round(Math.random() * (possibleTypes.length - 1))]
-        } while (type == types[0])
-
-        types.push(type)
-
-        return types
     }
 
     gameOver (id) {

@@ -27,13 +27,22 @@ export default class extends Phaser.State {
     _addP1Selector () {
         this.p1Selector = this.game.add.existing(new PlayerSelector({
             game: this.game,
-            x: 100,
-            y: 300,
+            x: 200,
+            y: 250,
             keys: {
                 up: Phaser.Keyboard.S,
                 down: Phaser.Keyboard.X,
             }
         }))
+    }
+
+    /**
+     * Display the key bindings for player one
+     *
+     * @private
+     */
+    _addP1Keys () {
+        this._addPlayerText(400, 280, "Player 1 keys\nLeft: Z\nRight: C\nJump: S\nPrimary: Left CTRL\nSecondary: Left SHIFT")
     }
 
     /**
@@ -44,8 +53,8 @@ export default class extends Phaser.State {
     _addP2Selector () {
         this.p2Selector = this.game.add.existing(new PlayerSelector({
             game: this.game,
-            x: 1200,
-            y: 300,
+            x: 1000,
+            y: 250,
             keys: {
                 up: Phaser.Keyboard.UP,
                 down: Phaser.Keyboard.DOWN,
@@ -54,55 +63,12 @@ export default class extends Phaser.State {
     }
 
     /**
-     * The game banner in the middle (just a text title, for the moment)
-     *
-     * @private
-     */
-    _addBanner () {
-        let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY - 200, "Noob Fighters!")
-        text.font = 'Russo One'
-        text.fontSize = 80
-        text.padding.set(10, 16)
-        text.fill = '#fbff00'
-        text.smoothed = true
-        text.anchor.setTo(0.5, 0.5)
-        this.game.add.existing(text)
-    }
-
-    /**
-     * Display the key for starting to play
-     *
-     * @private
-     */
-    _addPressKeyToPlay () {
-        let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY - 120, "Press space to play")
-        text.font = 'Russo One'
-        text.fontSize = 20
-        text.fill = '#fff'
-        text.anchor.setTo(0.5, 0.5)
-        this.game.add.existing(text)
-    }
-
-    /**
-     * Display the key bindings for player one
-     *
-     * @private
-     */
-    _addP1Keys () {
-        let x = 300
-        let y = this.game.world.centerY - 50
-        this._addPlayerText(x, y, "Player 1 keys\nLeft: Z\nRight: C\nJump: S\nPrimary: Left CTRL\nSecondary: Left SHIFT")
-    }
-
-    /**
      * Display the key bindings for player two
      *
      * @private
      */
     _addP2Keys () {
-        let x = this.game.world.centerX + 140
-        let y = this.game.world.centerY - 50
-        this._addPlayerText(x, y, "Player 2 keys\nLeft: Left ARROW\nRight: Right ARROW\nJump: Up ARROW\nPrimary: Right CTRL\nSecondary: Right SHIFT")
+        this._addPlayerText(700, 280, "Player 2 keys\nLeft: Left ARROW\nRight: Right ARROW\nJump: Up ARROW\nPrimary: Right CTRL\nSecondary: Right SHIFT")
     }
 
     /**
@@ -123,10 +89,44 @@ export default class extends Phaser.State {
     }
 
     /**
+     * The game banner in the middle (just a text title, for the moment)
+     *
+     * @private
+     */
+    _addBanner () {
+        let text = new Phaser.Text(this.game, this.game.world.centerX, 120, "Noob Fighters!")
+        text.font = 'Russo One'
+        text.fontSize = 80
+        text.padding.set(10, 16)
+        text.fill = '#fbff00'
+        text.smoothed = true
+        text.anchor.setTo(0.5, 0.5)
+        this.game.add.existing(text)
+    }
+
+    /**
+     * Display the key for starting to play
+     *
+     * @private
+     */
+    _addPressKeyToPlay () {
+        let text = new Phaser.Text(this.game, this.game.world.centerX, 190, "Choose your players and press space to play")
+        text.font = 'Russo One'
+        text.fontSize = 20
+        text.fill = '#fff'
+        text.anchor.setTo(0.5, 0.5)
+        this.game.add.existing(text)
+    }
+
+    /**
      * Start game when pressing the play key
      */
     playKeyDown () {
-        this.game.state.start("Game");
+        let types = [
+            this.p1Selector.getSelected(),
+            this.p2Selector.getSelected(),
+        ]
+        this.game.state.start("Game", true, false, types);
     }
 
 }

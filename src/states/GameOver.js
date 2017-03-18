@@ -45,7 +45,7 @@ export default class extends Phaser.State {
      * @private
      */
     _addPressKeyToPlay () {
-        let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY + 80, "Press space to play again")
+        let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY + 80, "Press space for the menu")
         text.font = 'Russo One'
         text.fontSize = 20
         text.fill = '#fff'
@@ -59,7 +59,7 @@ export default class extends Phaser.State {
      * Start to play again when pressing the key
      */
     playKeyDown () {
-        this.game.state.start("Game");
+        this.game.state.start("Menu");
     }
 
 }
