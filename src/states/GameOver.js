@@ -59,6 +59,7 @@ export default class extends Phaser.State {
      * Start to play again when pressing the key
      */
     playKeyDown () {
+        this.game.sound.stopAll()
         this.game.state.start("Menu");
     }
 
