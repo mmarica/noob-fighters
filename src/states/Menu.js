@@ -42,7 +42,7 @@ export default class extends Phaser.State {
      * @private
      */
     _addP1Keys () {
-        this._addPlayerText(400, 280, "Player 1 keys\nLeft: Z\nRight: C\nJump: S\nPrimary: Left CTRL\nSecondary: Left SHIFT")
+        this._addPlayerText(400, 280, "Player 1 keys\nLeft: Z\nRight: C\nJump: S\nDown: X\nPrimary: Left CTRL\nSecondary: Left SHIFT")
     }
 
     /**
@@ -68,7 +68,7 @@ export default class extends Phaser.State {
      * @private
      */
     _addP2Keys () {
-        this._addPlayerText(700, 280, "Player 2 keys\nLeft: Left ARROW\nRight: Right ARROW\nJump: Up ARROW\nPrimary: Right CTRL\nSecondary: Right SHIFT")
+        this._addPlayerText(700, 280, "Player 2 keys\nLeft: Left ARROW\nRight: Right ARROW\nJump: Up ARROW\nDown: Down ARROW\nPrimary: Right CTRL\nSecondary: Right SHIFT")
     }
 
     /**
