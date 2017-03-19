@@ -5,11 +5,12 @@ export default class extends Phaser.State {
     /**
      * Extract the winning player from parameters
      *
-     * @param winningPlayerType
+     * @param id
+     * @param type
      */
-    init (winningPlayerType) {
+    init (id, type) {
         let data = this.game.cache.getJSON("players")
-        this.winningPlayer = data[winningPlayerType]["name"]
+        this.winningPlayer = "P" + (id + 1) + " " + data[type]["name"]
     }
 
     create () {

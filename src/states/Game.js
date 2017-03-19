@@ -175,7 +175,7 @@ export default class extends Phaser.State {
     gameOver (id) {
         this.playGround.stopMusic()
         this.game.sound.stopAll()
-        this.game.state.start("GameOver", true, false, this.players[id].type);
+        this.game.state.start("GameOver", true, false, id, this.players[id].type);
     }
 
     onSecondaryExplosion (x, y, damage, radius) {
