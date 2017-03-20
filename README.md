@@ -27,15 +27,17 @@ http://localhost:3000
 ## Keyboard shortcuts
 ### Player 1
 + Left: Z
-+ Jump: S
 + Right: C
++ Jump: S
++ Down: X
 + Primary weapon: Left Ctrl
 + Secondary Weapon: Left Shift
 
 ### Player 1
 + Left: Left arrow
-+ Jump: Up arrow
 + Right: Right arrow
++ Jump: Up arrow
++ Down: Down arrow
 + Primary weapon: Right Ctrl
 + Secondary Weapon: Right Shift
 
