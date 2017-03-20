@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import Player from '../objects/Player'
 import Cemetery from '../objects/Playground/Cemetery'
+import Forest from '../objects/Playground/Forest'
 import Hud from '../objects/Hud'
 import Powerup from '../objects/Powerup'
 import FadingText from '../objects/FadingText'
@@ -21,7 +22,7 @@ export default class extends Phaser.State {
         for (let type of this.types)
             Player.loadAssets(this.game, type)
 
-        Cemetery.loadAssets(this.game)
+        Forest.loadAssets(this.game)
         Powerup.loadAssets(this.game)
 
         let config = this.game.cache.getJSON("config")
@@ -100,7 +101,7 @@ export default class extends Phaser.State {
 
     _addPlayGround () {
         this.playGround = this.game.add.existing(
-            new Cemetery({ game: this.game })
+            new Forest({ game: this.game })
         )
 
         this.obstacles = this.playGround.getObstacles()
