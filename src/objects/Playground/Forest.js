@@ -1,5 +1,7 @@
 import Phaser from 'phaser'
 import Ground from './Forest/Ground'
+import RockLedge from './Forest/RockLedge'
+import GrassLedge from './Forest/GrassLedge'
 
 export default class extends Phaser.Group {
 
@@ -14,8 +16,14 @@ export default class extends Phaser.Group {
         ]
 
         this.rocks = []
+        this.rock_ledges = []
+        this.grass_ledges = []
 
         this._level0()
+        this._level1()
+        this._level2()
+        this._level3()
+        this._level4()
 
         this.music = game.add.audio('ambiental')
 
@@ -50,6 +58,95 @@ export default class extends Phaser.Group {
         }
     }
 
+    _level1 () {
+        // left
+        let ledge = this.game.add.existing(new RockLedge({
+            game: game,
+            x: 0,
+            y: 620,
+            length: 2
+        }))
+        this.rock_ledges.push(ledge)
+
+        // right
+        ledge = this.game.add.existing(new RockLedge({
+            game: game,
+            x: 900,
+            y: 620,
+            length: 3
+        }))
+        this.rock_ledges.push(ledge)
+    }
+
+    _level2 () {
+        // left
+        let ledge = this.game.add.existing(new RockLedge({
+            game: game,
+            x: 300,
+            y: 470,
+            length: 3
+        }))
+        this.rock_ledges.push(ledge)
+
+        // right
+        ledge = this.game.add.existing(new RockLedge({
+            game: game,
+            x: 1152,
+            y: 470,
+            length: 2
+        }))
+        this.rock_ledges.push(ledge)
+    }
+
+    _level3 () {
+        // left
+        let ledge = this.game.add.existing(new GrassLedge({
+            game: game,
+            x: 64 * 4,
+            y: 360,
+            length: 1
+        }))
+        this.grass_ledges.push(ledge)
+
+        // center
+        ledge = this.game.add.existing(new GrassLedge({
+            game: game,
+            x: 640,
+            y: 360,
+            length: 2
+        }))
+        this.grass_ledges.push(ledge)
+
+        // right
+        ledge = this.game.add.existing(new GrassLedge({
+            game: game,
+            x: 940,
+            y: 360,
+            length: 1
+        }))
+        this.grass_ledges.push(ledge)
+    }
+
+    _level4 () {
+        // left
+        let ledge = this.game.add.existing(new GrassLedge({
+            game: game,
+            x: 0,
+            y: 260,
+            length: 4
+        }))
+        this.grass_ledges.push(ledge)
+
+        // right
+        ledge = this.game.add.existing(new GrassLedge({
+            game: game,
+            x: 1152,
+            y: 260,
+            length: 2
+        }))
+        this.grass_ledges.push(ledge)
+    }
+
     getPowerupSpots () {
         return [
             {x: 16, y: this.game.world.height -24},
@@ -58,7 +155,7 @@ export default class extends Phaser.Group {
     }
 
     getObstacles () {
-        return [this.ground, ...this.rocks]
+        return [this.ground, ...this.rocks, ...this.rock_ledges, ...this.grass_ledges]
     }
 
     static loadAssets (game) {
@@ -68,6 +165,8 @@ export default class extends Phaser.Group {
         game.load.image('clouds1', './assets/playgrounds/forest/images/clouds1.png?__version__')
         game.load.image('clouds2', './assets/playgrounds/forest/images/clouds2.png?__version__')
         game.load.image('rock1', './assets/playgrounds/forest/images/rock1.png?__version__')
+        game.load.image('rock_ledge', './assets/playgrounds/forest/images/rock_ledge.png?__version__')
+        game.load.image('grass_ledge', './assets/playgrounds/forest/images/grass_ledge.png?__version__')
     }
 
     startMusic () {
