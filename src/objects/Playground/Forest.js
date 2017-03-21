@@ -132,7 +132,7 @@ export default class extends Phaser.Group {
         let ledge = this.game.add.existing(new GrassLedge({
             game: game,
             x: 0,
-            y: 260,
+            y: 286,
             length: 4
         }))
         this.grass_ledges.push(ledge)
@@ -141,7 +141,7 @@ export default class extends Phaser.Group {
         ledge = this.game.add.existing(new GrassLedge({
             game: game,
             x: 1152,
-            y: 260,
+            y: 286,
             length: 2
         }))
         this.grass_ledges.push(ledge)
@@ -149,8 +149,8 @@ export default class extends Phaser.Group {
 
     getPowerupSpots () {
         return [
-            {x: 98, y: 260},
-            {x: 1216, y: 260},
+            {x: 98, y: 286},
+            {x: 1216, y: 286},
             {x: 974, y: 360},
             {x: 674, y: 360},
             {x: 290, y: 360},
