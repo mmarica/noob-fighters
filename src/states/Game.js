@@ -8,8 +8,9 @@ import FadingText from '../objects/FadingText'
 import { centerGameObjects } from '../utils'
 
 export default class extends Phaser.State {
-    init (types) {
+    init (types, map) {
         this.types = types
+        this.map = map
     }
 
     preload () {
@@ -22,7 +23,16 @@ export default class extends Phaser.State {
         for (let type of this.types)
             Player.loadAssets(this.game, type)
 
-        Forest.loadAssets(this.game)
+        switch (this.map) {
+            case "cemetery":
+                Cemetery.loadAssets(this.game)
+                break;
+
+            case "forest":
+                Forest.loadAssets(this.game)
+                break;
+        }
+
         Powerup.loadAssets(this.game)
 
         let config = this.game.cache.getJSON("config")
@@ -100,9 +110,19 @@ export default class extends Phaser.State {
     }
 
     _addPlayGround () {
-        this.playGround = this.game.add.existing(
-            new Forest({ game: this.game })
-        )
+        switch (this.map) {
+            case "cemetery":
+                this.playGround = this.game.add.existing(
+                    new Cemetery({ game: this.game })
+                )
+                break;
+
+            case "forest":
+                this.playGround = this.game.add.existing(
+                    new Forest({ game: this.game })
+                )
+                break;
+        }
 
         this.obstacles = this.playGround.getObstacles()
         this.powerupSpots = this.playGround.getPowerupSpots()

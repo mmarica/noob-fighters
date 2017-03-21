@@ -126,7 +126,11 @@ export default class extends Phaser.State {
             this.p1Selector.getSelected(),
             this.p2Selector.getSelected(),
         ]
-        this.game.state.start("Game", true, false, types);
+
+        let playgrounds = ["cemetery", "forest"]
+        let map = playgrounds[Math.round(Math.random() * (playgrounds.length - 1))]
+
+        this.game.state.start("Game", true, false, types, map);
     }
 
 }
