@@ -13,6 +13,8 @@ export default class extends Phaser.Group {
              game.add.tileSprite(0, 200, 1280, 116, 'clouds2')
         ]
 
+        this.rocks = []
+
         this._level0()
 
         this.music = game.add.audio('ambiental')
@@ -27,6 +29,25 @@ export default class extends Phaser.Group {
         this.ground = game.add.existing(
             new Ground({ game: game })
         )
+
+        // rock structure in the middle
+        let coords = [
+            [game.world.centerX - 64 * 2 + 32, game.world.height - 64 - 24],
+            [game.world.centerX - 64 + 32, game.world.height - 64 - 24],
+            [game.world.centerX + 32, game.world.height - 64 - 24],
+            // upper...
+            [game.world.centerX - 64 + 32, game.world.height - 128 - 24],
+            [game.world.centerX + 32, game.world.height - 128 - 24],
+            // upper...
+            [game.world.centerX + 32, game.world.height - 192 - 24],
+        ]
+
+        for (let coord of coords) {
+            let sprite = this.game.add.sprite(coord[0], coord[1], "rock1")
+            this.game.physics.arcade.enable(sprite)
+            sprite.body.immovable = true
+            this.rocks.push(sprite)
+        }
     }
 
     getPowerupSpots () {
@@ -37,7 +58,7 @@ export default class extends Phaser.Group {
     }
 
     getObstacles () {
-        return [this.ground]
+        return [this.ground, ...this.rocks]
     }
 
     static loadAssets (game) {
@@ -46,6 +67,7 @@ export default class extends Phaser.Group {
         game.load.image('ground', './assets/playgrounds/forest/images/ground.png?__version__')
         game.load.image('clouds1', './assets/playgrounds/forest/images/clouds1.png?__version__')
         game.load.image('clouds2', './assets/playgrounds/forest/images/clouds2.png?__version__')
+        game.load.image('rock1', './assets/playgrounds/forest/images/rock1.png?__version__')
     }
 
     startMusic () {
