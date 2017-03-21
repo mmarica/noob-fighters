@@ -24,27 +24,14 @@ Access the game at:
 http://localhost:3000
 ```
 
-## Keyboard shortcuts
-### Player 1
-+ Left: Z
-+ Jump: S
-+ Right: C
-+ Primary weapon: Left Ctrl
-+ Secondary Weapon: Left Shift
-
-### Player 1
-+ Left: Left arrow
-+ Jump: Up arrow
-+ Right: Right arrow
-+ Primary weapon: Right Ctrl
-+ Secondary Weapon: Right Shift
-
 ## Features
+Note: At the mooment, playground is randomly selected on game start.
+
 ### Start menu
-Simple menu at the moment, displaying the key bindings.
++ Info about key bindings
++ Player selection widgets
 
 ### Players
-Players are chosen randomly at the start of the game. At the moment, the available types are:
 + Noobien
 + Noobacca
 + Indiana Noobes
@@ -59,9 +46,11 @@ Players are chosen randomly at the start of the game. At the moment, the availab
 + Surprise (get one of the above, randomly; good luck!)
 
 ### Playgrounds
-Only one playground is available at the moment: Cemetery.
++ Cemetery
++ Forest
 
 ### TODO
++ Add playground selection to the start menu
 + Add more players
     + Snoob Dog
     + Jean-Noob Piccard
