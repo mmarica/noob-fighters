@@ -149,8 +149,18 @@ export default class extends Phaser.Group {
 
     getPowerupSpots () {
         return [
-            {x: 16, y: this.game.world.height -24},
-            {x: this.game.world.width - 16, y: this.game.world.height -24},
+            {x: 98, y: 260},
+            {x: 1216, y: 260},
+            {x: 974, y: 360},
+            {x: 674, y: 360},
+            {x: 290, y: 360},
+            {x: 1216, y: 470},
+            {x: 400, y: 470},
+            {x: 16, y: 620},
+            {x: 996, y: 620},
+            {x: 656, y: 648},
+            {x: 16, y: 776},
+            {x: 1264, y: 776},
         ]
     }
 
