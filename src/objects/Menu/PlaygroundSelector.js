@@ -100,12 +100,12 @@ export default class extends Phaser.Group {
 
     // add the playground name
     _addName (x, y, name) {
-        let playerName = new Phaser.Text(this.game, x, y, name)
-        playerName.font = 'Paytone One'
-        playerName.fontSize = 16
-        playerName.fill = '#fff'
-        playerName.anchor.setTo(0.5, 0)
-        this.game.add.existing(playerName)
+        let text = new Phaser.Text(this.game, x, y, name)
+        text.font = 'Paytone One'
+        text.fontSize = 16
+        text.fill = '#fff'
+        text.anchor.setTo(0.5, 0)
+        this.game.add.existing(text)
     }
 
     // load the assets
