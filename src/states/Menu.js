@@ -38,8 +38,6 @@ export default class extends Phaser.State {
         this.game.add.sprite(0, 0, myBitmap);
     }
 
-
-
     /**
      * Add playground selector
      *
@@ -135,7 +133,9 @@ export default class extends Phaser.State {
         text.font = 'Russo One'
         text.fontSize = 80
         text.padding.set(10, 16)
-        text.fill = '#fbff00'
+        text.fill = '#58cfff'
+        text.stroke = '#000000';
+        text.strokeThickness = 5;
         text.anchor.setTo(0.5, 0)
         this.game.add.existing(text)
     }
@@ -147,7 +147,7 @@ export default class extends Phaser.State {
      */
     _addPressKeyToPlay () {
         let text = new Phaser.Text(this.game, this.game.world.centerX, 140, "Choose your players and press space to play")
-        text.font = 'Russo One'
+        text.font = 'Arial'
         text.fontSize = 20
         text.fill = '#fff'
         text.anchor.setTo(0.5, 0)
@@ -164,7 +164,6 @@ export default class extends Phaser.State {
         ]
 
         let map = this.playgroundSelector.getSelected()
-
         this.game.state.start("Game", true, false, types, map);
     }
 

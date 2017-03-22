@@ -50,8 +50,9 @@ export default class extends Phaser.State {
         text.font = 'Russo One'
         text.fontSize = 80
         text.padding.set(10, 16)
-        text.fill = '#fbff00'
-        text.smoothed = true
+        text.fill = '#fa6121'
+        text.stroke = '#000000';
+        text.strokeThickness = 5;
         text.anchor.setTo(0.5, 0.5)
         this.game.add.existing(text)
     }
@@ -63,11 +64,9 @@ export default class extends Phaser.State {
      */
     _addPressKeyToPlay () {
         let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY + 80, "Press space for the menu")
-        text.font = 'Russo One'
+        text.font = 'Arial'
         text.fontSize = 20
         text.fill = '#fff'
-        text.shadow = 2;
-        text.smoothed = true
         text.anchor.setTo(0.5, 0.5)
         this.game.add.existing(text)
     }
