@@ -118,7 +118,6 @@ export default class extends Phaser.State {
         text.fontSize = 80
         text.padding.set(10, 16)
         text.fill = '#fbff00'
-        text.smoothed = true
         text.anchor.setTo(0.5, 0.5)
         this.game.add.existing(text)
     }
