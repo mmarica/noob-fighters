@@ -8,83 +8,103 @@ export default class extends Phaser.Group {
         this. y = y
         this.keys = keys
 
+        // sizing / positioning constants
+        this.WIDTH = 100
+        this.HEIGHT = 100
+        this.MARGIN = 4
+        this.STROKE = 2
+        this.TEXT_OFFSET = 20
+        this.IMAGE_OFFSET = 28
+
+        // select first player by default
         this.selection = 0
 
         this.playerData = game.cache.getJSON("players")
         let players = this.playerData
 
+        // available player types
         this.types = []
         for (let type in players)
             this.types.push(type)
 
-        this._addSelector()
+        // alternating colors for the selection rectangle
+        this.selectionColors = [0xfa6121, 0xffb739]
+        this.selectionColorIndex = 0
+
+        // add the players (image + name)
         this._addPlayers()
+
+        // add the selection rectangle
+        this._addSelector()
+    }
+
+    // get the selected player type
+    getSelected () {
+        return this.types[this.selection]
     }
 
     _addSelector () {
         this.selector = this.game.add.graphics()
         this._updateSelectorPosition()
-        this.selector.lineStyle(2, 0xFFFFFF)
-        this.selector.beginFill(0x000000)
-        this.selector.drawRect(0, 0, 100, 100)
+        this._drawSelectionRectangle()
 
+        // register the timer to alternate the colors
+        this.game.time.events.loop(150, this._drawSelectionRectangle, this);
+
+        // select the next player from the list when pressing the "down" key
         let downKey = this.game.input.keyboard.addKey(this.keys["down"]);
-        downKey.onDown.add(this.pressedDown, this)
+        downKey.onDown.add(
+            function () {
+                this.selection = Math.min(this.selection + 1, this.types.length - 1)
+                this._updateSelectorPosition()
+            }, this)
 
+        // select the previous player from the list when pressing the "up" key
         let upKey = this.game.input.keyboard.addKey(this.keys["up"]);
-        upKey.onDown.add(this.pressedUp, this)
+        upKey.onDown.add(
+            function () {
+                this.selection = Math.max(this.selection - 1, 0)
+                this._updateSelectorPosition()
+            }, this)
     }
 
-    pressedDown () {
-        this.selection = Math.min(this.selection + 1, this.types.length - 1)
-        this._updateSelectorPosition()
+    // draw the selection rectangle, alternating the colors
+    _drawSelectionRectangle () {
+        this.selectionColorIndex = 1 - this.selectionColorIndex
+        this.selector.lineStyle(this.STROKE, this.selectionColors[this.selectionColorIndex])
+        this.selector.drawRect(0, 0, this.WIDTH + this.STROKE, this.HEIGHT + this.STROKE)
     }
 
-    pressedUp () {
-        this.selection = Math.max(this.selection - 1, 0)
-        this._updateSelectorPosition()
-    }
-
+    // move the selection rectangle on the currently selected item
     _updateSelectorPosition () {
-        const HEIGHT = 100
         this.selector.x = this.x
-        this.selector.y = this.y + HEIGHT * this.selection
+        this.selector.y = this.y + (this.HEIGHT + this.MARGIN) * this.selection
     }
 
+    // add player images and names
     _addPlayers () {
         let x = this.x
         let y = this.y
-        const WIDTH = 100
-        const HEIGHT = 100
 
         for (let type of this.types) {
-            let sprite = this.game.add.sprite(x + WIDTH / 2, y + HEIGHT - 28, type + "_player")
+            let sprite = this.game.add.sprite(x + this.WIDTH / 2, y + this.HEIGHT - this.IMAGE_OFFSET, type + "_player")
             sprite.anchor.setTo(0.5, 1)
-
-            this._addPlayerName(x + WIDTH / 2, y + HEIGHT - 3, this.playerData[type]["name"])
-
-            y += HEIGHT
+            this._addName(x + this.WIDTH / 2, y + this.HEIGHT - this.TEXT_OFFSET, this.playerData[type]["name"])
+            y += this.HEIGHT + this.MARGIN
         }
     }
 
-    _addPlayerName (x, y, name) {
-        let playerName = new Phaser.Text(this.game, x, y, name)
-        playerName.font = 'Russo One'
-        playerName.fontSize = 10
-        playerName.fill = '#fff'
-        playerName.shadow = 2;
-        playerName.smoothed = true
-        playerName.anchor.setTo(0.5, 1)
-        this.game.add.existing(playerName)
+    // add the player name
+    _addName (x, y, name) {
+        let text = new Phaser.Text(this.game, x, y, name)
+        text.font = 'Paytone One'
+        text.fontSize = 11
+        text.fill = '#fff'
+        text.anchor.setTo(0.5, 0)
+        this.game.add.existing(text)
     }
 
-    /**
-     * Get the selected player type
-     */
-    getSelected () {
-        return this.types[this.selection]
-    }
-
+    // load the assets
     static loadAssets (game) {
         let players = game.cache.getJSON("players")
 

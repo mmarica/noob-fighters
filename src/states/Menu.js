@@ -10,6 +10,7 @@ export default class extends Phaser.State {
     }
 
     create () {
+        this._addBackground()
         this._addBanner()
         this._addPressKeyToPlay()
         this._addPlaygroundSelector()
@@ -23,6 +24,23 @@ export default class extends Phaser.State {
     }
 
     /**
+     * Create the background gradient
+     *
+     * @private
+     */
+    _addBackground () {
+        var myBitmap = this.game.add.bitmapData(1280, 800);
+        var grd=myBitmap.context.createLinearGradient(0,0,0,500);
+        grd.addColorStop(0,"#333333");
+        grd.addColorStop(1,"#111111");
+        myBitmap.context.fillStyle=grd;
+        myBitmap.context.fillRect(0,0,1280,800);
+        this.game.add.sprite(0, 0, myBitmap);
+    }
+
+
+
+    /**
      * Add playground selector
      *
      * @private
@@ -30,7 +48,7 @@ export default class extends Phaser.State {
     _addPlaygroundSelector () {
         this.playgroundSelector = this.game.add.existing(new PlaygroundSelector({
             game: this.game,
-            y: 250,
+            y: 200,
             keys: {
                 left: [Phaser.Keyboard.Z, Phaser.Keyboard.LEFT],
                 right: [Phaser.Keyboard.C, Phaser.Keyboard.RIGHT],
@@ -47,7 +65,7 @@ export default class extends Phaser.State {
         this.p1Selector = this.game.add.existing(new PlayerSelector({
             game: this.game,
             x: 200,
-            y: 250,
+            y: 200,
             keys: {
                 up: Phaser.Keyboard.S,
                 down: Phaser.Keyboard.X,
@@ -61,7 +79,7 @@ export default class extends Phaser.State {
      * @private
      */
     _addP1Keys () {
-        this._addPlayerText(400, 450, "Player 1 keys\nLeft: Z\nRight: C\nJump: S\nDown: X\nPrimary: Left CTRL\nSecondary: Left SHIFT")
+        this._addPlayerText(400, 400, "Player 1 keys\nLeft: Z\nRight: C\nJump: S\nDown: X\nPrimary: Left CTRL\nSecondary: Left SHIFT")
     }
 
     /**
@@ -73,7 +91,7 @@ export default class extends Phaser.State {
         this.p2Selector = this.game.add.existing(new PlayerSelector({
             game: this.game,
             x: 1000,
-            y: 250,
+            y: 200,
             keys: {
                 up: Phaser.Keyboard.UP,
                 down: Phaser.Keyboard.DOWN,
@@ -87,7 +105,7 @@ export default class extends Phaser.State {
      * @private
      */
     _addP2Keys () {
-        this._addPlayerText(700, 450, "Player 2 keys\nLeft: Left ARROW\nRight: Right ARROW\nJump: Up ARROW\nDown: Down ARROW\nPrimary: Right CTRL\nSecondary: Right SHIFT")
+        this._addPlayerText(700, 400, "Player 2 keys\nLeft: Left ARROW\nRight: Right ARROW\nJump: Up ARROW\nDown: Down ARROW\nPrimary: Right CTRL\nSecondary: Right SHIFT")
     }
 
     /**
@@ -100,7 +118,7 @@ export default class extends Phaser.State {
      */
     _addPlayerText (x, y, message) {
         let text = new Phaser.Text(this.game, x, y, message)
-        text.font = 'Russo One'
+        text.font = 'Arial'
         text.fontSize = 20
         text.padding.set(10, 5)
         text.fill = '#fff'
@@ -113,12 +131,12 @@ export default class extends Phaser.State {
      * @private
      */
     _addBanner () {
-        let text = new Phaser.Text(this.game, this.game.world.centerX, 120, "Noob Fighters!")
+        let text = new Phaser.Text(this.game, this.game.world.centerX, 40, "Noob Fighters!")
         text.font = 'Russo One'
         text.fontSize = 80
         text.padding.set(10, 16)
         text.fill = '#fbff00'
-        text.anchor.setTo(0.5, 0.5)
+        text.anchor.setTo(0.5, 0)
         this.game.add.existing(text)
     }
 
@@ -128,11 +146,11 @@ export default class extends Phaser.State {
      * @private
      */
     _addPressKeyToPlay () {
-        let text = new Phaser.Text(this.game, this.game.world.centerX, 190, "Choose your players and press space to play")
+        let text = new Phaser.Text(this.game, this.game.world.centerX, 140, "Choose your players and press space to play")
         text.font = 'Russo One'
         text.fontSize = 20
         text.fill = '#fff'
-        text.anchor.setTo(0.5, 0.5)
+        text.anchor.setTo(0.5, 0)
         this.game.add.existing(text)
     }
 

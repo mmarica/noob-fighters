@@ -20,7 +20,7 @@ export default class extends Phaser.Group {
         }
 
         // alternating colors for the selection rectangle
-        this.selectionColors = [0xff7200, 0x5e2400]
+        this.selectionColors = [0xfa6121, 0xffb739]
         this.selectionColorIndex = 0
 
         // compute position and save keys
