@@ -11,6 +11,7 @@ export default class extends Phaser.Group {
 
         for (let i = 0; i < length; i++) {
             let block = this.create(x, y, 'grass_ledge')
+            game.physics.arcade.enable(block)
             block.body.immovable = true
             x += width
         }
