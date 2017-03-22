@@ -70,7 +70,9 @@ export default class extends Phaser.Group {
         banner.font = 'Paytone One'
         banner.padding.set(10, 16)
         banner.fontSize = 40
-        banner.fill = '#00c6ff'
+        banner.fill = '#58cfff'
+        banner.stroke = '#050087';
+        banner.strokeThickness = 3;
         banner.smoothed = true
         this.add(banner)
     }
