@@ -14,6 +14,7 @@ export default class extends Phaser.State {
     }
 
     create () {
+        this._addBackground()
         this._addPlayerWins()
         this._addPressKeyToPlay()
 
@@ -22,6 +23,21 @@ export default class extends Phaser.State {
 
         this.sound = this.game.add.audio("game_over")
         this.sound.play()
+    }
+
+    /**
+     * Create the background gradient
+     *
+     * @private
+     */
+    _addBackground () {
+        var myBitmap = this.game.add.bitmapData(1280, 800);
+        var grd=myBitmap.context.createLinearGradient(0,0,0,500);
+        grd.addColorStop(0,"#333333");
+        grd.addColorStop(1,"#111111");
+        myBitmap.context.fillStyle=grd;
+        myBitmap.context.fillRect(0,0,1280,800);
+        this.game.add.sprite(0, 0, myBitmap);
     }
 
     /**
