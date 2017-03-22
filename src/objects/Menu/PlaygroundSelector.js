@@ -38,13 +38,12 @@ export default class extends Phaser.Group {
         this._addSelector()
     }
 
-    /**
-     * Get the selected playground type
-     */
+    // get the selected playground type
     getSelected () {
         return this.types[this.selection]
     }
 
+    // add the selector to the stage and bind the keys
     _addSelector () {
         this.selector = this.game.add.graphics()
         this._updateSelectorPosition()
@@ -53,34 +52,32 @@ export default class extends Phaser.Group {
         // register the timer to alternate the colors
         this.game.time.events.loop(150, this._drawSelectionRectangle, this);
 
+        // select the previous playground from the list when pressing one of the "left" keys
         for (let key of this.keys["left"]) {
             let leftKey = this.game.input.keyboard.addKey(key);
-            leftKey.onDown.add(this.pressedLeft, this)
+            leftKey.onDown.add(
+                function () {
+                    this.selection = Math.max(this.selection - 1, 0)
+                    this._updateSelectorPosition()
+                }, this)
         }
 
+        // select the next playground from the list when pressing one of the "right" keys
         for (let key of this.keys["right"]) {
             let rightKey = this.game.input.keyboard.addKey(key);
-            rightKey.onDown.add(this.pressedRight, this)
+            rightKey.onDown.add(
+                function () {
+                    this.selection = Math.min(this.selection + 1, this.types.length - 1)
+                    this._updateSelectorPosition()
+                }, this)
         }
     }
 
-    //
+    // draw the selection rectangle, alternating the colors
     _drawSelectionRectangle () {
         this.selectionColorIndex = 1 - this.selectionColorIndex
         this.selector.lineStyle(this.STROKE, this.selectionColors[this.selectionColorIndex])
         this.selector.drawRect(0, 0, this.WIDTH + this.STROKE, this.HEIGHT + this.STROKE)
-    }
-
-    // select the previous playground from the list
-    pressedLeft () {
-        this.selection = Math.max(this.selection - 1, 0)
-        this._updateSelectorPosition()
-    }
-
-    // select the next playground from the list
-    pressedRight () {
-        this.selection = Math.min(this.selection + 1, this.types.length - 1)
-        this._updateSelectorPosition()
     }
 
     // move the selection rectangle on the currently selected item
