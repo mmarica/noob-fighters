@@ -66,7 +66,7 @@ export default class extends Phaser.State {
             y: 200,
             keys: {
                 up: Phaser.Keyboard.S,
-                down: Phaser.Keyboard.X,
+                down: Phaser.Keyboard.X
             }
         }))
     }
@@ -146,7 +146,7 @@ export default class extends Phaser.State {
      * @private
      */
     _addPressKeyToPlay () {
-        let text = new Phaser.Text(this.game, this.game.world.centerX, 140, "Choose your players and press space to play")
+        let text = new Phaser.Text(this.game, this.game.world.centerX, 140, "Choose your players and playground, then  press space to play")
         text.font = 'Arial'
         text.fontSize = 20
         text.fill = '#fff'

@@ -31,6 +31,9 @@ export default class extends Phaser.Group {
         // select second playground by default
         this.selection = 1
 
+        // sound to play when selection changes
+        this.changeSelectionSound = this.game.add.audio("menu_change")
+
         // add the playgrounds (image + name)
         this._addPlaygrounds()
 
@@ -59,6 +62,7 @@ export default class extends Phaser.Group {
                 function () {
                     this.selection = Math.max(this.selection - 1, 0)
                     this._updateSelectorPosition()
+                    this.changeSelectionSound.play()
                 }, this)
         }
 
@@ -69,6 +73,7 @@ export default class extends Phaser.Group {
                 function () {
                     this.selection = Math.min(this.selection + 1, this.types.length - 1)
                     this._updateSelectorPosition()
+                    this.changeSelectionSound.play()
                 }, this)
         }
     }
@@ -114,5 +119,7 @@ export default class extends Phaser.Group {
 
         for (let type of types)
             game.load.spritesheet("menu_playground_" + type, "./assets/menu/images/playground_" + type + ".png?__version__", 200, 125);
+
+        game.load.audio("menu_change", "./assets/menu/sounds/change.mp3?__version__");
     }
 }

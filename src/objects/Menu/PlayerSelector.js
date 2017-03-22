@@ -31,6 +31,9 @@ export default class extends Phaser.Group {
         this.selectionColors = [0xfa6121, 0xffb739]
         this.selectionColorIndex = 0
 
+        // sound to play when selection changes
+        this.changeSelectionSound = this.game.add.audio("menu_change")
+
         // add the players (image + name)
         this._addPlayers()
 
@@ -57,6 +60,7 @@ export default class extends Phaser.Group {
             function () {
                 this.selection = Math.min(this.selection + 1, this.types.length - 1)
                 this._updateSelectorPosition()
+                this.changeSelectionSound.play()
             }, this)
 
         // select the previous player from the list when pressing the "up" key
@@ -65,6 +69,7 @@ export default class extends Phaser.Group {
             function () {
                 this.selection = Math.max(this.selection - 1, 0)
                 this._updateSelectorPosition()
+                this.changeSelectionSound.play()
             }, this)
     }
 
@@ -110,5 +115,7 @@ export default class extends Phaser.Group {
 
         for (let type in players)
             Player.loadAssets(game, type)
+
+        game.load.audio("menu_change", "./assets/menu/sounds/change.mp3?__version__");
     }
 }
