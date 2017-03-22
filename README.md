@@ -30,6 +30,7 @@ Note: At the mooment, playground is randomly selected on game start.
 ### Start menu
 + Info about key bindings
 + Player selection widgets
++ Playground selection widget
 
 ### Players
 + Noobien

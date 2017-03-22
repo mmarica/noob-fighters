@@ -1,15 +1,18 @@
 import Phaser from 'phaser'
+import PlaygroundSelector from '../objects/Menu/PlaygroundSelector'
 import PlayerSelector from '../objects/Menu/PlayerSelector'
 import { centerGameObjects } from '../utils'
 
 export default class extends Phaser.State {
     preload  () {
         PlayerSelector.loadAssets(this.game)
+        PlaygroundSelector.loadAssets(this.game)
     }
 
     create () {
         this._addBanner()
         this._addPressKeyToPlay()
+        this._addPlaygroundSelector()
         this._addP1Selector()
         this._addP2Selector()
         this._addP1Keys()
@@ -17,6 +20,22 @@ export default class extends Phaser.State {
 
         let playKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         playKey.onDown.add(this.playKeyDown, this)
+    }
+
+    /**
+     * Add playground selector
+     *
+     * @private
+     */
+    _addPlaygroundSelector () {
+        this.playgroundSelector = this.game.add.existing(new PlaygroundSelector({
+            game: this.game,
+            y: 250,
+            keys: {
+                left: [Phaser.Keyboard.Z, Phaser.Keyboard.LEFT],
+                right: [Phaser.Keyboard.C, Phaser.Keyboard.RIGHT],
+            }
+        }))
     }
 
     /**
@@ -42,7 +61,7 @@ export default class extends Phaser.State {
      * @private
      */
     _addP1Keys () {
-        this._addPlayerText(400, 280, "Player 1 keys\nLeft: Z\nRight: C\nJump: S\nDown: X\nPrimary: Left CTRL\nSecondary: Left SHIFT")
+        this._addPlayerText(400, 450, "Player 1 keys\nLeft: Z\nRight: C\nJump: S\nDown: X\nPrimary: Left CTRL\nSecondary: Left SHIFT")
     }
 
     /**
@@ -68,7 +87,7 @@ export default class extends Phaser.State {
      * @private
      */
     _addP2Keys () {
-        this._addPlayerText(700, 280, "Player 2 keys\nLeft: Left ARROW\nRight: Right ARROW\nJump: Up ARROW\nDown: Down ARROW\nPrimary: Right CTRL\nSecondary: Right SHIFT")
+        this._addPlayerText(700, 450, "Player 2 keys\nLeft: Left ARROW\nRight: Right ARROW\nJump: Up ARROW\nDown: Down ARROW\nPrimary: Right CTRL\nSecondary: Right SHIFT")
     }
 
     /**
@@ -127,8 +146,7 @@ export default class extends Phaser.State {
             this.p2Selector.getSelected(),
         ]
 
-        let playgrounds = ["cemetery", "forest"]
-        let map = playgrounds[Math.round(Math.random() * (playgrounds.length - 1))]
+        let map = this.playgroundSelector.getSelected()
 
         this.game.state.start("Game", true, false, types, map);
     }
