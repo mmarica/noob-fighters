@@ -4,7 +4,7 @@ import PrimaryWeapon from './Weapon/Primary'
 
 export default class extends Phaser.Sprite {
 
-    constructor ({ game, id, type, x, y, keys, context }) {
+    constructor ({ game, id, type, x, y, context }) {
         let data = game.cache.getJSON("players")[type]
         let orientation = id == 0 ? "right" : "left"
 
@@ -17,7 +17,6 @@ export default class extends Phaser.Sprite {
         this.type = type
         this.name = data["name"]
         this.orientation = orientation
-        this.keys = keys
         this.data = data
 
         this.defaultSpeed = data["physics"]["speed"]
@@ -39,11 +38,8 @@ export default class extends Phaser.Sprite {
         this._addPrimaryWeapon()
         this._addSecondaryWeapon()
 
-        this.firePrimaryIsPressed = false
-        this.fireSecondaryIsPressed = false
-        this.upIsPressed = false
-        this.leftIsPressed = false
-        this.rightIsPressed = false
+        this.goingLeft = false
+        this.goingRight = false
 
         this.tintIndex = 0
         this._defaultTint()
@@ -55,13 +51,13 @@ export default class extends Phaser.Sprite {
     }
 
     update () {
-        if (this.leftIsPressed) {
+        if (this.goingLeft) {
             if (this._isActive) {
                 this.body.velocity.x = -(this.speed)
                 this.animations.play('left')
                 this.orientation = 'left'
             }
-        } else if (this.rightIsPressed) {
+        } else if (this.goingRight) {
             if (this._isActive) {
                 this.body.velocity.x = this.speed
                 this.animations.play('right')
@@ -112,70 +108,35 @@ export default class extends Phaser.Sprite {
         this.secondaryWeapon.setDamagePercentage(percentage)
     }
 
-    keyDown(char) {
-        switch (char["code"]) {
-            case this.keys["fire_primary"]:
-                if (!this.firePrimaryIsPressed) {
-                    this.firePrimaryIsPressed = true
-
-                    if (this._isActive)
-                        this.primaryWeapon.fire(this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT)
-                }
-
-                break;
-
-            case this.keys["fire_secondary"]:
-                if (!this.fireSecondaryIsPressed) {
-                    this.fireSecondaryIsPressed = true
-
-                    if (this._isActive)
-                        this.secondaryWeapon.fire(this.orientation == 'left' ? 225 : -45)
-                }
-
-                break;
-
-            case this.keys["up"]:
-                if (!this.upIsPressed) {
-                    this.upIsPressed = true;
-
-                    if (this._isActive && this.body.touching.down) {
-                        this.body.velocity.y = -(this.data["physics"]["jump"]);
-                    }
-                }
-                break;
-
-            case this.keys["left"]:
-                this.leftIsPressed = true
-                break;
-
-            case this.keys["right"]:
-                this.rightIsPressed = true
-                break;
-        }
+    firePrimary () {
+        if (this._isActive)
+            this.primaryWeapon.fire(this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT)
     }
 
-    keyUp(char) {
-        switch (char["code"]) {
-            case this.keys["fire_primary"]:
-                this.firePrimaryIsPressed = false;
-                break;
+    fireSecondary () {
+        if (this._isActive)
+            this.secondaryWeapon.fire(this.orientation == 'left' ? 225 : -45)
+    }
 
-            case this.keys["fire_secondary"]:
-                this.fireSecondaryIsPressed = false;
-                break;
+    jump () {
+        if (this._isActive && this.body.touching.down)
+            this.body.velocity.y = -(this.data["physics"]["jump"]);
+    }
 
-            case this.keys["up"]:
-                this.upIsPressed = false;
-                break;
+    startLeft () {
+        this.goingLeft = true
+    }
 
-            case this.keys["left"]:
-                this.leftIsPressed = false
-                break;
+    stopLeft () {
+        this.goingLeft = false
+    }
 
-            case this.keys["right"]:
-                this.rightIsPressed = false
-                break;
-        }
+    startRight () {
+        this.goingRight = true
+    }
+
+    stopRight () {
+        this.goingRight = false
     }
 
     _addPrimaryWeapon () {

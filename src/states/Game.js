@@ -38,11 +38,10 @@ export default class extends Phaser.State {
 
         let config = this.game.cache.getJSON("config")
 
-        this.musicIsPressed = false
-        
+        this.keys = config["keys"]
+
         this.powerupInterval = config["power-ups"]["appear"]["interval"]
         this.powerupIntervalVariation = config["power-ups"]["appear"]["interval_variation"]
-
         this.powerup = null
     }
 
@@ -52,7 +51,6 @@ export default class extends Phaser.State {
         this._addHud()
         this._initKeyboard()
         this._activatePlayers()
-        this.playGround.startMusic()
         this._startPowerupTimer()
     }
 
@@ -127,6 +125,7 @@ export default class extends Phaser.State {
 
         this.obstacles = this.playGround.getObstacles()
         this.powerupSpots = this.playGround.getPowerupSpots()
+        this.playGround.startMusic()
     }
 
     _addPlayers () {
@@ -141,7 +140,6 @@ export default class extends Phaser.State {
                     type: this.types[0],
                     x: 100,
                     y: this.world.height - data[this.types[0]]["sprite"]["height"] / 2 - 24,
-                    keys: config["keys"]["p1"],
                     context: this
                 })
             ),
@@ -152,7 +150,6 @@ export default class extends Phaser.State {
                     type: this.types[1],
                     x: this.world.width - 100,
                     y: this.world.height - data[this.types[1]]["sprite"]["height"] / 2 - 24,
-                    keys: config["keys"]["p2"],
                     context: this
                 })
             ),
@@ -186,13 +183,49 @@ export default class extends Phaser.State {
     }
 
     _onKeyDown (char) {
-        for (let player of this.players)
-            player.keyDown(char)
+        for (let id in this.players) {
+            let pid = "p" + (1 * id + 1)
+            let keys = this.keys[pid]
+
+            switch (char["code"]) {
+                case keys["fire_primary"]:
+                    this.players[id].firePrimary()
+                    break;
+
+                case keys["fire_secondary"]:
+                    this.players[id].fireSecondary()
+                    break;
+
+                case keys["up"]:
+                    this.players[id].jump()
+                    break;
+
+                case keys["left"]:
+                    this.players[id].startLeft()
+                    break;
+
+                case keys["right"]:
+                    this.players[id].startRight()
+                    break;
+            }
+        }
     }
 
     _onKeyUp (char) {
-        for (let player of this.players)
-            player.keyUp(char)
+        for (let id in this.players) {
+            let pid = "p" + (1 * id + 1)
+            let keys = this.keys[pid]
+
+            switch (char["code"]) {
+                case keys["left"]:
+                    this.players[id].stopLeft()
+                    break;
+
+                case keys["right"]:
+                    this.players[id].stopRight()
+                    break;
+            }
+        }
     }
 
     gameOver (id) {
@@ -250,10 +283,10 @@ export default class extends Phaser.State {
                 y: spot.y,
             })
         }
+
         spots.sort(function (x, y) {
             return x.distance < y.distance ? 1 : -1
         })
-
         let spot = spots[0]
 
         let x = new Powerup({
