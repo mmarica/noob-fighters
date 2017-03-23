@@ -25,7 +25,7 @@ export default class extends Phaser.Group {
         this._level3()
         this._level4()
 
-        this.music = game.add.audio('ambiental')
+        this.music = game.add.audio('ambient')
 
         this.game.time.events.loop(50, this.moveClouds, this);
     }
