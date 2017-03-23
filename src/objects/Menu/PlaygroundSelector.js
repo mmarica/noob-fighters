@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 
 export default class extends Phaser.Group {
-    constructor ({ game, y, keys }) {
+    constructor ({ game, y }) {
         super(game)
 
         // sizing constants
@@ -20,13 +20,12 @@ export default class extends Phaser.Group {
         }
 
         // alternating colors for the selection rectangle
-        this.selectionColors = [0xfa6121, 0xffb739]
+        this.alternatingColors = [0xfa6121, 0xffb739]
         this.selectionColorIndex = 0
 
-        // compute position and save keys
+        // compute position
         this.x = game.world.centerX - (this.WIDTH * this.types.length + this.MARGIN * (this.types.length - 1)) / 2
         this. y = y
-        this.keys = keys
 
         // select second playground by default
         this.selection = 1
@@ -41,12 +40,34 @@ export default class extends Phaser.Group {
         this._addSelector()
     }
 
+    // select the previous playground from the list
+    previous () {
+        let current = this.selection
+        this.selection = Math.max(this.selection - 1, 0)
+
+        if (current != this.selection) {
+            this._updateSelectorPosition()
+            this.changeSelectionSound.play()
+        }
+    }
+
+    // select the next playground from the list
+    next () {
+        let current = this.selection
+        this.selection = Math.min(this.selection + 1, this.types.length - 1)
+
+        if (current != this.selection) {
+            this._updateSelectorPosition()
+            this.changeSelectionSound.play()
+        }
+    }
+
     // get the selected playground type
     getSelected () {
         return this.types[this.selection]
     }
 
-    // add the selector to the stage and bind the keys
+    // add the selector to the stage
     _addSelector () {
         this.selector = this.game.add.graphics()
         this._updateSelectorPosition()
@@ -54,34 +75,12 @@ export default class extends Phaser.Group {
 
         // register the timer to alternate the colors
         this.game.time.events.loop(150, this._drawSelectionRectangle, this);
-
-        // select the previous playground from the list when pressing one of the "left" keys
-        for (let key of this.keys["left"]) {
-            let leftKey = this.game.input.keyboard.addKey(key);
-            leftKey.onDown.add(
-                function () {
-                    this.selection = Math.max(this.selection - 1, 0)
-                    this._updateSelectorPosition()
-                    this.changeSelectionSound.play()
-                }, this)
-        }
-
-        // select the next playground from the list when pressing one of the "right" keys
-        for (let key of this.keys["right"]) {
-            let rightKey = this.game.input.keyboard.addKey(key);
-            rightKey.onDown.add(
-                function () {
-                    this.selection = Math.min(this.selection + 1, this.types.length - 1)
-                    this._updateSelectorPosition()
-                    this.changeSelectionSound.play()
-                }, this)
-        }
     }
 
     // draw the selection rectangle, alternating the colors
     _drawSelectionRectangle () {
         this.selectionColorIndex = 1 - this.selectionColorIndex
-        this.selector.lineStyle(this.STROKE, this.selectionColors[this.selectionColorIndex])
+        this.selector.lineStyle(this.STROKE, this.alternatingColors[this.selectionColorIndex])
         this.selector.drawRect(0, 0, this.WIDTH + this.STROKE, this.HEIGHT + this.STROKE)
     }
 

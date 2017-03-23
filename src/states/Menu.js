@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import PlaygroundSelector from '../objects/Menu/PlaygroundSelector'
 import PlayerSelector from '../objects/Menu/PlayerSelector'
 import { centerGameObjects } from '../utils'
+import Keyboard from '../objects/Keyboard'
 
 export default class extends Phaser.State {
     preload  () {
@@ -16,11 +17,9 @@ export default class extends Phaser.State {
         this._addPlaygroundSelector()
         this._addP1Selector()
         this._addP2Selector()
-        this._addP1Keys()
-        this._addP2Keys()
-
-        let playKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        playKey.onDown.add(this.playKeyDown, this)
+        this._addP1KeyInfo()
+        this._addP2KeyInfo()
+        this._initKeyboard()
     }
 
     /**
@@ -46,11 +45,7 @@ export default class extends Phaser.State {
     _addPlaygroundSelector () {
         this.playgroundSelector = this.game.add.existing(new PlaygroundSelector({
             game: this.game,
-            y: 200,
-            keys: {
-                left: [Phaser.Keyboard.Z, Phaser.Keyboard.LEFT],
-                right: [Phaser.Keyboard.C, Phaser.Keyboard.RIGHT],
-            }
+            y: 200
         }))
     }
 
@@ -63,11 +58,7 @@ export default class extends Phaser.State {
         this.p1Selector = this.game.add.existing(new PlayerSelector({
             game: this.game,
             x: 200,
-            y: 200,
-            keys: {
-                up: Phaser.Keyboard.S,
-                down: Phaser.Keyboard.X
-            }
+            y: 200
         }))
     }
 
@@ -76,7 +67,7 @@ export default class extends Phaser.State {
      *
      * @private
      */
-    _addP1Keys () {
+    _addP1KeyInfo () {
         this._addPlayerText(400, 400, "Player 1 keys\nLeft: Z\nRight: C\nJump: S\nDown: X\nPrimary: Left CTRL\nSecondary: Left SHIFT")
     }
 
@@ -89,11 +80,7 @@ export default class extends Phaser.State {
         this.p2Selector = this.game.add.existing(new PlayerSelector({
             game: this.game,
             x: 1000,
-            y: 200,
-            keys: {
-                up: Phaser.Keyboard.UP,
-                down: Phaser.Keyboard.DOWN,
-            }
+            y: 200
         }))
     }
 
@@ -102,7 +89,7 @@ export default class extends Phaser.State {
      *
      * @private
      */
-    _addP2Keys () {
+    _addP2KeyInfo () {
         this._addPlayerText(700, 400, "Player 2 keys\nLeft: Left ARROW\nRight: Right ARROW\nJump: Up ARROW\nDown: Down ARROW\nPrimary: Right CTRL\nSecondary: Right SHIFT")
     }
 
@@ -146,7 +133,7 @@ export default class extends Phaser.State {
      * @private
      */
     _addPressKeyToPlay () {
-        let text = new Phaser.Text(this.game, this.game.world.centerX, 140, "Choose your players and playground, then  press space to play")
+        let text = new Phaser.Text(this.game, this.game.world.centerX, 140, "Choose both players to start")
         text.font = 'Arial'
         text.fontSize = 20
         text.fill = '#fff'
@@ -155,9 +142,78 @@ export default class extends Phaser.State {
     }
 
     /**
-     * Start game when pressing the play key
+     * Initialize the keyboard binding
+     *
+     * @private
      */
-    playKeyDown () {
+    _initKeyboard () {
+        this.keys = game.cache.getJSON("config")["keys"]
+
+        this.keyboard = new Keyboard({
+            game: game,
+            onKeyDown: {
+                object: this,
+                method: this._onKeyDown,
+            },
+            onKeyUp: {
+                object: this,
+                method: function () {},
+            },
+        })
+    }
+
+    _onKeyDown (char) {
+        switch (char["code"]) {
+            // player 1 selector keys
+            case this.keys["p1"]["up"]:
+                this.p1Selector.previous()
+                break
+
+            case this.keys["p1"]["down"]:
+                this.p1Selector.next()
+                break
+
+            case this.keys["p1"]["fire_primary"]:
+            case this.keys["p1"]["fire_secondary"]:
+                this.p1Selector.choose()
+                this.checkGameStart()
+                break
+
+            // player 2 selector keys
+            case this.keys["p2"]["up"]:
+                this.p2Selector.previous()
+                break
+
+            case this.keys["p2"]["down"]:
+                this.p2Selector.next()
+                break
+
+            case this.keys["p2"]["fire_primary"]:
+            case this.keys["p2"]["fire_secondary"]:
+                this.p2Selector.choose()
+                this.checkGameStart()
+                break
+
+            // playground selector keys
+            case this.keys["p1"]["left"]:
+            case this.keys["p2"]["left"]:
+                this.playgroundSelector.previous()
+                break
+
+            case this.keys["p1"]["right"]:
+            case this.keys["p2"]["right"]:
+                this.playgroundSelector.next()
+                break
+        }
+    }
+
+    /**
+     * Check if both player have been chosen, so we can start the ganme
+     */
+    checkGameStart () {
+        if (!this.p1Selector.isChosen() || !this.p2Selector.isChosen())
+            return
+
         let types = [
             this.p1Selector.getSelected(),
             this.p2Selector.getSelected(),
@@ -166,5 +222,4 @@ export default class extends Phaser.State {
         let map = this.playgroundSelector.getSelected()
         this.game.state.start("Game", true, false, types, map);
     }
-
 }

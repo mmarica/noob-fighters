@@ -2,13 +2,12 @@ import Phaser from 'phaser'
 import Player from '../Player'
 
 export default class extends Phaser.Group {
-    constructor ({ game, x, y, keys }) {
+    constructor ({ game, x, y }) {
         super(game)
         this.x = x
         this. y = y
-        this.keys = keys
 
-        // sizing / positioning constants
+        // sizing and positioning constants
         this.WIDTH = 100
         this.HEIGHT = 100
         this.MARGIN = 4
@@ -18,27 +17,77 @@ export default class extends Phaser.Group {
 
         // select first player by default
         this.selection = 0
+        this.chosen = false
 
         this.playerData = game.cache.getJSON("players")
-        let players = this.playerData
 
         // available player types
         this.types = []
-        for (let type in players)
+        for (let type in this.playerData)
             this.types.push(type)
 
         // alternating colors for the selection rectangle
-        this.selectionColors = [0xfa6121, 0xffb739]
+        this.alternatingColors = [0xfa6121, 0xffb739]
+
+        // color of the selection rectangle background
+        this.selectionBgColor = 0x001821
+
+        // color of selection rectangle after a player is chosen
+        this.selectedColor = 0x198500
+
+        // select first player by default
         this.selectionColorIndex = 0
 
         // sound to play when selection changes
         this.changeSelectionSound = this.game.add.audio("menu_change")
 
-        // add the players (image + name)
-        this._addPlayers()
+        // sound to play when choosing the player is
+        this.chooseSound = this.game.add.audio("menu_choose")
 
-        // add the selection rectangle
         this._addSelector()
+        this._addPlayers()
+    }
+
+    // select the previous player from the list
+    previous () {
+        if (this.chosen)
+            return
+
+        let current = this.selection
+        this.selection = Math.max(this.selection - 1, 0)
+
+        if (current != this.selection) {
+            this._updateSelectorPosition()
+            this.changeSelectionSound.play()
+        }
+    }
+
+    // select the next player from the list
+    next () {
+        if (this.chosen)
+            return
+
+        let current = this.selection
+        this.selection = Math.min(this.selection + 1, this.types.length - 1)
+
+        if (current != this.selection) {
+            this._updateSelectorPosition()
+            this.changeSelectionSound.play()
+        }
+    }
+
+    // choose the currently selected player
+    choose () {
+        if (!this.chosen) {
+            this.chosen = true
+            this.game.time.events.remove(this.selectionTimer)
+            this._drawSelectionRectangle()
+            this.chooseSound.play()
+        }
+    }
+
+    isChosen () {
+        return this.chosen
     }
 
     // get the selected player type
@@ -46,37 +95,29 @@ export default class extends Phaser.Group {
         return this.types[this.selection]
     }
 
+    // add selection rectangle
     _addSelector () {
         this.selector = this.game.add.graphics()
         this._updateSelectorPosition()
         this._drawSelectionRectangle()
 
         // register the timer to alternate the colors
-        this.game.time.events.loop(150, this._drawSelectionRectangle, this);
-
-        // select the next player from the list when pressing the "down" key
-        let downKey = this.game.input.keyboard.addKey(this.keys["down"]);
-        downKey.onDown.add(
-            function () {
-                this.selection = Math.min(this.selection + 1, this.types.length - 1)
-                this._updateSelectorPosition()
-                this.changeSelectionSound.play()
-            }, this)
-
-        // select the previous player from the list when pressing the "up" key
-        let upKey = this.game.input.keyboard.addKey(this.keys["up"]);
-        upKey.onDown.add(
-            function () {
-                this.selection = Math.max(this.selection - 1, 0)
-                this._updateSelectorPosition()
-                this.changeSelectionSound.play()
-            }, this)
+        this.selectionTimer = this.game.time.events.loop(150, this._drawSelectionRectangle, this);
     }
 
     // draw the selection rectangle, alternating the colors
     _drawSelectionRectangle () {
-        this.selectionColorIndex = 1 - this.selectionColorIndex
-        this.selector.lineStyle(this.STROKE, this.selectionColors[this.selectionColorIndex])
+        let color = undefined
+
+        if (this.chosen) {
+            color = this.selectedColor
+        } else {
+            this.selectionColorIndex = 1 - this.selectionColorIndex
+            color = this.alternatingColors[this.selectionColorIndex]
+        }
+
+        this.selector.lineStyle(this.STROKE, color)
+        this.selector.beginFill(this.selectionBgColor);
         this.selector.drawRect(0, 0, this.WIDTH + this.STROKE, this.HEIGHT + this.STROKE)
     }
 
@@ -117,5 +158,6 @@ export default class extends Phaser.Group {
             Player.loadAssets(game, type)
 
         game.load.audio("menu_change", "./assets/menu/sounds/change.mp3?__version__");
+        game.load.audio("menu_choose", "./assets/menu/sounds/choose.mp3?__version__");
     }
 }
