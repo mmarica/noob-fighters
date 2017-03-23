@@ -179,7 +179,7 @@ export default class extends Phaser.Group {
     }
 
     static loadAssets (game) {
-        game.load.audio('ambiental', './assets/playgrounds/forest/sounds/ambiental.mp3?__version__');
+        game.load.audio('ambient', './assets/playgrounds/forest/sounds/ambient.mp3?__version__');
         game.load.image('bg', './assets/playgrounds/forest/images/bg.png?__version__')
         game.load.image('ground', './assets/playgrounds/forest/images/ground.png?__version__')
         game.load.image('clouds1', './assets/playgrounds/forest/images/clouds1.png?__version__')

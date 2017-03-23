@@ -28,9 +28,9 @@ export default class extends Phaser.Group {
         this._level3()
         this._level4()
 
-        this.music = game.add.audio('ambiental')
+        this.music = game.add.audio('ambient')
 
-        let soundList = ["laugh", "moan", "sirens", "twilightzone"]
+        let soundList = ["laugh", "sirens", "twilightzone"]
         this.sounds = []
         for (let sound of soundList) {
             this.sounds.push(game.add.audio(sound))
@@ -331,9 +331,8 @@ export default class extends Phaser.Group {
         game.load.image('sign1', './assets/playgrounds/cemetery/images/sign1.png?__version__')
         game.load.image('sign2', './assets/playgrounds/cemetery/images/sign2.png?__version__')
 
-        game.load.audio('ambiental', './assets/playgrounds/cemetery/sounds/ambiental.mp3?__version__');
+        game.load.audio('ambient', './assets/playgrounds/cemetery/sounds/ambient.mp3?__version__');
         game.load.audio('laugh', './assets/playgrounds/cemetery/sounds/laugh.mp3?__version__');
-        game.load.audio('moan', './assets/playgrounds/cemetery/sounds/moan.mp3?__version__');
         game.load.audio('sirens', './assets/playgrounds/cemetery/sounds/sirens.mp3?__version__');
         game.load.audio('twilightzone', './assets/playgrounds/cemetery/sounds/twilightzone.mp3?__version__');
     }
