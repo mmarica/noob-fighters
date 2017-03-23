@@ -11,14 +11,13 @@ export default class extends Phaser.State {
     }
 
     create () {
+        this.keys = game.cache.getJSON("config")["keys"]
         this._addBackground()
         this._addBanner()
         this._addPressKeyToPlay()
         this._addPlaygroundSelector()
-        this._addP1Selector()
-        this._addP2Selector()
-        this._addP1KeyInfo()
-        this._addP2KeyInfo()
+        this._addPlayerSelectors()
+        this._addPKeyInfo()
         this._initKeyboard()
     }
 
@@ -50,33 +49,17 @@ export default class extends Phaser.State {
     }
 
     /**
-     * Add player 1 selector
+     * Add player selectors
      *
      * @private
      */
-    _addP1Selector () {
+    _addPlayerSelectors () {
         this.p1Selector = this.game.add.existing(new PlayerSelector({
             game: this.game,
             x: 200,
             y: 200
         }))
-    }
 
-    /**
-     * Display the key bindings for player one
-     *
-     * @private
-     */
-    _addP1KeyInfo () {
-        this._addPlayerText(400, 400, "Player 1 keys\nLeft: Z\nRight: C\nJump: S\nDown: X\nPrimary: Left CTRL\nSecondary: Left SHIFT")
-    }
-
-    /**
-     * Add player 2 selector
-     *
-     * @private
-     */
-    _addP2Selector () {
         this.p2Selector = this.game.add.existing(new PlayerSelector({
             game: this.game,
             x: 1000,
@@ -85,12 +68,29 @@ export default class extends Phaser.State {
     }
 
     /**
-     * Display the key bindings for player two
+     * Display the key bindings for players
      *
      * @private
      */
-    _addP2KeyInfo () {
-        this._addPlayerText(700, 400, "Player 2 keys\nLeft: Left ARROW\nRight: Right ARROW\nJump: Up ARROW\nDown: Down ARROW\nPrimary: Right CTRL\nSecondary: Right SHIFT")
+    _addPKeyInfo () {
+        let text = "Player 1 keys"
+            + "\nLeft: " + Keyboard.getDisplayName(this.keys["p1"]["left"])
+            + "\nRight: " + Keyboard.getDisplayName(this.keys["p1"]["right"])
+            + "\nJump: " + Keyboard.getDisplayName(this.keys["p1"]["up"])
+            + "\nDown: " + Keyboard.getDisplayName(this.keys["p1"]["down"])
+            + "\nPrimary: " + Keyboard.getDisplayName(this.keys["p1"]["fire_primary"])
+            + "\nSecondary: " + Keyboard.getDisplayName(this.keys["p1"]["fire_secondary"])
+        this._addPlayerText(400, 400, text)
+
+        text = "Player 2 keys"
+            + "\nLeft: " + Keyboard.getDisplayName(this.keys["p2"]["left"])
+            + "\nRight: " + Keyboard.getDisplayName(this.keys["p2"]["right"])
+            + "\nJump: " + Keyboard.getDisplayName(this.keys["p2"]["up"])
+            + "\nDown: " + Keyboard.getDisplayName(this.keys["p2"]["down"])
+            + "\nPrimary: " + Keyboard.getDisplayName(this.keys["p2"]["fire_primary"])
+            + "\nSecondary: " + Keyboard.getDisplayName(this.keys["p2"]["fire_secondary"])
+        this._addPlayerText(700, 400, text)
+
     }
 
     /**
@@ -147,8 +147,6 @@ export default class extends Phaser.State {
      * @private
      */
     _initKeyboard () {
-        this.keys = game.cache.getJSON("config")["keys"]
-
         this.keyboard = new Keyboard({
             game: game,
             onKeyDown: {
