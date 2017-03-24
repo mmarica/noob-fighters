@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import SecondaryWeapon from './Weapon/Secondary'
 import PrimaryWeapon from './Weapon/Primary'
+import * as util from '../utils'
 
 export default class extends Phaser.Sprite {
 
@@ -94,7 +95,7 @@ export default class extends Phaser.Sprite {
     }
 
     hurt (amount) {
-        console.log("[player " + (this.id + 1) + "] taken damage: " + amount)
+        util.log("player " + (this.id + 1),  "taken damage: " + amount)
         this.hitSound.play()
 
         if (this._isActive)
@@ -179,7 +180,7 @@ export default class extends Phaser.Sprite {
     }
 
     boostHealth (amount) {
-        console.log("[player " + (this.id + 1) + "] health + " + amount)
+        util.log("player " + (this.id + 1), "health + " + amount)
 
         if (this._isActive)
             this.health = Math.min(100, this.health + amount)
@@ -188,28 +189,28 @@ export default class extends Phaser.Sprite {
     }
 
     boostSpeed (duration, percentage) {
-        console.log("[player " + (this.id + 1) + "] speed +" + percentage + "% for " + duration + " seconds")
+        util.log("player " + (this.id + 1), "speed +" + percentage + "% for " + duration + " seconds")
         this.speed = Math.round(this.defaultSpeed * (100 + percentage) / 100)
         let event = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.boostSpeedExpired, this);
         this._speedTint()
     }
 
     boostSpeedExpired () {
-        console.log("[player " + (this.id + 1) + "] speed back to normal")
+        util.log("player " + (this.id + 1), "speed back to normal")
         this.speed = this.defaultSpeed
         this._defaultTint()
     }
 
     boostDamage (duration, percentage) {
         this._damageTint()
-        console.log("[player " + (this.id + 1) + "] damage +" + percentage + "% for " + duration + " seconds")
+        util.log("player " + (this.id + 1), "damage +" + percentage + "% for " + duration + " seconds")
         this.setDamagePercentage(100 + percentage)
         let event = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.boostDamageExpired, this);
     }
 
     boostDamageExpired () {
         this._defaultTint()
-        console.log("[player " + (this.id + 1) + "] damage back to normal")
+        util.log("player " + (this.id + 1), "damage back to normal")
         this.setDamagePercentage(100)
     }
 

@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import * as util from '../../utils'
 
 export default class extends Phaser.Weapon {
 
@@ -45,7 +46,7 @@ export default class extends Phaser.Weapon {
         let damage = Math.round(this.damage * this.damagePercentage / 100)
         let radius = this.radius
 
-        console.log("[secondary] exploded at x: " + x + ", y: " + y + ", damage: " + damage + ", radius: " + radius)
+        util.log("secondary", "exploded at x: " + x + ", y: " + y + ", damage: " + damage + ", radius: " + radius)
 
         let sprite = this.game.add.sprite(x, y, this.player.type + "_secondary_explosion")
         sprite.animations.add("explode", null, this.explosionAnimationRate, false)

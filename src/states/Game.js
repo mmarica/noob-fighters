@@ -236,7 +236,7 @@ export default class extends AbstractState {
             let distance = Math.round(this.game.physics.arcade.distanceToXY(player, x, y))
 
             if (distance < radius) {
-                console.log("[secondary] hit: player " + (player.id + 1) + ", distance: " + distance)
+                util.log("secondary", "hit: player " + (player.id + 1) + ", distance: " + distance)
                 let playerDamage = Math.round(damage * (radius - distance) / radius)
                 playerDamage = Math.max(1, playerDamage)
                 this._hurtPlayer(player, playerDamage)
@@ -362,7 +362,7 @@ export default class extends AbstractState {
     _startPowerupTimer () {
         this.powerup = null
         let seconds = this.powerupInterval + Math.round(Math.random() * this.powerupIntervalVariation)
-        console.log("[power-up] next in " + seconds + " seconds")
+        util.log("power-up", "next in " + seconds + " seconds")
         let event = this.game.time.events.add(Phaser.Timer.SECOND * seconds, this._addPowerup, this);
     }
 }

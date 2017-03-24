@@ -1,7 +1,8 @@
 /* globals __DEV__ */
 
-if (!__DEV__) {
-    var console = {}
-    console.log = function(){}
-    window.console = console
+export const log = function (context, message) {
+    if (!__DEV__)
+        return
+
+    console.log("[" + context + "] " + message)
 }

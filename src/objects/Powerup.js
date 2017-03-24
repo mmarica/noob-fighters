@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import * as util from '../utils'
 
 export default class extends Phaser.Sprite {
 
@@ -34,12 +35,12 @@ export default class extends Phaser.Sprite {
         this.animations.play("default")
         this.sounds['appear'].play()
 
-        console.log('[power-up] appeared for ' + this.appearDuration + ' seconds: ' + type)
+        util.log("power-up", "appeared for " + this.appearDuration + " seconds: " + type)
         this.timer = this.game.time.events.add(Phaser.Timer.SECOND * this.appearDuration, this.expire, this);
     }
 
     expire () {
-        console.log('[power-up] expired')
+        util.log("power-up", "expired")
         this.sounds['disappear'].play()
         this._disappearAnimation()
 
@@ -76,10 +77,10 @@ export default class extends Phaser.Sprite {
 
         if (this.type == 'surprise') {
             type = this.constructor.getRandomType(true)
-            console.log('[power-up] surprise  => ' + type)
+            util.log("power-up", "surprise  => " + type)
         }
 
-        console.log('[power-up] taken: ' + type)
+        util.log("power-up", "taken: " + type)
 
         this.sounds["take_" + type].play()
 
