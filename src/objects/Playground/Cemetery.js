@@ -2,7 +2,6 @@ import Phaser from 'phaser'
 import Ground from './Cemetery/Ground'
 import Ledge from './Cemetery/Ledge'
 import Crate from './Cemetery/Crate'
-import ProTracker from 'proTracker'
 import * as util from '../../utils'
 
 export default class extends Phaser.Group {
