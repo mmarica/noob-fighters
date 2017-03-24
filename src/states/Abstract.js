@@ -1,5 +1,4 @@
 import Phaser from 'phaser'
-import * as util from '../utils'
 
 export default class extends Phaser.State {
     /**
@@ -9,8 +8,10 @@ export default class extends Phaser.State {
      */
     _addPreloadProgressBar () {
         this.loaderBg = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBg')
+        this.loaderBg.anchor.setTo(0.5)
+
         this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar')
-        util.centerGameObjects([this.loaderBg, this.loaderBar])
+        this.loaderBar.anchor.setTo(0.5)
 
         this.load.setPreloadSprite(this.loaderBar)
     }
