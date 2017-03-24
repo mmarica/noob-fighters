@@ -1,7 +1,8 @@
+import AbstractState from './Abstract'
 import Phaser from 'phaser'
-import { centerGameObjects } from '../utils'
+import * as util from '../utils'
 
-export default class extends Phaser.State {
+export default class extends AbstractState {
     /**
      * Extract the winning player from parameters
      *
@@ -11,6 +12,10 @@ export default class extends Phaser.State {
     init (id, type) {
         let data = this.game.cache.getJSON("players")
         this.winningPlayer = "P" + (id + 1) + " " + data[type]["name"]
+    }
+
+    preload  () {
+        this._addPreloadProgressBar()
     }
 
     create () {

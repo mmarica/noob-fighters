@@ -1,3 +1,4 @@
+import AbstractState from './Abstract'
 import Phaser from 'phaser'
 import Player from '../objects/Player'
 import Cemetery from '../objects/Playground/Cemetery'
@@ -6,20 +7,16 @@ import Hud from '../objects/Hud'
 import Powerup from '../objects/Powerup'
 import FadingText from '../objects/FadingText'
 import Keyboard from '../objects/Keyboard'
-import { centerGameObjects } from '../utils'
+import * as util from '../utils'
 
-export default class extends Phaser.State {
+export default class extends AbstractState {
     init (types, map) {
         this.types = types
         this.map = map
     }
 
     preload () {
-        this.loaderBg = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBg')
-        this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar')
-        centerGameObjects([this.loaderBg, this.loaderBar])
-
-        this.load.setPreloadSprite(this.loaderBar)
+        this._addPreloadProgressBar()
 
         for (let type of this.types)
             Player.loadAssets(this.game, type)

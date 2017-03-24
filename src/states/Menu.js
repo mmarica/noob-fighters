@@ -1,11 +1,14 @@
+import AbstractState from './Abstract'
 import Phaser from 'phaser'
 import PlaygroundSelector from '../objects/Menu/PlaygroundSelector'
 import PlayerSelector from '../objects/Menu/PlayerSelector'
-import { centerGameObjects } from '../utils'
 import Keyboard from '../objects/Keyboard'
+import * as util from '../utils'
 
-export default class extends Phaser.State {
+export default class extends AbstractState {
     preload  () {
+        this._addPreloadProgressBar()
+
         PlayerSelector.loadAssets(this.game)
         PlaygroundSelector.loadAssets(this.game)
     }
