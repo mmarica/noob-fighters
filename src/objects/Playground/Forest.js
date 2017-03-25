@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import Ground from './Forest/Ground'
-import RockLedge from './Forest/RockLedge'
-import GrassLedge from './Forest/GrassLedge'
+import RockLedge from './Forest/Ledge/RockLedge'
+import GrassLedge from './Forest/Ledge/GrassLedge'
 
 export default class extends Phaser.Group {
 
@@ -64,7 +64,7 @@ export default class extends Phaser.Group {
             game: game,
             x: 0,
             y: 620,
-            length: 2
+            blockCount: 2
         }))
         this.rock_ledges.push(ledge)
 
@@ -73,7 +73,7 @@ export default class extends Phaser.Group {
             game: game,
             x: 900,
             y: 620,
-            length: 3
+            blockCount: 3
         }))
         this.rock_ledges.push(ledge)
     }
@@ -84,7 +84,7 @@ export default class extends Phaser.Group {
             game: game,
             x: 300,
             y: 470,
-            length: 3
+            blockCount: 3
         }))
         this.rock_ledges.push(ledge)
 
@@ -93,7 +93,7 @@ export default class extends Phaser.Group {
             game: game,
             x: 1152,
             y: 470,
-            length: 2
+            blockCount: 2
         }))
         this.rock_ledges.push(ledge)
     }
@@ -104,7 +104,7 @@ export default class extends Phaser.Group {
             game: game,
             x: 64 * 4,
             y: 360,
-            length: 1
+            blockCount: 1
         }))
         this.grass_ledges.push(ledge)
 
@@ -118,7 +118,7 @@ export default class extends Phaser.Group {
             game: game,
             x: 640,
             y: 360,
-            length: 2
+            blockCount: 2
         }))
         this.grass_ledges.push(ledge)
 
@@ -127,7 +127,7 @@ export default class extends Phaser.Group {
             game: game,
             x: 840,
             y: 360,
-            length: 1
+            blockCount: 1
         }))
         this.grass_ledges.push(ledge)
 
@@ -143,7 +143,7 @@ export default class extends Phaser.Group {
             game: game,
             x: 0,
             y: 286,
-            length: 4
+            blockCount: 4
         }))
         this.grass_ledges.push(ledge)
 
@@ -152,7 +152,7 @@ export default class extends Phaser.Group {
             game: game,
             x: 1152,
             y: 286,
-            length: 2
+            blockCount: 2
         }))
         this.grass_ledges.push(ledge)
     }
