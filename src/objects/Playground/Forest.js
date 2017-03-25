@@ -120,7 +120,7 @@ export default class extends Phaser.Group {
         }))
 
         // add movement to this ledge
-        ledge.verticalMovement (50, 50, 50, "down")
+        ledge.verticalMovement (70, 100, 50, "down")
         this.grass_ledges.push(ledge)
 
         // right
@@ -160,9 +160,6 @@ export default class extends Phaser.Group {
         return [
             {x: 98, y: 286},
             {x: 1216, y: 286},
-            {x: 974, y: 360},
-            {x: 674, y: 360},
-            {x: 290, y: 360},
             {x: 1216, y: 470},
             {x: 400, y: 470},
             {x: 16, y: 620},
