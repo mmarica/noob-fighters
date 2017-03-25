@@ -118,6 +118,9 @@ export default class extends Phaser.Group {
             y: 360,
             blockCount: 2
         }))
+
+        // add movement to this ledge
+        ledge.verticalMovement (50, 50, 50, "down")
         this.grass_ledges.push(ledge)
 
         // right
