@@ -106,12 +106,10 @@ export default class extends Phaser.Group {
             y: 360,
             blockCount: 1
         }))
-        this.grass_ledges.push(ledge)
 
         // add movement to this ledge
-        let motion = this.game.add.tween(ledge).to( { x: '+200' }, 2000, Phaser.Easing.Linear.None, false).to( { x: '-200' }, 2000, Phaser.Easing.Linear.None, false);
-        motion.loop()
-        motion.start()
+        ledge.horizontalMovement (0, 200, 50, "right")
+        this.grass_ledges.push(ledge)
 
         // center
         ledge = this.game.add.existing(new GrassLedge({
@@ -125,16 +123,14 @@ export default class extends Phaser.Group {
         // right
         ledge = this.game.add.existing(new GrassLedge({
             game: game,
-            x: 840,
+            x: 1100,
             y: 360,
             blockCount: 1
         }))
-        this.grass_ledges.push(ledge)
 
         // add movement to this ledge
-        motion = this.game.add.tween(ledge).to( { x: '+200' }, 2000, Phaser.Easing.Linear.None, false).to( { x: '-200' }, 2000, Phaser.Easing.Linear.None, false);
-        motion.loop()
-        motion.start()
+        ledge.horizontalMovement (200, 0, 50, "left")
+        this.grass_ledges.push(ledge)
     }
 
     _level4 () {
