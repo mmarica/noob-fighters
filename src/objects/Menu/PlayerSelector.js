@@ -4,7 +4,7 @@ export default class extends Phaser.Group {
     constructor ({ game, x, y }) {
         super(game)
         this.x = x
-        this. y = y
+        this.y = y
 
         // sizing and positioning constants
         this.WIDTH = 100
@@ -27,6 +27,7 @@ export default class extends Phaser.Group {
 
         // alternating colors for the selection rectangle
         this.alternatingColors = [0xfa6121, 0xffb739]
+        this.alternatingColorsIndex = 0
 
         // color of the selection rectangle background
         this.selectionBgColor = 0x001821
@@ -34,21 +35,20 @@ export default class extends Phaser.Group {
         // color of selection rectangle after a player is chosen
         this.selectedColor = 0x198500
 
-        // select first player by default
-        this.selectionColorIndex = 0
-
         // sound to play when selection changes
         this.changeSelectionSound = this.game.add.audio("menu_player_change")
 
-        // sound to play when choosing the player is
+        // sound to play when choosing the player
         this.chooseSound = this.game.add.audio("menu_player_choose")
 
         this._addSelector()
         this._addPlayers()
     }
 
-    // select the previous player from the list
-    previous () {
+    /**
+     * Select the previous player from the list
+     */
+    previous() {
         if (this.chosen)
             return
 
@@ -61,8 +61,10 @@ export default class extends Phaser.Group {
         }
     }
 
-    // select the next player from the list
-    next () {
+    /**
+     * Select the next player from the list
+     */
+    next() {
         if (this.chosen)
             return
 
@@ -75,8 +77,10 @@ export default class extends Phaser.Group {
         }
     }
 
-    // choose the currently selected player
-    choose () {
+    /**
+     * Choose the currently selected player
+     */
+    choose() {
         if (!this.chosen) {
             this.chosen = true
             this.game.time.events.remove(this.selectionTimer)
@@ -85,17 +89,28 @@ export default class extends Phaser.Group {
         }
     }
 
-    isChosen () {
+    /**
+     * Check if the player type has been chosen
+     *
+     * @returns {boolean|*}
+     */
+    isChosen() {
         return this.chosen
     }
 
-    // get the selected player type
-    getSelected () {
+    /**
+     * Get the selected player type
+     */
+    getSelected() {
         return this.types[this.selection]
     }
 
-    // add selection rectangle
-    _addSelector () {
+    /**
+     * Add selection rectangle
+     *
+     * @private
+     */
+    _addSelector() {
         this.selector = this.game.add.graphics()
         this._updateSelectorPosition()
         this._drawSelectionRectangle()
@@ -104,15 +119,19 @@ export default class extends Phaser.Group {
         this.selectionTimer = this.game.time.events.loop(150, this._drawSelectionRectangle, this);
     }
 
-    // draw the selection rectangle, alternating the colors
-    _drawSelectionRectangle () {
+    /**
+     * Draw the selection rectangle, alternating the colors
+     *
+     * @private
+     */
+    _drawSelectionRectangle() {
         let color = undefined
 
         if (this.chosen) {
             color = this.selectedColor
         } else {
-            this.selectionColorIndex = 1 - this.selectionColorIndex
-            color = this.alternatingColors[this.selectionColorIndex]
+            this.alternatingColorsIndex = 1 - this.alternatingColorsIndex
+            color = this.alternatingColors[this.alternatingColorsIndex]
         }
 
         this.selector.lineStyle(this.STROKE, color)
@@ -120,32 +139,39 @@ export default class extends Phaser.Group {
         this.selector.drawRect(0, 0, this.WIDTH + this.STROKE, this.HEIGHT + this.STROKE)
     }
 
-    // move the selection rectangle on the currently selected item
-    _updateSelectorPosition () {
+    /**
+     * Move the selection rectangle on the currently selected item
+     *
+     * @private
+     */
+    _updateSelectorPosition() {
         this.selector.x = this.x
         this.selector.y = this.y + (this.HEIGHT + this.MARGIN) * this.selection
     }
 
-    // add player images and names
-    _addPlayers () {
+    /**
+     * Add player images and names
+     *
+     * @private
+     */
+    _addPlayers() {
         let x = this.x
         let y = this.y
 
         for (let type of this.types) {
+            // image
             let sprite = this.game.add.sprite(x + this.WIDTH / 2, y + this.HEIGHT - this.IMAGE_OFFSET, type + "_player")
             sprite.anchor.setTo(0.5, 1)
-            this._addName(x + this.WIDTH / 2, y + this.HEIGHT - this.TEXT_OFFSET, this.playerData[type]["name"])
+
+            // name
+            let text = new Phaser.Text(this.game, x + this.WIDTH / 2, y + this.HEIGHT - this.TEXT_OFFSET, this.playerData[type]["name"])
+            text.font = 'Paytone One'
+            text.fontSize = 11
+            text.fill = '#fff'
+            text.anchor.setTo(0.5, 0)
+            this.game.add.existing(text)
+
             y += this.HEIGHT + this.MARGIN
         }
-    }
-
-    // add the player name
-    _addName (x, y, name) {
-        let text = new Phaser.Text(this.game, x, y, name)
-        text.font = 'Paytone One'
-        text.fontSize = 11
-        text.fill = '#fff'
-        text.anchor.setTo(0.5, 0)
-        this.game.add.existing(text)
     }
 }
