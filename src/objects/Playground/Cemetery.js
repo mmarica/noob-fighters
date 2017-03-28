@@ -21,19 +21,21 @@ export default class extends Phaser.Group {
      * @returns {[]}
      */
     getPowerupSpots() {
+        let game = this.game
+
         return [
-            {x: this.game.world.centerX - 176, y: 326},
-            {x: this.game.world.centerX + 160, y: 326},
+            {x: game.world.centerX - 176, y: 326},
+            {x: game.world.centerX + 160, y: 326},
             {x: 60, y: 381},
-            {x: this.game.world.width - 60, y: 381},
+            {x: game.world.width - 60, y: 381},
             {x: 360, y: 491},
-            {x: this.game.world.width - 360, y: 491},
+            {x: game.world.width - 360, y: 491},
             {x: 180, y: 621},
-            {x: this.game.world.width - 180, y: 621},
-            {x: this.game.world.centerX - 58, y: this.game.world.height - 108},
-            {x: this.game.world.centerX + 58, y: this.game.world.height - 108},
-            {x: 16, y: this.game.world.height -24},
-            {x: this.game.world.width - 16, y: this.game.world.height -24},
+            {x: game.world.width - 180, y: 621},
+            {x: game.world.centerX - 58, y: game.world.height - 108},
+            {x: game.world.centerX + 58, y: game.world.height - 108},
+            {x: 16, y: game.world.height -24},
+            {x: game.world.width - 16, y: game.world.height -24},
         ]
     }
 
@@ -45,9 +47,6 @@ export default class extends Phaser.Group {
     getObstacles() {
         return [this.ground, ...this.ledges, ...this.crates]
     }
-
-    startMusic() {}
-    stopMusic() {}
 
     /**
      * Add the background
@@ -148,7 +147,7 @@ export default class extends Phaser.Group {
      *
      * @private
      */
-    _level2 () {
+    _level2() {
         let game = this.game
 
         // middle left
@@ -167,7 +166,7 @@ export default class extends Phaser.Group {
      *
      * @private
      */
-    _level3 () {
+    _level3() {
         let game = this.game
 
         // left ledge and crate
@@ -184,7 +183,7 @@ export default class extends Phaser.Group {
      *
      * @private
      */
-    _level4 () {
+    _level4() {
         let game = this.game
 
         this.ledges.push(game.add.existing(new Ledge(game, game.world.width - 64 * 13, this.startY - 3 * this.step - 35, 5)))
@@ -198,6 +197,8 @@ export default class extends Phaser.Group {
      * @private
      */
     _addSounds() {
+        let game = this.game
+
         let music = game.add.audio('cemetery_ambient')
         music.play('', 0, 0.2, true)
 

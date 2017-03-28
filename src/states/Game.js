@@ -117,14 +117,13 @@ export default class extends AbstractState {
                 break;
 
             case "forest":
-                var playground = new Forest({ game: this.game })
+                var playground = new Forest(this.game)
                 break;
         }
 
         this.playGround = this.game.add.existing(playground)
         this.obstacles = this.playGround.getObstacles()
         this.powerupSpots = this.playGround.getPowerupSpots()
-        this.playGround.startMusic()
     }
 
     _addPlayers () {
@@ -240,7 +239,6 @@ export default class extends AbstractState {
     }
 
     gameOver(p1Name, p1Health, p2Name, p2Health) {
-        this.playGround.stopMusic()
         this.game.sound.stopAll()
         this.game.state.start("GameOver", true, false, p1Name, p1Health, p2Name, p2Health);
     }

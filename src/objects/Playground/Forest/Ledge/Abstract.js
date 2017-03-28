@@ -1,8 +1,17 @@
 import Phaser from 'phaser'
 
 export default class extends Phaser.Group {
-
-    constructor (game, x, y, blockWidth, blockKey, blockCount) {
+    /**
+     * Constructor
+     *
+     * @param game       Game object
+     * @param x          Horizontal position
+     * @param y          Vertical position
+     * @param blockWidth Width of one block
+     * @param blockKey   Sprite key to use for blocks
+     * @param blockCount Number of blocks in the ledge
+     */
+    constructor(game, x, y, blockWidth, blockKey, blockCount) {
         super(game)
 
         this.origX = x
@@ -18,7 +27,15 @@ export default class extends Phaser.Group {
         }
     }
 
-    horizontalMovement (leftDistance, rightDistance, speed, startDirection) {
+    /**
+     * Add horizontal movement
+     *
+     * @param leftDistance   How much to left from the current position
+     * @param rightDistance  How much to right from the current position
+     * @param speed          Movement speed
+     * @param startDirection Direction in which to start moving: left or right
+     */
+    horizontalMovement(leftDistance, rightDistance, speed, startDirection) {
         this.minX = this.origX - leftDistance
         this.maxX = this.origX + rightDistance
         this.hSpeed = speed
@@ -28,7 +45,15 @@ export default class extends Phaser.Group {
             this.game.physics.arcade.enable(block)
     }
 
-    verticalMovement (upDistance, downDistance, speed, startDirection) {
+    /**
+     * Add horizontal movement
+     *
+     * @param upDistance     How much to go up from the current position
+     * @param downDistance   How much to go down from the current position
+     * @param speed          Movement speed
+     * @param startDirection Direction in which to start moving: up or down
+     */
+    verticalMovement(upDistance, downDistance, speed, startDirection) {
         this.minY = this.origY - upDistance
         this.maxY = this.origY + downDistance
         this.vSpeed = speed
@@ -38,7 +63,11 @@ export default class extends Phaser.Group {
             this.game.physics.arcade.enable(block)
     }
 
-    update () {
+    /**
+     * Manage the movements of the ledge (if enabled)
+     */
+    update() {
+        // vertical movement
         if (this.vSpeed > 0) {
             if (this.vDirection == "up" && this.children[0].y <= this.minY)
                 this.vDirection = "down"
@@ -50,6 +79,7 @@ export default class extends Phaser.Group {
                 block.body.velocity.y = this.vDirection == "up" ? -this.vSpeed : this.vSpeed
         }
 
+        // horizontal movement
         if (this.hSpeed > 0) {
             if (this.hDirection == "left" && this.children[0].x <= this.minX)
                 this.hDirection = "right"
