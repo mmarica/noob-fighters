@@ -1,10 +1,10 @@
 import Phaser from 'phaser'
 
 export default class extends Phaser.Group {
-    constructor ({ game, y }) {
+    constructor(game, y) {
         super(game)
 
-        // sizing constants
+        // sizing and positioning constants
         this.WIDTH = 200
         this.HEIGHT = 125
         this.MARGIN = 10
@@ -21,14 +21,14 @@ export default class extends Phaser.Group {
 
         // alternating colors for the selection rectangle
         this.alternatingColors = [0xfa6121, 0xffb739]
-        this.selectionColorIndex = 0
+        this.alternatingColorsIndex = 0
 
-        // compute position
+        // compute position for the widget
         this.x = game.world.centerX - (this.WIDTH * this.types.length + this.MARGIN * (this.types.length - 1)) / 2
-        this. y = y
+        this.y = y
 
-        // select second playground by default
-        this.selection = 1
+        // select first playground by default
+        this.selection = 0
 
         // sound to play when selection changes
         this.changeSelectionSound = this.game.add.audio("menu_playground_change")
@@ -40,8 +40,10 @@ export default class extends Phaser.Group {
         this._addSelector()
     }
 
-    // select the previous playground from the list
-    previous () {
+    /**
+     * Select the previous playground from the list
+     */
+    previous() {
         let current = this.selection
         this.selection = Math.max(this.selection - 1, 0)
 
@@ -51,8 +53,10 @@ export default class extends Phaser.Group {
         }
     }
 
-    // select the next playground from the list
-    next () {
+    /**
+     * Select the next playground from the list
+     */
+    next() {
         let current = this.selection
         this.selection = Math.min(this.selection + 1, this.types.length - 1)
 
@@ -62,12 +66,18 @@ export default class extends Phaser.Group {
         }
     }
 
-    // get the selected playground type
-    getSelected () {
+    /**
+     * Get the selected playground type
+     */
+    getSelected() {
         return this.types[this.selection]
     }
 
-    // add the selector to the stage
+    /**
+     * Add the selector to the stage
+     *
+     * @private
+     */
     _addSelector () {
         this.selector = this.game.add.graphics()
         this._updateSelectorPosition()
@@ -77,38 +87,49 @@ export default class extends Phaser.Group {
         this.game.time.events.loop(150, this._drawSelectionRectangle, this);
     }
 
-    // draw the selection rectangle, alternating the colors
-    _drawSelectionRectangle () {
-        this.selectionColorIndex = 1 - this.selectionColorIndex
-        this.selector.lineStyle(this.STROKE, this.alternatingColors[this.selectionColorIndex])
+    /**
+     * Draw the selection rectangle, alternating the colors
+     *
+     * @private
+     */
+    _drawSelectionRectangle() {
+        this.alternatingColorsIndex = 1 - this.alternatingColorsIndex
+        this.selector.lineStyle(this.STROKE, this.alternatingColors[this.alternatingColorsIndex])
         this.selector.drawRect(0, 0, this.WIDTH + this.STROKE, this.HEIGHT + this.STROKE)
     }
 
-    // move the selection rectangle on the currently selected item
-    _updateSelectorPosition () {
+    /**
+     * Move the selection rectangle on the currently selected item
+     *
+     * @private
+     */
+    _updateSelectorPosition() {
         this.selector.x = this.x + (this.WIDTH + this.MARGIN) * this.selection - this.STROKE / 2
         this.selector.y = this.y - this.STROKE / 2
     }
 
-    // add playground images and names
-    _addPlaygrounds () {
+    /**
+     * Add playground images and names
+     *
+     * @private
+     */
+    _addPlaygrounds() {
         let x = this.x
         let y = this.y
 
         for (let type of this.types) {
+            // image
             let sprite = this.game.add.sprite(x, y, "menu_playground_" + type)
-            this._addName(x + this.WIDTH / 2, y + this.HEIGHT + this.MARGIN, this.names[type])
+
+            // name
+            let text = new Phaser.Text(this.game, x + this.WIDTH / 2, y + this.HEIGHT + this.MARGIN, this.names[type])
+            text.font = 'Paytone One'
+            text.fontSize = 16
+            text.fill = '#fff'
+            text.anchor.setTo(0.5, 0)
+            this.game.add.existing(text)
+
             x += this.WIDTH + this.MARGIN
         }
-    }
-
-    // add the playground name
-    _addName (x, y, name) {
-        let text = new Phaser.Text(this.game, x, y, name)
-        text.font = 'Paytone One'
-        text.fontSize = 16
-        text.fill = '#fff'
-        text.anchor.setTo(0.5, 0)
-        this.game.add.existing(text)
     }
 }

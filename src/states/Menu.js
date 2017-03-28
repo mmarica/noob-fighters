@@ -45,10 +45,7 @@ export default class extends AbstractState {
      * @private
      */
     _addSelectors() {
-        this.playgroundSelector = this.game.add.existing(new PlaygroundSelector({
-            game: this.game,
-            y: 200
-        }))
+        this.playgroundSelector = this.game.add.existing(new PlaygroundSelector(this.game, 200))
 
         this.p1Selector = this.game.add.existing(new PlayerSelector({
             game: this.game,
