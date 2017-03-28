@@ -25,8 +25,6 @@ http://localhost:3000
 ```
 
 ## Features
-Note: At the mooment, playground is randomly selected on game start.
-
 ### Start menu
 + Info about key bindings
 + Player selection widgets
@@ -51,13 +49,16 @@ Note: At the mooment, playground is randomly selected on game start.
 + Forest
 
 ### TODO
-+ Add playground selection to the start menu
++ Add more power-ups
+    + Invulnerability
+    + Wings
 + Add more players
+    + Nooby Doo
     + Snoob Dog
     + Jean-Noob Piccard
     + Popeye the Sailor Noob
-    + Scooby Noob
     + Hannoobal Lecter
     + Noob Vader
     + Noob Raider
-+ Add more playgrounds
++ Add one more playground
++ Improve code and comments
