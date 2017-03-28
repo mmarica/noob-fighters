@@ -1,17 +1,22 @@
-import Phaser from 'phaser'
-
 export default class {
-    constructor ({ game, onKeyDown, onKeyUp }) {
+    constructor(game, onKeyDown, onKeyUp) {
         this.game = game
         this.onKeyDown = onKeyDown
         this.onKeyUp = onKeyUp
 
         this.keyStates = []
 
+        // register handlers for key down and key up events
         this.game.input.keyboard.addCallbacks(this, this._onKeyDown, this._onKeyUp);
     }
 
-    _onKeyDown (char) {
+    /**
+     * Handler for key down event
+     *
+     * @param char The key
+     * @private
+     */
+    _onKeyDown(char) {
         let keyIsDown = char["code"] in this.keyStates && this.keyStates[char["code"]] == true
 
         if (!keyIsDown) {
@@ -20,7 +25,13 @@ export default class {
         }
     }
 
-    _onKeyUp (char) {
+    /**
+     * Handler for key up event
+     *
+     * @param char The key
+     * @private
+     */
+    _onKeyUp(char) {
         let keyIsDown = char["code"] in this.keyStates && this.keyStates[char["code"]] == true
 
         if (keyIsDown) {
@@ -29,7 +40,13 @@ export default class {
         }
     }
 
-    static shortName (code) {
+    /**
+     * Get the short name corresponding to a keyboard code
+     *
+     * @param code Character code
+     * @returns {*}
+     */
+    static shortName(code) {
         let list = this._fixedList()
 
         if (code in list)
@@ -41,7 +58,13 @@ export default class {
         return code
     }
 
-    static longName (code) {
+    /**
+     * Get the long name corresponding to a key code
+     *
+     * @param code Character code
+     * @returns {*}
+     */
+    static longName(code) {
         let list = this._fixedList()
 
         if (code in list)
@@ -53,6 +76,12 @@ export default class {
         return code
     }
 
+    /**
+     * Get the list of key code => short/long name correspondence
+     *
+     * @param code Character code
+     * @returns {*}
+     */
     static _fixedList() {
         return {
             ControlLeft: {

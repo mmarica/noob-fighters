@@ -158,20 +158,26 @@ export default class extends AbstractState {
     }
 
     _initKeyboard () {
-        this.keyboard = new Keyboard({
-            game: game,
-            onKeyDown: {
+        this.keyboard = new Keyboard(
+            this.game,
+            {
                 object: this,
                 method: this._onKeyDown,
             },
-            onKeyUp: {
+            {
                 object: this,
                 method: this._onKeyUp,
-            },
-        })
+            }
+        )
     }
 
-    _onKeyDown (char) {
+    /**
+     * Handler for key down event
+     *
+     * @param char The key
+     * @private
+     */
+    _onKeyDown(char) {
         for (let id in this.players) {
             let pid = "p" + (1 * id + 1)
             let keys = this.keys[pid]
@@ -200,7 +206,13 @@ export default class extends AbstractState {
         }
     }
 
-    _onKeyUp (char) {
+    /**
+     * Handler for key up event
+     *
+     * @param char The key
+     * @private
+     */
+    _onKeyUp(char) {
         for (let id in this.players) {
             let pid = "p" + (1 * id + 1)
             let keys = this.keys[pid]
