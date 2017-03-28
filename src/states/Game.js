@@ -113,18 +113,15 @@ export default class extends AbstractState {
     _addPlayGround () {
         switch (this.map) {
             case "cemetery":
-                this.playGround = this.game.add.existing(
-                    new Cemetery({ game: this.game })
-                )
+                var playground = new Cemetery(this.game)
                 break;
 
             case "forest":
-                this.playGround = this.game.add.existing(
-                    new Forest({ game: this.game })
-                )
+                var playground = new Forest({ game: this.game })
                 break;
         }
 
+        this.playGround = this.game.add.existing(playground)
         this.obstacles = this.playGround.getObstacles()
         this.powerupSpots = this.playGround.getPowerupSpots()
         this.playGround.startMusic()
