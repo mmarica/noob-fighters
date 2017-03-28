@@ -111,6 +111,8 @@ export default class {
         for (let type of types)
             game.load.spritesheet("menu_playground_" + type, "./assets/menu/images/playground_" + type + ".png?__version__", 200, 125);
 
+        game.load.image('menu_playground_left', './assets/menu/images/left.png?__version__')
+        game.load.image('menu_playground_right', './assets/menu/images/right.png?__version__')
         game.load.audio("menu_playground_change", "./assets/menu/sounds/change.mp3?__version__");
     }
 

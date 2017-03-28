@@ -45,7 +45,11 @@ export default class extends AbstractState {
      * @private
      */
     _addSelectors() {
-        this.playgroundSelector = this.game.add.existing(new PlaygroundSelector(this.game, 200))
+        let pgKeys = {
+            "previous": [this.keys["p1"]["left"], this.keys["p2"]["left"]],
+            "next": [this.keys["p1"]["right"], this.keys["p2"]["right"]],
+        }
+        this.playgroundSelector = this.game.add.existing(new PlaygroundSelector(this.game, 200, pgKeys))
 
         this.p1Selector = this.game.add.existing(new PlayerSelector({
             game: this.game,
@@ -73,7 +77,7 @@ export default class extends AbstractState {
             + "\nDown: " + Keyboard.getDisplayName(this.keys["p1"]["down"])
             + "\nPrimary: " + Keyboard.getDisplayName(this.keys["p1"]["fire_primary"])
             + "\nSecondary: " + Keyboard.getDisplayName(this.keys["p1"]["fire_secondary"])
-        this._addPlayerKeysText(400, 400, text)
+        this._addPlayerKeysText(400, 450, text)
 
         text = "Player 2 keys"
             + "\nLeft: " + Keyboard.getDisplayName(this.keys["p2"]["left"])
@@ -82,7 +86,7 @@ export default class extends AbstractState {
             + "\nDown: " + Keyboard.getDisplayName(this.keys["p2"]["down"])
             + "\nPrimary: " + Keyboard.getDisplayName(this.keys["p2"]["fire_primary"])
             + "\nSecondary: " + Keyboard.getDisplayName(this.keys["p2"]["fire_secondary"])
-        this._addPlayerKeysText(700, 400, text)
+        this._addPlayerKeysText(700, 450, text)
 
     }
 
