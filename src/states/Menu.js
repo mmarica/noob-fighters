@@ -51,17 +51,25 @@ export default class extends AbstractState {
         }
         this.playgroundSelector = this.game.add.existing(new PlaygroundSelector(this.game, 200, pgKeys))
 
-        this.p1Selector = this.game.add.existing(new PlayerSelector({
-            game: this.game,
-            x: 200,
-            y: 200
-        }))
+        let p1Keys = {
+            "previous": this.keys["p1"]["up"],
+            "next": this.keys["p1"]["down"],
+            "confirm": [
+                this.keys["p1"]["fire_primary"],
+                this.keys["p1"]["fire_secondary"],
+            ],
+        }
+        this.p1Selector = this.game.add.existing(new PlayerSelector(this.game, 200, 200, p1Keys, "left"))
 
-        this.p2Selector = this.game.add.existing(new PlayerSelector({
-            game: this.game,
-            x: 1000,
-            y: 200
-        }))
+        let p2Keys = {
+            "previous": this.keys["p2"]["up"],
+            "next": this.keys["p2"]["down"],
+            "confirm": [
+                this.keys["p2"]["fire_primary"],
+                this.keys["p2"]["fire_secondary"],
+            ],
+        }
+        this.p2Selector = this.game.add.existing(new PlayerSelector(this.game, 1000, 200, p2Keys, "right"))
     }
 
     /**
@@ -71,21 +79,21 @@ export default class extends AbstractState {
      */
     _addPlayersKeyInfo() {
         let text = "Player 1 keys"
-            + "\nLeft: " + Keyboard.getDisplayName(this.keys["p1"]["left"])
-            + "\nRight: " + Keyboard.getDisplayName(this.keys["p1"]["right"])
-            + "\nJump: " + Keyboard.getDisplayName(this.keys["p1"]["up"])
-            + "\nDown: " + Keyboard.getDisplayName(this.keys["p1"]["down"])
-            + "\nPrimary: " + Keyboard.getDisplayName(this.keys["p1"]["fire_primary"])
-            + "\nSecondary: " + Keyboard.getDisplayName(this.keys["p1"]["fire_secondary"])
+            + "\nLeft: " + Keyboard.longName(this.keys["p1"]["left"])
+            + "\nRight: " + Keyboard.longName(this.keys["p1"]["right"])
+            + "\nJump: " + Keyboard.longName(this.keys["p1"]["up"])
+            + "\nDown: " + Keyboard.longName(this.keys["p1"]["down"])
+            + "\nPrimary: " + Keyboard.longName(this.keys["p1"]["fire_primary"])
+            + "\nSecondary: " + Keyboard.longName(this.keys["p1"]["fire_secondary"])
         this._addPlayerKeysText(400, 450, text)
 
         text = "Player 2 keys"
-            + "\nLeft: " + Keyboard.getDisplayName(this.keys["p2"]["left"])
-            + "\nRight: " + Keyboard.getDisplayName(this.keys["p2"]["right"])
-            + "\nJump: " + Keyboard.getDisplayName(this.keys["p2"]["up"])
-            + "\nDown: " + Keyboard.getDisplayName(this.keys["p2"]["down"])
-            + "\nPrimary: " + Keyboard.getDisplayName(this.keys["p2"]["fire_primary"])
-            + "\nSecondary: " + Keyboard.getDisplayName(this.keys["p2"]["fire_secondary"])
+            + "\nLeft: " + Keyboard.longName(this.keys["p2"]["left"])
+            + "\nRight: " + Keyboard.longName(this.keys["p2"]["right"])
+            + "\nJump: " + Keyboard.longName(this.keys["p2"]["up"])
+            + "\nDown: " + Keyboard.longName(this.keys["p2"]["down"])
+            + "\nPrimary: " + Keyboard.longName(this.keys["p2"]["fire_primary"])
+            + "\nSecondary: " + Keyboard.longName(this.keys["p2"]["fire_secondary"])
         this._addPlayerKeysText(700, 450, text)
 
     }
@@ -123,7 +131,7 @@ export default class extends AbstractState {
         title.anchor.setTo(0.5, 0)
         this.game.add.existing(title)
 
-        let text = new Phaser.Text(this.game, this.game.world.centerX, 140, "Choose both players to start")
+        let text = new Phaser.Text(this.game, this.game.world.centerX, 140, "Select both players to start")
         text.font = 'Arial'
         text.fontSize = 20
         text.fill = '#fff'

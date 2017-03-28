@@ -1,10 +1,13 @@
+import Keyboard from '../Keyboard'
 import Phaser from 'phaser'
 
 export default class extends Phaser.Group {
-    constructor ({ game, x, y }) {
+    constructor (game, x, y, keys, keysPosition) {
         super(game)
         this.x = x
         this.y = y
+        this.keys = keys
+        this.keysPosition = keysPosition
 
         // sizing and positioning constants
         this.WIDTH = 100
@@ -41,7 +44,13 @@ export default class extends Phaser.Group {
         // sound to play when confirming the player selection
         this.confirmSound = this.game.add.audio("menu_player_confirm")
 
+        // add info about key bindings
+        this._addKeys()
+
+        // add the selection rectangle
         this._addSelector()
+
+        // add the players (image + name)
         this._addPlayers()
     }
 
@@ -147,6 +156,59 @@ export default class extends Phaser.Group {
     _updateSelectorPosition() {
         this.selector.x = this.x
         this.selector.y = this.y + (this.HEIGHT + this.MARGIN) * this.selection
+    }
+
+    /**
+     * Add info about key bindings
+     *
+     * @private
+     */
+    _addKeys() {
+        let xMul = this.keysPosition == "left" ? 1 : -1
+        let textAlign = this.keysPosition == "left" ? "right" : "left"
+        let textAnchor = this.keysPosition == "left" ? 1 : 0
+
+        let x = this.x
+        if (this.keysPosition == "right")
+            x += this.WIDTH
+
+        // key for previous item
+        let y = this.y
+
+        let text = new Phaser.Text(this.game, x - xMul * 40, y + 75, Keyboard.shortName(this.keys["previous"]))
+        text.font = 'Arial'
+        text.fontSize = 14
+        text.fill = '#fff'
+        text.align = textAlign
+        text.anchor.setTo(textAnchor, 0)
+        this.game.add.existing(text)
+
+        let sprite = this.game.add.sprite(x - xMul * 25, y, "menu_player_up")
+        sprite.anchor.setTo(0.5, 0)
+
+        // keys for confirmation
+        y = this.y + (this.HEIGHT * this.types.length + this.MARGIN * (this.types.length - 1)) / 2
+        text = new Phaser.Text(this.game, x - xMul * 40, y, "Confirm:\n" + Keyboard.shortName(this.keys["confirm"][0]) + "\n" + Keyboard.shortName(this.keys["confirm"][1]))
+        text.font = 'Arial'
+        text.fontSize = 14
+        text.fill = '#fff'
+        text.align = textAlign
+        text.anchor.setTo(textAnchor, 0.5)
+        this.game.add.existing(text)
+
+        // key for next item
+        y = this.y + this.HEIGHT * this.types.length + this.MARGIN * (this.types.length - 1)
+
+        text = new Phaser.Text(this.game, x - xMul * 40, y - 75, Keyboard.shortName(this.keys["next"]))
+        text.font = 'Arial'
+        text.fontSize = 14
+        text.fill = '#fff'
+        text.align = textAlign
+        text.anchor.setTo(textAnchor, 1)
+        this.game.add.existing(text)
+
+        sprite = this.game.add.sprite(x - xMul * 25, y, "menu_player_down")
+        sprite.anchor.setTo(0.5, 1)
     }
 
     /**

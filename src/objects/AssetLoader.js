@@ -94,6 +94,8 @@ export default class {
         for (let type in players)
             this.loadPlayer(type)
 
+        game.load.image('menu_player_up', './assets/menu/images/up.png?__version__')
+        game.load.image('menu_player_down', './assets/menu/images/down.png?__version__')
         game.load.audio("menu_player_change", "./assets/menu/sounds/change.mp3?__version__");
         game.load.audio("menu_player_confirm", "./assets/menu/sounds/confirm.mp3?__version__");
     }

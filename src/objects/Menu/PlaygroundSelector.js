@@ -124,7 +124,7 @@ export default class extends Phaser.Group {
         let x = this.game.world.centerX - (this.WIDTH * this.types.length + this.H_SPACING * (this.types.length - 1)) / 4
         let y = this.y
 
-        let text = new Phaser.Text(this.game, x, y, Keyboard.getDisplayName(this.keys["previous"][0]) + ", " + Keyboard.getDisplayName(this.keys["previous"][1]))
+        let text = new Phaser.Text(this.game, x, y, Keyboard.longName(this.keys["previous"][0]) + ", " + Keyboard.longName(this.keys["previous"][1]))
         text.font = 'Arial'
         text.fontSize = 14
         text.fill = '#fff'
@@ -136,7 +136,7 @@ export default class extends Phaser.Group {
 
         x = this.game.world.centerX + (this.WIDTH * this.types.length + this.H_SPACING * (this.types.length - 1)) / 4
 
-        text = new Phaser.Text(this.game, x, y, Keyboard.getDisplayName(this.keys["next"][0]) + ", " + Keyboard.getDisplayName(this.keys["next"][1]))
+        text = new Phaser.Text(this.game, x, y, Keyboard.longName(this.keys["next"][0]) + ", " + Keyboard.longName(this.keys["next"][1]))
         text.font = 'Arial'
         text.fontSize = 14
         text.fill = '#fff'

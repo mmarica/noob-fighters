@@ -29,35 +29,65 @@ export default class {
         }
     }
 
-    static getDisplayName (code) {
-        if (code == "ControlLeft")
-            return "Left CTRL"
+    static shortName (code) {
+        let list = this._fixedList()
 
-        if (code == "ControlRight")
-            return "Right CTRL"
-
-        if (code == "ShiftLeft")
-            return "Left SHIFT"
-
-        if (code == "ShiftRight")
-            return "Right SHIFT"
-
-        if (code == "ArrowLeft")
-            return "Left ARROW"
-
-        if (code == "ArrowRight")
-            return "Right ARROW"
-
-        if (code == "ArrowUp")
-            return "Up ARROW"
-
-        if (code == "ArrowDown")
-            return "Down ARROW"
+        if (code in list)
+            return list[code]["short"]
 
         if (code.substring(0, 3) == "Key")
             return code.substring(3)
 
         return code
+    }
+
+    static longName (code) {
+        let list = this._fixedList()
+
+        if (code in list)
+            return list[code]["long"]
+
+        if (code.substring(0, 3) == "Key")
+            return code.substring(3)
+
+        return code
+    }
+
+    static _fixedList() {
+        return {
+            ControlLeft: {
+                short: "LCTRL",
+                long: "Left CTRL",
+            },
+            ControlRight: {
+                short: "RCTRL",
+                long: "Right CTRL",
+            },
+            ShiftLeft: {
+                short: "LSHIFT",
+                long: "Left SHIFT",
+            },
+            ShiftRight: {
+                short: "RSHIFT",
+                long: "Right SHIFT",
+            },
+            ArrowLeft: {
+                short: "Left",
+                long: "Left ARROW",
+            },
+            ArrowRight: {
+                short: "Right",
+                long: "Right ARROW",
+            },
+            ArrowUp: {
+                short: "Up",
+                long: "Up ARROW",
+            },
+            ArrowDown: {
+                short: "Down",
+                long: "Down ARROW",
+            },
+        }
     }
 }
 
