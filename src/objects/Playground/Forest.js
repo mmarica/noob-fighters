@@ -174,17 +174,6 @@ export default class extends Phaser.Group {
         return [this.ground, ...this.rocks, ...this.rock_ledges, ...this.grass_ledges]
     }
 
-    static loadAssets (game) {
-        game.load.audio('ambient', './assets/playgrounds/forest/sounds/ambient.mp3?__version__');
-        game.load.image('bg', './assets/playgrounds/forest/images/bg.png?__version__')
-        game.load.image('ground', './assets/playgrounds/forest/images/ground.png?__version__')
-        game.load.image('clouds1', './assets/playgrounds/forest/images/clouds1.png?__version__')
-        game.load.image('clouds2', './assets/playgrounds/forest/images/clouds2.png?__version__')
-        game.load.image('rock1', './assets/playgrounds/forest/images/rock1.png?__version__')
-        game.load.image('rock_ledge', './assets/playgrounds/forest/images/rock_ledge.png?__version__')
-        game.load.image('grass_ledge', './assets/playgrounds/forest/images/grass_ledge.png?__version__')
-    }
-
     startMusic () {
         this.music.play('', 0, 0.2, true)
     }

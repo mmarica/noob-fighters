@@ -314,29 +314,6 @@ export default class extends Phaser.Group {
         return [this.ground, ...this.ledges, ...this.crates]
     }
 
-    static loadAssets (game) {
-        game.load.image('bg', './assets/playgrounds/cemetery/images/bg.png?__version__')
-        game.load.image('clouds', './assets/playgrounds/cemetery/images/clouds.png?__version__')
-        game.load.image('ground', './assets/playgrounds/cemetery/images/ground.png?__version__')
-        game.load.image('ledge_left', './assets/playgrounds/cemetery/images/ledge_left.png?__version__')
-        game.load.image('ledge_center', './assets/playgrounds/cemetery/images/ledge_center.png?__version__')
-        game.load.image('ledge_right', './assets/playgrounds/cemetery/images/ledge_right.png?__version__')
-        game.load.image('crate', './assets/playgrounds/cemetery/images/crate.png?__version__')
-        game.load.image('tree', './assets/playgrounds/cemetery/images/tree.png?__version__')
-        game.load.image('bush1', './assets/playgrounds/cemetery/images/bush1.png?__version__')
-        game.load.image('bush2', './assets/playgrounds/cemetery/images/bush2.png?__version__')
-        game.load.image('skeleton', './assets/playgrounds/cemetery/images/skeleton.png?__version__')
-        game.load.image('tombstone1', './assets/playgrounds/cemetery/images/tombstone1.png?__version__')
-        game.load.image('tombstone2', './assets/playgrounds/cemetery/images/tombstone2.png?__version__')
-        game.load.image('sign1', './assets/playgrounds/cemetery/images/sign1.png?__version__')
-        game.load.image('sign2', './assets/playgrounds/cemetery/images/sign2.png?__version__')
-
-        game.load.audio('ambient', './assets/playgrounds/cemetery/sounds/ambient.mp3?__version__');
-        game.load.audio('laugh', './assets/playgrounds/cemetery/sounds/laugh.mp3?__version__');
-        game.load.audio('sirens', './assets/playgrounds/cemetery/sounds/sirens.mp3?__version__');
-        game.load.audio('twilightzone', './assets/playgrounds/cemetery/sounds/twilightzone.mp3?__version__');
-    }
-
     startMusic () {
         this.music.play('', 0, 0.2, true)
     }

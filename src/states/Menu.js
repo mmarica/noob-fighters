@@ -1,4 +1,5 @@
 import AbstractState from './Abstract'
+import AssetLoader from '../objects/AssetLoader'
 import Phaser from 'phaser'
 import PlaygroundSelector from '../objects/Menu/PlaygroundSelector'
 import PlayerSelector from '../objects/Menu/PlayerSelector'
@@ -9,8 +10,8 @@ export default class extends AbstractState {
     preload  () {
         this._addPreloadProgressBar()
 
-        PlayerSelector.loadAssets(this.game)
-        PlaygroundSelector.loadAssets(this.game)
+        AssetLoader.loadPlayerSelector()
+        AssetLoader.loadPlaygroundSelector()
     }
 
     create () {

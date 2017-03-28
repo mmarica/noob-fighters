@@ -31,7 +31,7 @@ export default class extends Phaser.Group {
         this.selection = 1
 
         // sound to play when selection changes
-        this.changeSelectionSound = this.game.add.audio("menu_change")
+        this.changeSelectionSound = this.game.add.audio("menu_playground_change")
 
         // add the playgrounds (image + name)
         this._addPlaygrounds()
@@ -110,15 +110,5 @@ export default class extends Phaser.Group {
         text.fill = '#fff'
         text.anchor.setTo(0.5, 0)
         this.game.add.existing(text)
-    }
-
-    // load the assets
-    static loadAssets (game) {
-        let types = ["cemetery", "forest"]
-
-        for (let type of types)
-            game.load.spritesheet("menu_playground_" + type, "./assets/menu/images/playground_" + type + ".png?__version__", 200, 125);
-
-        game.load.audio("menu_change", "./assets/menu/sounds/change.mp3?__version__");
     }
 }

@@ -1,5 +1,4 @@
 import Phaser from 'phaser'
-import Player from '../Player'
 
 export default class extends Phaser.Group {
     constructor ({ game, x, y }) {
@@ -39,10 +38,10 @@ export default class extends Phaser.Group {
         this.selectionColorIndex = 0
 
         // sound to play when selection changes
-        this.changeSelectionSound = this.game.add.audio("menu_change")
+        this.changeSelectionSound = this.game.add.audio("menu_player_change")
 
         // sound to play when choosing the player is
-        this.chooseSound = this.game.add.audio("menu_choose")
+        this.chooseSound = this.game.add.audio("menu_player_choose")
 
         this._addSelector()
         this._addPlayers()
@@ -148,16 +147,5 @@ export default class extends Phaser.Group {
         text.fill = '#fff'
         text.anchor.setTo(0.5, 0)
         this.game.add.existing(text)
-    }
-
-    // load the assets
-    static loadAssets (game) {
-        let players = game.cache.getJSON("players")
-
-        for (let type in players)
-            Player.loadAssets(game, type)
-
-        game.load.audio("menu_change", "./assets/menu/sounds/change.mp3?__version__");
-        game.load.audio("menu_choose", "./assets/menu/sounds/choose.mp3?__version__");
     }
 }

@@ -1,5 +1,6 @@
-import AbstractState from './Abstract'
 import Phaser from 'phaser'
+import AbstractState from './Abstract'
+import AssetLoader from '../objects/AssetLoader'
 import Player from '../objects/Player'
 import Cemetery from '../objects/Playground/Cemetery'
 import Forest from '../objects/Playground/Forest'
@@ -19,19 +20,10 @@ export default class extends AbstractState {
         this._addPreloadProgressBar()
 
         for (let type of this.types)
-            Player.loadAssets(this.game, type)
+            AssetLoader.loadPlayer(type)
 
-        switch (this.map) {
-            case "cemetery":
-                Cemetery.loadAssets(this.game)
-                break;
-
-            case "forest":
-                Forest.loadAssets(this.game)
-                break;
-        }
-
-        Powerup.loadAssets(this.game)
+        AssetLoader.loadPlayground(this.map)
+        AssetLoader.loadPowerups()
 
         let config = this.game.cache.getJSON("config")
 

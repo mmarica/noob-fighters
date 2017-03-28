@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import WebFont from 'webfontloader'
+import AssetLoader from '../objects/AssetLoader'
 
 export default class extends Phaser.State {
     init () {
@@ -32,6 +33,8 @@ export default class extends Phaser.State {
             Phaser.KeyCode.UP, Phaser.KeyCode.DOWN, Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT,
             Phaser.KeyCode.CONTROL,  Phaser.KeyCode.ALT, Phaser.KeyCode.SHIFT,
         ])
+
+        AssetLoader.setGame(this.game)
     }
 
     render () {

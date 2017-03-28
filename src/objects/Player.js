@@ -230,14 +230,4 @@ export default class extends Phaser.Sprite {
     _speedTint () {
         this.tintColor = 0x44FF44
     }
-
-    static loadAssets (game, type) {
-        let data = game.cache.getJSON("players")[type]
-
-        game.load.spritesheet(type + "_player" , "./assets/players/" + type + "/images/player.png?__version__", data["sprite"]["width"], data["sprite"]["height"])
-        game.load.audio(type + "_hurt", "./assets/players/" + type + "/sounds/hurt.mp3?__version__");
-
-        PrimaryWeapon.loadAssets(game, type)
-        SecondaryWeapon.loadAssets(game, type)
-    }
 }

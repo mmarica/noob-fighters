@@ -105,22 +105,4 @@ export default class extends Phaser.Sprite {
         this._disappearAnimation()
         this.kill()
     }
-
-    update () {
-    }
-
-    static loadAssets (game) {
-        game.load.spritesheet('powerup_health', './assets/powerups/images/health.png?__version__', 32, 32);
-        game.load.spritesheet('powerup_speed', './assets/powerups/images/speed.png?__version__', 32, 32);
-        game.load.spritesheet('powerup_damage', './assets/powerups/images/damage.png?__version__', 32, 32);
-        game.load.spritesheet('powerup_trap', './assets/powerups/images/trap.png?__version__', 32, 32);
-        game.load.spritesheet('powerup_surprise', './assets/powerups/images/surprise.png?__version__', 32, 32);
-        game.load.spritesheet('powerup_disappear', './assets/powerups/images/disappear.png?__version__', 32, 32);
-        game.load.audio('powerup_appear', './assets/powerups/sounds/appear.mp3?__version__');
-        game.load.audio('powerup_disappear', './assets/powerups/sounds/disappear.mp3?__version__');
-        game.load.audio('powerup_take_health', './assets/powerups/sounds/take_health.mp3?__version__');
-        game.load.audio('powerup_take_trap', './assets/powerups/sounds/take_trap.mp3?__version__');
-        game.load.audio('powerup_take_speed', './assets/powerups/sounds/take_speed.mp3?__version__');
-        game.load.audio('powerup_take_damage', './assets/powerups/sounds/take_damage.mp3?__version__');
-    }
 }

@@ -61,13 +61,4 @@ export default class extends Phaser.Weapon {
         let callback = this.onExplode.method.bind(this.onExplode.object)
         callback(x, y, damage, radius)
     }
-
-    static loadAssets (game, type) {
-        let data = game.cache.getJSON("players")[type]["weapons"]["secondary"]
-
-        game.load.image(type + "_secondary_bullet", "./assets/players/" + type + "/images/secondary_bullet.png?__version__")
-        game.load.spritesheet(type + "_secondary_explosion", "./assets/players/" + type + "/images/secondary_explosion.png?__version__", data["sprite"]["width"], data["sprite"]["height"]);
-        game.load.audio(type + "_secondary_shoot", "./assets/players/" + type + "/sounds/secondary_shoot.mp3?__version__");
-        game.load.audio(type + "_secondary_explode", "./assets/players/" + type + "/sounds/secondary_explode.mp3?__version__");
-    }
 }

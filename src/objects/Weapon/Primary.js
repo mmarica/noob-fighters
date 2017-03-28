@@ -32,9 +32,4 @@ export default class extends Phaser.Weapon {
     getComputedDamage () {
         return Math.round(this.damage * this.damagePercentage / 100)
     }
-
-    static loadAssets (game, type) {
-        game.load.image(type + "_primary_bullet", "./assets/players/" + type + "/images/primary_bullet.png?__version__")
-        game.load.audio(type + "_primary_shoot", "./assets/players/" + type + "/sounds/primary_shoot.mp3?__version__");
-    }
 }
