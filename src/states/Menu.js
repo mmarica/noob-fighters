@@ -4,18 +4,23 @@ import Phaser from 'phaser'
 import PlaygroundSelector from '../objects/Menu/PlaygroundSelector'
 import PlayerSelector from '../objects/Menu/PlayerSelector'
 import Keyboard from '../objects/Keyboard'
-import * as util from '../utils'
 
 export default class extends AbstractState {
+    /**
+     * Load assets
+     */
     preload() {
         this._addPreloadProgressBar()
 
         AssetLoader.loadPlayerSelector()
         AssetLoader.loadPlaygroundSelector()
 
-        this.keys = game.cache.getJSON("config")["keys"]
+        this.keys = this.game.cache.getJSON("config")["keys"]
     }
 
+    /**
+     * Create the stage
+     */
     create() {
         this._addBackground()
         this._addHeader()
@@ -25,7 +30,7 @@ export default class extends AbstractState {
     }
 
     /**
-     * Create the background gradient
+     * Create the background
      *
      * @private
      */
@@ -99,7 +104,7 @@ export default class extends AbstractState {
     }
 
     /**
-     * Displaying player keys
+     * Display text about keys for one player
      *
      * @param x       Horizontal position
      * @param y       Vertical position
@@ -158,6 +163,12 @@ export default class extends AbstractState {
         })
     }
 
+    /**
+     * Handler for key down event
+     *
+     * @param char
+     * @private
+     */
     _onKeyDown(char) {
         switch (char["code"]) {
             // player 1 selector keys
@@ -204,7 +215,7 @@ export default class extends AbstractState {
     }
 
     /**
-     * Check if both player have been chosen, so we can start the ganme
+     * Check if both players have been chosen, so we can start the ganme
      */
     checkGameStart() {
         if (!this.p1Selector.isConfirmed() || !this.p2Selector.isConfirmed())
