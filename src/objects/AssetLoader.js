@@ -46,36 +46,36 @@ export default class {
 
         switch (type) {
             case "cemetery":
-                game.load.image('bg', './assets/playgrounds/cemetery/images/bg.png?__version__')
-                game.load.image('clouds', './assets/playgrounds/cemetery/images/clouds.png?__version__')
-                game.load.image('ground', './assets/playgrounds/cemetery/images/ground.png?__version__')
-                game.load.image('ledge_left', './assets/playgrounds/cemetery/images/ledge_left.png?__version__')
-                game.load.image('ledge_center', './assets/playgrounds/cemetery/images/ledge_center.png?__version__')
-                game.load.image('ledge_right', './assets/playgrounds/cemetery/images/ledge_right.png?__version__')
-                game.load.image('crate', './assets/playgrounds/cemetery/images/crate.png?__version__')
-                game.load.image('tree', './assets/playgrounds/cemetery/images/tree.png?__version__')
-                game.load.image('bush1', './assets/playgrounds/cemetery/images/bush1.png?__version__')
-                game.load.image('bush2', './assets/playgrounds/cemetery/images/bush2.png?__version__')
-                game.load.image('skeleton', './assets/playgrounds/cemetery/images/skeleton.png?__version__')
-                game.load.image('tombstone1', './assets/playgrounds/cemetery/images/tombstone1.png?__version__')
-                game.load.image('tombstone2', './assets/playgrounds/cemetery/images/tombstone2.png?__version__')
-                game.load.image('sign1', './assets/playgrounds/cemetery/images/sign1.png?__version__')
-                game.load.image('sign2', './assets/playgrounds/cemetery/images/sign2.png?__version__')
-                game.load.audio('ambient', './assets/playgrounds/cemetery/sounds/ambient.mp3?__version__');
-                game.load.audio('laugh', './assets/playgrounds/cemetery/sounds/laugh.mp3?__version__');
-                game.load.audio('sirens', './assets/playgrounds/cemetery/sounds/sirens.mp3?__version__');
-                game.load.audio('twilightzone', './assets/playgrounds/cemetery/sounds/twilightzone.mp3?__version__');
+                game.load.image('cemetery_bg', './assets/playgrounds/cemetery/images/bg.png?__version__')
+                game.load.image('cemetery_clouds', './assets/playgrounds/cemetery/images/clouds.png?__version__')
+                game.load.image('cemetery_ground', './assets/playgrounds/cemetery/images/ground.png?__version__')
+                game.load.image('cemetery_ledge_left', './assets/playgrounds/cemetery/images/ledge_left.png?__version__')
+                game.load.image('cemetery_ledge_center', './assets/playgrounds/cemetery/images/ledge_center.png?__version__')
+                game.load.image('cemetery_ledge_right', './assets/playgrounds/cemetery/images/ledge_right.png?__version__')
+                game.load.image('cemetery_crate', './assets/playgrounds/cemetery/images/crate.png?__version__')
+                game.load.image('cemetery_tree', './assets/playgrounds/cemetery/images/tree.png?__version__')
+                game.load.image('cemetery_bush1', './assets/playgrounds/cemetery/images/bush1.png?__version__')
+                game.load.image('cemetery_bush2', './assets/playgrounds/cemetery/images/bush2.png?__version__')
+                game.load.image('cemetery_skeleton', './assets/playgrounds/cemetery/images/skeleton.png?__version__')
+                game.load.image('cemetery_tombstone1', './assets/playgrounds/cemetery/images/tombstone1.png?__version__')
+                game.load.image('cemetery_tombstone2', './assets/playgrounds/cemetery/images/tombstone2.png?__version__')
+                game.load.image('cemetery_sign1', './assets/playgrounds/cemetery/images/sign1.png?__version__')
+                game.load.image('cemetery_sign2', './assets/playgrounds/cemetery/images/sign2.png?__version__')
+                game.load.audio('cemetery_ambient', './assets/playgrounds/cemetery/sounds/ambient.mp3?__version__');
+                game.load.audio('cemetery_laugh', './assets/playgrounds/cemetery/sounds/laugh.mp3?__version__');
+                game.load.audio('cemetery_sirens', './assets/playgrounds/cemetery/sounds/sirens.mp3?__version__');
+                game.load.audio('cemetery_twilightzone', './assets/playgrounds/cemetery/sounds/twilightzone.mp3?__version__');
                 break;
 
             case "forest":
-                game.load.audio('ambient', './assets/playgrounds/forest/sounds/ambient.mp3?__version__');
-                game.load.image('bg', './assets/playgrounds/forest/images/bg.png?__version__')
-                game.load.image('ground', './assets/playgrounds/forest/images/ground.png?__version__')
-                game.load.image('clouds1', './assets/playgrounds/forest/images/clouds1.png?__version__')
-                game.load.image('clouds2', './assets/playgrounds/forest/images/clouds2.png?__version__')
-                game.load.image('rock1', './assets/playgrounds/forest/images/rock1.png?__version__')
-                game.load.image('rock_ledge', './assets/playgrounds/forest/images/rock_ledge.png?__version__')
-                game.load.image('grass_ledge', './assets/playgrounds/forest/images/grass_ledge.png?__version__')
+                game.load.audio('forest_ambient', './assets/playgrounds/forest/sounds/ambient.mp3?__version__');
+                game.load.image('forest_bg', './assets/playgrounds/forest/images/bg.png?__version__')
+                game.load.image('forest_ground', './assets/playgrounds/forest/images/ground.png?__version__')
+                game.load.image('forest_clouds1', './assets/playgrounds/forest/images/clouds1.png?__version__')
+                game.load.image('forest_clouds2', './assets/playgrounds/forest/images/clouds2.png?__version__')
+                game.load.image('forest_rock', './assets/playgrounds/forest/images/rock.png?__version__')
+                game.load.image('forest_rock_ledge', './assets/playgrounds/forest/images/rock_ledge.png?__version__')
+                game.load.image('forest_grass_ledge', './assets/playgrounds/forest/images/grass_ledge.png?__version__')
                 break;
         }
 

@@ -10,10 +10,10 @@ export default class extends Phaser.Group {
         super(game)
         this.enableBody = true
 
-        game.add.sprite(0, 0, 'bg')
+        game.add.sprite(0, 0, 'cemetery_bg')
         this.clouds = [
-            game.add.sprite(200, 200, 'clouds'),
-            game.add.sprite(900, 650, 'clouds')
+            game.add.sprite(200, 200, 'cemetery_clouds'),
+            game.add.sprite(900, 650, 'cemetery_clouds')
         ]
 
         this.startY = 752
@@ -28,9 +28,9 @@ export default class extends Phaser.Group {
         this._level3()
         this._level4()
 
-        this.music = game.add.audio('ambient')
+        this.music = game.add.audio('cemetery_ambient')
 
-        let soundList = ["laugh", "sirens", "twilightzone"]
+        let soundList = ["cemetery_laugh", "cemetery_sirens", "cemetery_twilightzone"]
         this.sounds = []
         for (let sound of soundList) {
             this.sounds.push(game.add.audio(sound))
@@ -101,24 +101,24 @@ export default class extends Phaser.Group {
         game.add.sprite(
             20,
             game.world.height - 55 - 24,
-            'tombstone1'
+            'cemetery_tombstone1'
         );
         game.add.sprite(
             0,
             game.world.height - 20 - 24,
-            'bush2'
+            'cemetery_bush2'
         );
 
         // right tombstone and bush
         game.add.sprite(
             game.world.width - 54 - 20,
             game.world.height - 55 - 24,
-            'tombstone1'
+            'cemetery_tombstone1'
         );
         game.add.sprite(
             game.world.width - 40,
             game.world.height - 20 - 24,
-            'bush2'
+            'cemetery_bush2'
         );
     }
 
@@ -140,12 +140,12 @@ export default class extends Phaser.Group {
         game.add.sprite(
             210,
             game.world.height - 41 - 24 - this.step - 24,
-            'bush1'
+            'cemetery_bush1'
         );
         game.add.sprite(
             20,
             game.world.height - 87 - 24 - this.step - 24,
-            'sign1'
+            'cemetery_sign1'
         );
 
         // right ledge, bush and sign
@@ -162,12 +162,12 @@ export default class extends Phaser.Group {
         game.add.sprite(
             game.world.width - 210 - 40 - 20,
             game.world.height - 41 - 24 - this.step - 24,
-            'bush1'
+            'cemetery_bush1'
         );
         game.add.sprite(
             game.world.width - 100,
             game.world.height - 93 - 24 - this.step - 24,
-            'sign2'
+            'cemetery_sign2'
         );
     }
 
@@ -187,12 +187,12 @@ export default class extends Phaser.Group {
         game.add.sprite(
             game.world.centerX - 53 / 2 - 180,
             game.world.height - 76 - 24 - 2 * this.step - 24,
-            'tombstone2'
+            'cemetery_tombstone2'
         );
         game.add.sprite(
             game.world.centerX - 40 / 2 - 210,
             game.world.height - 20 - 24 - 2 * this.step - 24,
-            'bush2'
+            'cemetery_bush2'
         );
 
         // middle right
@@ -209,12 +209,12 @@ export default class extends Phaser.Group {
         game.add.sprite(
             game.world.centerX - 53 / 2 + 180,
             game.world.height - 76 - 24 - 2 * this.step - 24,
-            'tombstone2'
+            'cemetery_tombstone2'
         );
         game.add.sprite(
             game.world.centerX - 40 / 2 + 210,
             game.world.height - 20 - 24 - 2 * this.step - 24,
-            'bush2'
+            'cemetery_bush2'
         );
     }
 
@@ -283,13 +283,13 @@ export default class extends Phaser.Group {
         game.add.sprite(
             game.world.centerX - 286 / 2,
             game.world.height - 239 - 24 - this.step * 3 - 24 - 35,
-            'tree'
+            'cemetery_tree'
         );
 
         game.add.sprite(
             game.world.centerX - 48 / 2 - 50,
             game.world.height - 24 - 24 - this.step * 3 - 24 - 35,
-            'skeleton'
+            'cemetery_skeleton'
         );
     }
 

@@ -9,10 +9,10 @@ export default class extends Phaser.Group {
         super(game)
         this.enableBody = true
 
-        game.add.sprite(0, 0, 'bg')
+        game.add.sprite(0, 0, 'forest_bg')
         this.clouds = [
-             game.add.tileSprite(0, 70, 1280, 150, 'clouds1'),
-             game.add.tileSprite(0, 200, 1280, 116, 'clouds2')
+             game.add.tileSprite(0, 70, 1280, 150, 'forest_clouds1'),
+             game.add.tileSprite(0, 200, 1280, 116, 'forest_clouds2')
         ]
 
         this.rocks = []
@@ -25,7 +25,7 @@ export default class extends Phaser.Group {
         this._level3()
         this._level4()
 
-        this.music = game.add.audio('ambient')
+        this.music = game.add.audio('forest_ambient')
 
         this.game.time.events.loop(50, this.moveClouds, this);
     }
@@ -51,7 +51,7 @@ export default class extends Phaser.Group {
         ]
 
         for (let coord of coords) {
-            let sprite = this.game.add.sprite(coord[0], coord[1], "rock1")
+            let sprite = this.game.add.sprite(coord[0], coord[1], "forest_rock")
             this.game.physics.arcade.enable(sprite)
             sprite.body.immovable = true
             this.rocks.push(sprite)

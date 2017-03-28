@@ -9,17 +9,17 @@ export default class extends Phaser.Group {
 
         this.enableBody = true
 
-        let left = this.create(x, y, 'ledge_left')
+        let left = this.create(x, y, 'cemetery_ledge_left')
         left.body.immovable = true
         x += width
 
         for (let i = 0; i < length; i++) {
-            let center = this.create(x, y, 'ledge_center')
+            let center = this.create(x, y, 'cemetery_ledge_center')
             center.body.immovable = true
             x += width
         }
 
-        let right = this.create(x, y, 'ledge_right')
+        let right = this.create(x, y, 'cemetery_ledge_right')
         right.body.immovable = true
     }
 }
