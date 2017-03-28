@@ -48,9 +48,6 @@ export default class extends Phaser.Sprite {
         this.game.time.events.loop(60, this.switchTint, this);
     }
 
-    create () {
-    }
-
     update () {
         if (this.goingLeft) {
             if (this._isActive) {

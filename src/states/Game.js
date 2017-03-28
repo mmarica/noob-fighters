@@ -68,6 +68,19 @@ export default class extends AbstractState {
             for (let obstacle of this.obstacles)
                 this.game.physics.arcade.collide(obstacle, secondaryWeapon.bullets)
         }
+
+        for (let player of this.players)
+            if (player.getHealth() == 0) {
+                this._deactivatePlayers()
+                this.camera.fade('#000000');
+                this.camera.onFadeComplete.addOnce(
+                    this.gameOver, this, 0,
+                    this.players[0].getName(), this.players[0].getHealth(),
+                    this.players[1].getName(), this.players[1].getHealth()
+                );
+
+                break
+            }
     }
 
     _activatePlayers () {
@@ -229,10 +242,10 @@ export default class extends AbstractState {
         }
     }
 
-    gameOver (id) {
+    gameOver(p1Name, p1Health, p2Name, p2Health) {
         this.playGround.stopMusic()
         this.game.sound.stopAll()
-        this.game.state.start("GameOver", true, false, id, this.players[id].type);
+        this.game.state.start("GameOver", true, false, p1Name, p1Health, p2Name, p2Health);
     }
 
     onSecondaryExplosion (x, y, damage, radius) {
@@ -251,12 +264,6 @@ export default class extends AbstractState {
     _hurtPlayer (player, damage) {
         let health = player.hurt(damage)
         this.hud.updateHealth(player.id, health)
-
-        if (health == 0) {
-            this._deactivatePlayers()
-            this.camera.fade('#000000');
-            this.camera.onFadeComplete.addOnce(this.gameOver, this, 0, 1 - player.id);
-        }
 
         this.game.add.existing(new FadingText({
             game: this.game,

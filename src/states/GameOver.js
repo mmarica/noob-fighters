@@ -1,37 +1,42 @@
 import AbstractState from './Abstract'
 import Phaser from 'phaser'
-import * as util from '../utils'
 
 export default class extends AbstractState {
     /**
-     * Extract the winning player from parameters
+     * Extract state parameters and build the game over message
      *
-     * @param id
-     * @param type
+     * @param p1Name   Name of player 1
+     * @param p1Health Health of player 1
+     * @param p2Name   Name of player 2
+     * @param p2Health Health of player 2
      */
-    init (id, type) {
-        let data = this.game.cache.getJSON("players")
-        this.winningPlayer = "P" + (id + 1) + " " + data[type]["name"]
-    }
+    init(p1Name, p1Health, p2Name, p2Health) {
+        if (p1Health == p2Health) {
+            this.message = "Draw game.\nYou both are really big noobs!"
+            return
+        }
 
-    preload  () {
-        this._addPreloadProgressBar()
-    }
+        if (p1Health == 0) {
+            this.message = p2Name + (p1Name == p2Name ? " (right)" : "") + " wins!\n" + p1Name + (p1Name == p2Name ? " (left)" : "") + " is the big noob now."
+            return
+        }
 
-    create () {
-        this._addBackground()
-        this._addPlayerWins()
-        this._addPressKeyToPlay()
-
-        this.playKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        this.playKey.onDown.add(this.playKeyDown, this)
-
-        this.sound = this.game.add.audio("game_over")
-        this.sound.play()
+        this.message = p1Name + (p1Name == p2Name ? " (left)" : "") + " wins!\n" + p2Name + (p1Name == p2Name ? " (right)" : "") + " is the big noob now."
     }
 
     /**
-     * Create the background gradient
+     * Scene initialization stuff
+     */
+    create() {
+        this._addBackground()
+        this._addMainMessage()
+        this._addPressKeyForMenu()
+        this._registerMenuKey()
+        this._playGameOverSound()
+    }
+
+    /**
+     * Add the background
      *
      * @private
      */
@@ -46,16 +51,17 @@ export default class extends AbstractState {
     }
 
     /**
-     * Add winning player text
+     * Add the game over message to the scene
      *
      * @private
      */
-    _addPlayerWins () {
-        let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY, this.winningPlayer + " wins!")
+    _addMainMessage () {
+        let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY - 50, this.message)
         text.font = 'Russo One'
-        text.fontSize = 80
+        text.fontSize = 60
         text.padding.set(10, 16)
         text.fill = '#fa6121'
+        text.align = 'center'
         text.stroke = '#000000';
         text.strokeThickness = 5;
         text.anchor.setTo(0.5, 0.5)
@@ -63,11 +69,11 @@ export default class extends AbstractState {
     }
 
     /**
-     * Add press key to play again text
+     * Add press key to go to menu text
      *
      * @private
      */
-    _addPressKeyToPlay () {
+    _addPressKeyForMenu() {
         let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY + 80, "Press space for the menu")
         text.font = 'Arial'
         text.fontSize = 20
@@ -77,11 +83,28 @@ export default class extends AbstractState {
     }
 
     /**
-     * Start to play again when pressing the key
+     * Register the key for going back to the start menu
+     *
+     * @private
      */
-    playKeyDown () {
-        this.game.sound.stopAll()
-        this.game.state.start("Menu");
+    _registerMenuKey() {
+        this.playKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.playKey.onDown.add(
+            function () {
+                this.game.sound.stopAll()
+                this.game.state.start("Menu");
+            },
+            this
+        )
     }
 
+    /**
+     * Play the game over sound
+     *
+     * @private
+     */
+    _playGameOverSound() {
+        let sound = this.game.add.audio("game_over")
+        sound.play()
+    }
 }
