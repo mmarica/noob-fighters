@@ -159,7 +159,7 @@ export default class extends AbstractState {
 
             case this.keys["p1"]["fire_primary"]:
             case this.keys["p1"]["fire_secondary"]:
-                this.p1Selector.choose()
+                this.p1Selector.confirm()
                 this.checkGameStart()
                 break
 
@@ -174,7 +174,7 @@ export default class extends AbstractState {
 
             case this.keys["p2"]["fire_primary"]:
             case this.keys["p2"]["fire_secondary"]:
-                this.p2Selector.choose()
+                this.p2Selector.confirm()
                 this.checkGameStart()
                 break
 
@@ -195,7 +195,7 @@ export default class extends AbstractState {
      * Check if both player have been chosen, so we can start the ganme
      */
     checkGameStart() {
-        if (!this.p1Selector.isChosen() || !this.p2Selector.isChosen())
+        if (!this.p1Selector.isConfirmed() || !this.p2Selector.isConfirmed())
             return
 
         this.game.state.start("Game", true, false,

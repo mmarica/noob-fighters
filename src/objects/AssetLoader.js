@@ -95,7 +95,7 @@ export default class {
             this.loadPlayer(type)
 
         game.load.audio("menu_player_change", "./assets/menu/sounds/change.mp3?__version__");
-        game.load.audio("menu_player_choose", "./assets/menu/sounds/choose.mp3?__version__");
+        game.load.audio("menu_player_confirm", "./assets/menu/sounds/confirm.mp3?__version__");
     }
 
     /**

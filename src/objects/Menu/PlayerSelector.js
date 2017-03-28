@@ -16,7 +16,7 @@ export default class extends Phaser.Group {
 
         // select first player by default
         this.selection = 0
-        this.chosen = false
+        this.confirmed = false
 
         this.playerData = game.cache.getJSON("players")
 
@@ -38,8 +38,8 @@ export default class extends Phaser.Group {
         // sound to play when selection changes
         this.changeSelectionSound = this.game.add.audio("menu_player_change")
 
-        // sound to play when choosing the player
-        this.chooseSound = this.game.add.audio("menu_player_choose")
+        // sound to play when confirming the player selection
+        this.confirmSound = this.game.add.audio("menu_player_confirm")
 
         this._addSelector()
         this._addPlayers()
@@ -49,7 +49,7 @@ export default class extends Phaser.Group {
      * Select the previous player from the list
      */
     previous() {
-        if (this.chosen)
+        if (this.confirmed)
             return
 
         let current = this.selection
@@ -65,7 +65,7 @@ export default class extends Phaser.Group {
      * Select the next player from the list
      */
     next() {
-        if (this.chosen)
+        if (this.confirmed)
             return
 
         let current = this.selection
@@ -78,14 +78,14 @@ export default class extends Phaser.Group {
     }
 
     /**
-     * Choose the currently selected player
+     * Confirm the current player selection
      */
-    choose() {
-        if (!this.chosen) {
-            this.chosen = true
+    confirm() {
+        if (!this.confirmed) {
+            this.confirmed = true
             this.game.time.events.remove(this.selectionTimer)
             this._drawSelectionRectangle()
-            this.chooseSound.play()
+            this.confirmSound.play()
         }
     }
 
@@ -94,8 +94,8 @@ export default class extends Phaser.Group {
      *
      * @returns {boolean|*}
      */
-    isChosen() {
-        return this.chosen
+    isConfirmed() {
+        return this.confirmed
     }
 
     /**
@@ -127,7 +127,7 @@ export default class extends Phaser.Group {
     _drawSelectionRectangle() {
         let color = undefined
 
-        if (this.chosen) {
+        if (this.confirmed) {
             color = this.selectedColor
         } else {
             this.alternatingColorsIndex = 1 - this.alternatingColorsIndex
