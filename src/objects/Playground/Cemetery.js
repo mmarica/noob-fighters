@@ -5,7 +5,7 @@ import Crate from './Cemetery/Crate'
 import * as util from '../../utils'
 
 export default class extends Phaser.Group {
-    constructor (game) {
+    constructor(game) {
         super(game)
         this.enableBody = true
 
@@ -72,7 +72,7 @@ export default class extends Phaser.Group {
                     this.clouds[i].x -= i * 0.5 + 0.3
 
                     if (this.clouds[i].x < 0 - this.clouds[i].width)
-                        this.clouds[i].x = this.game.world.width
+                        this.clouds[i].x = game.world.width
                 }
             },
             this

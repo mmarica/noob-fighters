@@ -1,8 +1,15 @@
 import Phaser from 'phaser'
 
 export default class extends Phaser.Group {
-
-    constructor (game, x, y, length) {
+    /**
+     * Constructor
+     *
+     * @param game       Game object
+     * @param x          Horizontal position
+     * @param y          Vertical position
+     * @param blockCount Number of blocks in the ledge
+     */
+    constructor(game, x, y, blockCount) {
         super(game)
 
         const WIDTH = 54;
@@ -12,7 +19,7 @@ export default class extends Phaser.Group {
         left.body.immovable = true
         x += WIDTH
 
-        for (let i = 0; i < length; i++) {
+        for (let i = 0; i < blockCount; i++) {
             let center = this.create(x, y, 'cemetery_ledge_center')
             center.body.immovable = true
             x += WIDTH
