@@ -1,18 +1,40 @@
 import Keyboard from '../Keyboard'
 import Phaser from 'phaser'
 
+// sizing and positioning constants
+const WIDTH = 200
+const HEIGHT = 125
+const H_SPACING = 10
+const V_MARGIN = 50
+const STROKE = 4
+
 export default class extends Phaser.Group {
+    /**
+     * Constructor
+     *
+     * @param game Game object
+     * @param y    Vertical position
+     * @param keys Key bindings
+     */
     constructor(game, y, keys) {
         super(game)
-
+        this.y = y
         this.keys = keys
 
-        // sizing and positioning constants
-        this.WIDTH = 200
-        this.HEIGHT = 125
-        this.H_SPACING = 10
-        this.V_MARGIN = 50
-        this.STROKE = 4
+        this._initialize()
+        this._addKeys()
+        this._addPlaygrounds()
+        this._addSelector()
+    }
+
+    /**
+     * Initialize some properties
+     *
+     * @private
+     */
+    _initialize() {
+        // select first playground by default
+        this.selection = 0
 
         // playground types
         this.types = ["cemetery", "forest"]
@@ -23,28 +45,11 @@ export default class extends Phaser.Group {
             forest: "Forest",
         }
 
-        // compute position for the widget
-        this.x = game.world.centerX - (this.WIDTH * this.types.length + this.H_SPACING * (this.types.length - 1)) / 2
-        this.y = y
-
-        // alternating colors for the selection rectangle
-        this.alternatingColors = [0xfa6121, 0xffb739]
-        this.alternatingColorsIndex = 0
-
-        // select first playground by default
-        this.selection = 0
+        // compute horizontal position for the widget
+        this.x = game.world.centerX - (WIDTH * this.types.length + H_SPACING * (this.types.length - 1)) / 2
 
         // sound to play when selection changes
         this.changeSelectionSound = this.game.add.audio("menu_playground_change")
-
-        // add info about key bindings
-        this._addKeys()
-
-        // add the playgrounds (image + name)
-        this._addPlaygrounds()
-
-        // add the selection rectangle
-        this._addSelector()
     }
 
     /**
@@ -85,7 +90,11 @@ export default class extends Phaser.Group {
      *
      * @private
      */
-    _addSelector () {
+    _addSelector() {
+        // alternating colors for the selection rectangle
+        this.alternatingColors = [0xfa6121, 0xffb739]
+        this.alternatingColorsIndex = 0
+
         this.selector = this.game.add.graphics()
         this._updateSelectorPosition()
         this._drawSelectionRectangle()
@@ -101,8 +110,8 @@ export default class extends Phaser.Group {
      */
     _drawSelectionRectangle() {
         this.alternatingColorsIndex = 1 - this.alternatingColorsIndex
-        this.selector.lineStyle(this.STROKE, this.alternatingColors[this.alternatingColorsIndex])
-        this.selector.drawRect(0, 0, this.WIDTH + this.STROKE, this.HEIGHT + this.STROKE)
+        this.selector.lineStyle(STROKE, this.alternatingColors[this.alternatingColorsIndex])
+        this.selector.drawRect(0, 0, WIDTH + STROKE, HEIGHT + STROKE)
     }
 
     /**
@@ -111,8 +120,8 @@ export default class extends Phaser.Group {
      * @private
      */
     _updateSelectorPosition() {
-        this.selector.x = this.x + (this.WIDTH + this.H_SPACING) * this.selection - this.STROKE / 2
-        this.selector.y = this.y + this.V_MARGIN - this.STROKE / 2
+        this.selector.x = this.x + (WIDTH + H_SPACING) * this.selection - STROKE / 2
+        this.selector.y = this.y + V_MARGIN - STROKE / 2
     }
 
     /**
@@ -121,7 +130,7 @@ export default class extends Phaser.Group {
      * @private
      */
     _addKeys() {
-        let x = this.game.world.centerX - (this.WIDTH * this.types.length + this.H_SPACING * (this.types.length - 1)) / 4
+        let x = this.game.world.centerX - (WIDTH * this.types.length + H_SPACING * (this.types.length - 1)) / 4
         let y = this.y
 
         let text = new Phaser.Text(this.game, x, y, Keyboard.longName(this.keys["previous"][0]) + ", " + Keyboard.longName(this.keys["previous"][1]))
@@ -134,7 +143,7 @@ export default class extends Phaser.Group {
         let sprite = this.game.add.sprite(x, y + 25, "menu_playground_left")
         sprite.anchor.setTo(0.5, 0)
 
-        x = this.game.world.centerX + (this.WIDTH * this.types.length + this.H_SPACING * (this.types.length - 1)) / 4
+        x = this.game.world.centerX + (WIDTH * this.types.length + H_SPACING * (this.types.length - 1)) / 4
 
         text = new Phaser.Text(this.game, x, y, Keyboard.longName(this.keys["next"][0]) + ", " + Keyboard.longName(this.keys["next"][1]))
         text.font = 'Arial'
@@ -154,21 +163,21 @@ export default class extends Phaser.Group {
      */
     _addPlaygrounds() {
         let x = this.x
-        let y = this.y + this.V_MARGIN
+        let y = this.y + V_MARGIN
 
         for (let type of this.types) {
             // image
             let sprite = this.game.add.sprite(x, y, "menu_playground_" + type)
 
             // name
-            let text = new Phaser.Text(this.game, x + this.WIDTH / 2, y + this.HEIGHT + this.H_SPACING, this.names[type])
+            let text = new Phaser.Text(this.game, x + WIDTH / 2, y + HEIGHT + H_SPACING, this.names[type])
             text.font = 'Paytone One'
             text.fontSize = 16
             text.fill = '#fff'
             text.anchor.setTo(0.5, 0)
             this.game.add.existing(text)
 
-            x += this.WIDTH + this.H_SPACING
+            x += WIDTH + H_SPACING
         }
     }
 }
