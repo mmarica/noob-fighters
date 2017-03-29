@@ -25,6 +25,14 @@ export default class extends AbstractState {
     }
 
     /**
+     * Load assets
+     */
+    preload() {
+        this._addPreloadProgressBar()
+        this.game.load.audio('game_over', './assets/common/sounds/game_over.mp3?__version__');
+    }
+
+    /**
      * Scene initialization stuff
      */
     create() {
@@ -40,7 +48,7 @@ export default class extends AbstractState {
      *
      * @private
      */
-    _addBackground () {
+    _addBackground() {
         var myBitmap = this.game.add.bitmapData(1280, 800);
         var grd=myBitmap.context.createLinearGradient(0,0,0,500);
         grd.addColorStop(0,"#333333");
@@ -55,7 +63,7 @@ export default class extends AbstractState {
      *
      * @private
      */
-    _addMainMessage () {
+    _addMainMessage() {
         let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY - 50, this.message)
         text.font = 'Russo One'
         text.fontSize = 60

@@ -4,11 +4,8 @@ export default class extends AbstractState {
     /**
      * Load common resources
      */
-    preload () {
+    preload() {
         this._addPreloadProgressBar()
-
-        this.game.load.audio('game_over', './assets/common/sounds/game_over.mp3?__version__');
-
         this.load.json('config', 'data/config.json?__version__')
         this.load.json('players', 'data/players.json?__version__')
     }
@@ -16,7 +13,7 @@ export default class extends AbstractState {
     /**
      * Go to the start menu when common resources are loaded
      */
-    create () {
+    create() {
         this.state.start('Menu')
     }
 }
