@@ -45,6 +45,7 @@ export default class extends Phaser.Group {
         this.selection = Math.max(this.selection - 1, 0)
 
         if (current != this.selection) {
+            this.playerSprites[current].animations.stop()
             this._updateSelectorPosition()
             this.changeSelectionSound.play()
         }
