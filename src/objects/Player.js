@@ -101,14 +101,14 @@ export default class extends Phaser.Sprite {
         return this.health
     }
 
-    setDamagePercentage (percentage) {
+    setDamagePercentage(percentage) {
         this.primaryWeapon.setDamagePercentage(percentage)
         this.secondaryWeapon.setDamagePercentage(percentage)
     }
 
-    firePrimary () {
+    firePrimary() {
         if (this._isActive)
-            this.primaryWeapon.fire(this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT)
+            this.primaryWeapon.fire(this.orientation)
     }
 
     fireSecondary() {
@@ -137,14 +137,9 @@ export default class extends Phaser.Sprite {
         this.goingRight = false
     }
 
-    _addPrimaryWeapon () {
-        this.primaryWeapon = this.game.add.existing(
-            new PrimaryWeapon({
-                game: this.game,
-                data: this.data["weapons"]["primary"],
-                player: this,
-            })
-        )
+    _addPrimaryWeapon() {
+        this.primaryWeapon = this.game.add.existing(new PrimaryWeapon(this.game, this.data["weapons"]["primary"], this.type))
+        this.primaryWeapon.trackSprite(this)
     }
 
     _addSecondaryWeapon () {

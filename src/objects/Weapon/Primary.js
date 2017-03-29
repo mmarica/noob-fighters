@@ -1,35 +1,54 @@
 import Phaser from 'phaser'
 
 export default class extends Phaser.Weapon {
-
-    constructor ({ game, data, player }) {
+    /**
+     * Constructor
+     *
+     * @param game       Game object
+     * @param data       Weapon data from players.json
+     * @param playerType Player type
+     */
+    constructor (game, data, playerType) {
         super(game, game.world)
-        this.player = player
+
         this.damagePercentage = 100;
 
-        this.createBullets(data["max"], player.type + "_primary_bullet")
+        this.createBullets(data["max"], playerType + "_primary_bullet")
         this.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
         this.bulletSpeed = data["speed"]
         this.fireRate = data["rate"]
         this.damage = data["damage"]
 
-        this.shootSound = this.game.add.audio(player.type + "_primary_shoot");
-        this.trackSprite(player)
+        this.shootSound = this.game.add.audio(playerType + "_primary_shoot");
     }
 
-    fire (angle) {
-        this.fireAngle = angle
-
-        if (super.fire()) {
-            this.shootSound.play()
-        }
-    }
-
-    setDamagePercentage (percentage) {
+    /**
+     * Set damage percentage
+     *
+     * @param percentage Damage percentage
+     */
+    setDamagePercentage(percentage) {
         this.damagePercentage = percentage
     }
 
-    getComputedDamage () {
+    /**
+     * Fire the weapon
+     *
+     * @param orientation Player orientation: left or right
+     */
+    fire(orientation) {
+        this.fireAngle = orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT
+
+        if (super.fire())
+            this.shootSound.play()
+    }
+
+    /**
+     * Get the weapon damage with the damage percentage applied to it
+     *
+     * @returns {number}
+     */
+    getComputedDamage() {
         return Math.round(this.damage * this.damagePercentage / 100)
     }
 }
