@@ -23,7 +23,7 @@ export default class extends Phaser.Weapon {
     /**
      * Set damage percentage
      *
-     * @param percentage
+     * @param percentage Damage percentage
      */
     setDamagePercentage(percentage) {
         this.damagePercentage = percentage
