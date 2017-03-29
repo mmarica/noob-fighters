@@ -154,15 +154,17 @@ export default class extends AbstractState {
         ]
     }
 
-    _addHud () {
+    /**
+     * Add the HUD
+     *
+     * @private
+     */
+    _addHud() {
         this.hud = this.game.add.existing(
-            new Hud({
-                game: this.game,
-                p1: this.players[0].getName(),
-                p1Health: this.players[0].getHealth(),
-                p2: this.players[1].getName(),
-                p2Health: this.players[1].getHealth(),
-            })
+            new Hud(this.game,
+                this.players[0].getName(), this.players[0].getHealth(),
+                this.players[1].getName(), this.players[1].getHealth()
+            )
         )
     }
 
