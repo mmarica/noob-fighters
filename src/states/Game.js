@@ -259,12 +259,7 @@ export default class extends AbstractState {
     _hurtPlayer (player, damage) {
         let health = player.hurt(damage)
         this.hud.updateHealth(player.id, health)
-
-        this.game.add.existing(new FadingText({
-            game: this.game,
-            player: player,
-            text: "-" + damage + " HP"
-        }))
+        this.game.add.existing(new FadingText(this.game, player, "-" + damage + " HP"))
     }
 
     _addPowerup () {
@@ -330,34 +325,19 @@ export default class extends AbstractState {
         this._startPowerupTimer()
         let health = player.boostHealth(amount)
         this.hud.updateHealth(player.id, health)
-
-        this.game.add.existing(new FadingText({
-            game: this.game,
-            player: player,
-            text: "+" + amount + " HP"
-        }))
+        this.game.add.existing(new FadingText(this.game, player, "+" + amount + " HP"))
     }
 
     onPowerupTakeSpeed (player, duration, percentage) {
         this._startPowerupTimer()
         player.boostSpeed(duration, percentage)
-
-        this.game.add.existing(new FadingText({
-            game: this.game,
-            player: player,
-            text: "+" + percentage + "% speed"
-        }))
+        this.game.add.existing(new FadingText(this.game, player, "+" + percentage + "% speed"))
     }
 
     onPowerupTakeDamage (player, duration, percentage) {
         this._startPowerupTimer()
         player.boostDamage(duration, percentage)
-
-        this.game.add.existing(new FadingText({
-            game: this.game,
-            player: player,
-            text: "+" + percentage + "% damage"
-        }))
+        this.game.add.existing(new FadingText(this.game, player, "+" + percentage + "% damage"))
     }
 
     onPowerupTakeTrap (player, amount) {
