@@ -1,7 +1,24 @@
 import Keyboard from '../Keyboard'
 import Phaser from 'phaser'
 
+// sizing and positioning constants
+const WIDTH = 100
+const HEIGHT = 100
+const MARGIN = 4
+const STROKE = 2
+const TEXT_OFFSET = 20
+const IMAGE_OFFSET = 28
+
 export default class extends Phaser.Group {
+    /**
+     * Constructor
+     *
+     * @param game         Game object
+     * @param x            Horizontal position
+     * @param y            Vertical position
+     * @param keys         Key bindings
+     * @param keysPosition Where to display the key bindings: left or right
+     */
     constructor (game, x, y, keys, keysPosition) {
         super(game)
         this.x = x
@@ -9,14 +26,19 @@ export default class extends Phaser.Group {
         this.keys = keys
         this.keysPosition = keysPosition
 
-        // sizing and positioning constants
-        this.WIDTH = 100
-        this.HEIGHT = 100
-        this.MARGIN = 4
-        this.STROKE = 2
-        this.TEXT_OFFSET = 20
-        this.IMAGE_OFFSET = 28
+        this._initialize()
+        this._addKeyInfo()
+        this._addSounds()
+        this._addSelector()
+        this._addPlayers()
+    }
 
+    /**
+     * Initialize some properties
+     *
+     * @private
+     */
+    _initialize() {
         // select first player by default
         this.selection = 0
         this.confirmed = false
@@ -27,31 +49,19 @@ export default class extends Phaser.Group {
         this.types = []
         for (let type in this.playerData)
             this.types.push(type)
+    }
 
-        // alternating colors for the selection rectangle
-        this.alternatingColors = [0xfa6121, 0xffb739]
-        this.alternatingColorsIndex = 0
-
-        // color of the selection rectangle background
-        this.selectionBgColor = 0x001821
-
-        // color of selection rectangle after a player is chosen
-        this.selectedColor = 0x198500
-
+    /**
+     * Add sounds
+     *
+     * @private
+     */
+    _addSounds() {
         // sound to play when selection changes
         this.changeSelectionSound = this.game.add.audio("menu_player_change")
 
         // sound to play when confirming the player selection
         this.confirmSound = this.game.add.audio("menu_player_confirm")
-
-        // add info about key bindings
-        this._addKeys()
-
-        // add the selection rectangle
-        this._addSelector()
-
-        // add the players (image + name)
-        this._addPlayers()
     }
 
     /**
@@ -120,6 +130,16 @@ export default class extends Phaser.Group {
      * @private
      */
     _addSelector() {
+        // alternating colors for the selection rectangle
+        this.alternatingColors = [0xfa6121, 0xffb739]
+        this.alternatingColorsIndex = 0
+
+        // color of the selection rectangle background
+        this.selectionBgColor = 0x001821
+
+        // color of selection rectangle after a player is chosen
+        this.selectedColor = 0x198500
+
         this.selector = this.game.add.graphics()
         this._updateSelectorPosition()
         this._drawSelectionRectangle()
@@ -143,9 +163,9 @@ export default class extends Phaser.Group {
             color = this.alternatingColors[this.alternatingColorsIndex]
         }
 
-        this.selector.lineStyle(this.STROKE, color)
+        this.selector.lineStyle(STROKE, color)
         this.selector.beginFill(this.selectionBgColor);
-        this.selector.drawRect(0, 0, this.WIDTH + this.STROKE, this.HEIGHT + this.STROKE)
+        this.selector.drawRect(0, 0, WIDTH + STROKE, HEIGHT + STROKE)
     }
 
     /**
@@ -155,7 +175,7 @@ export default class extends Phaser.Group {
      */
     _updateSelectorPosition() {
         this.selector.x = this.x
-        this.selector.y = this.y + (this.HEIGHT + this.MARGIN) * this.selection
+        this.selector.y = this.y + (HEIGHT + MARGIN) * this.selection
     }
 
     /**
@@ -163,14 +183,14 @@ export default class extends Phaser.Group {
      *
      * @private
      */
-    _addKeys() {
+    _addKeyInfo() {
         let xMul = this.keysPosition == "left" ? 1 : -1
         let textAlign = this.keysPosition == "left" ? "right" : "left"
         let textAnchor = this.keysPosition == "left" ? 1 : 0
 
         let x = this.x
         if (this.keysPosition == "right")
-            x += this.WIDTH
+            x += WIDTH
 
         // key for previous item
         let y = this.y
@@ -187,7 +207,7 @@ export default class extends Phaser.Group {
         sprite.anchor.setTo(0.5, 0)
 
         // keys for confirmation
-        y = this.y + (this.HEIGHT * this.types.length + this.MARGIN * (this.types.length - 1)) / 2
+        y = this.y + (HEIGHT * this.types.length + MARGIN * (this.types.length - 1)) / 2
         text = new Phaser.Text(this.game, x - xMul * 40, y, "Confirm:\n" + Keyboard.shortName(this.keys["confirm"][0]) + "\n" + Keyboard.shortName(this.keys["confirm"][1]))
         text.font = 'Arial'
         text.fontSize = 14
@@ -197,7 +217,7 @@ export default class extends Phaser.Group {
         this.game.add.existing(text)
 
         // key for next item
-        y = this.y + this.HEIGHT * this.types.length + this.MARGIN * (this.types.length - 1)
+        y = this.y + HEIGHT * this.types.length + MARGIN * (this.types.length - 1)
 
         text = new Phaser.Text(this.game, x - xMul * 40, y - 75, Keyboard.shortName(this.keys["next"]))
         text.font = 'Arial'
@@ -222,18 +242,18 @@ export default class extends Phaser.Group {
 
         for (let type of this.types) {
             // image
-            let sprite = this.game.add.sprite(x + this.WIDTH / 2, y + this.HEIGHT - this.IMAGE_OFFSET, type + "_player")
+            let sprite = this.game.add.sprite(x + WIDTH / 2, y + HEIGHT - IMAGE_OFFSET, type + "_player")
             sprite.anchor.setTo(0.5, 1)
 
             // name
-            let text = new Phaser.Text(this.game, x + this.WIDTH / 2, y + this.HEIGHT - this.TEXT_OFFSET, this.playerData[type]["name"])
+            let text = new Phaser.Text(this.game, x + WIDTH / 2, y + HEIGHT - TEXT_OFFSET, this.playerData[type]["name"])
             text.font = 'Paytone One'
             text.fontSize = 11
             text.fill = '#fff'
             text.anchor.setTo(0.5, 0)
             this.game.add.existing(text)
 
-            y += this.HEIGHT + this.MARGIN
+            y += HEIGHT + MARGIN
         }
     }
 }
