@@ -29,10 +29,10 @@ export default class extends Phaser.Sprite {
         this.anchor.setTo(0.5)
 
         let leftAnimation = data["sprite"]["left"]["animation"]
-        this.animations.add('left', this._getAnimationFrames(leftAnimation), leftAnimation['rate'], true)
+        this.animations.add('left', util.animationFramesFromRange(leftAnimation), leftAnimation['rate'], true)
 
         let rightAnimation = data["sprite"]["right"]["animation"]
-        this.animations.add('right', this._getAnimationFrames(rightAnimation), rightAnimation['rate'], true)
+        this.animations.add('right', util.animationFramesFromRange(rightAnimation), rightAnimation['rate'], true)
 
         this.hitSound = this.game.add.audio(type + "_hurt");
 
@@ -152,15 +152,6 @@ export default class extends Phaser.Sprite {
             )
         )
         this.secondaryWeapon.trackSprite(this)
-    }
-
-    _getAnimationFrames (animation) {
-        let frames = []
-
-        for (let i = 0; i < animation["count"]; i++)
-            frames.push(i +  animation["start"])
-
-        return frames
     }
 
     _stopAnimation () {

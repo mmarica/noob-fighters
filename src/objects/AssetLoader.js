@@ -92,7 +92,7 @@ export default class {
         let players = game.cache.getJSON("players")
 
         for (let type in players)
-            this.loadPlayer(type)
+            game.load.spritesheet(type + "_player" , "./assets/players/" + type + "/images/player.png?__version__", players[type]["sprite"]["width"], players[type]["sprite"]["height"])
 
         game.load.image('menu_player_up', './assets/menu/images/up.png?__version__')
         game.load.image('menu_player_down', './assets/menu/images/down.png?__version__')
