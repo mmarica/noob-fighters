@@ -111,9 +111,9 @@ export default class extends Phaser.Sprite {
             this.primaryWeapon.fire(this.orientation == 'left' ? Phaser.ANGLE_LEFT : Phaser.ANGLE_RIGHT)
     }
 
-    fireSecondary () {
+    fireSecondary() {
         if (this._isActive)
-            this.secondaryWeapon.fire(this.orientation == 'left' ? 225 : -45)
+            this.secondaryWeapon.fire(this.orientation)
     }
 
     jump () {
@@ -149,16 +149,14 @@ export default class extends Phaser.Sprite {
 
     _addSecondaryWeapon () {
         this.secondaryWeapon = this.game.add.existing(
-            new SecondaryWeapon({
-                game: this.game,
-                data: this.data["weapons"]["secondary"],
-                player: this,
-                onExplode: {
-                    object: this.context,
-                    method: this.context.onSecondaryExplosion,
-                },
-            })
+            new SecondaryWeapon(
+                this.game,
+                this.data["weapons"]["secondary"],
+                this.type,
+                {object: this.context, method: this.context.onSecondaryExplosion}
+            )
         )
+        this.secondaryWeapon.trackSprite(this)
     }
 
     _getAnimationFrames (animation) {
