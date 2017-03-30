@@ -54,7 +54,7 @@ export default class extends AbstractState {
             "previous": [this.keys["p1"]["left"], this.keys["p2"]["left"]],
             "next": [this.keys["p1"]["right"], this.keys["p2"]["right"]],
         }
-        this.playgroundSelector = this.game.add.existing(new PlaygroundSelector(this.game, 200, pgKeys))
+        this.playgroundSelector = this.game.add.existing(new PlaygroundSelector(this.game, 230, pgKeys))
 
         let p1Keys = {
             "previous": this.keys["p1"]["up"],
@@ -90,7 +90,7 @@ export default class extends AbstractState {
             + "\nDown: " + Keyboard.longName(this.keys["p1"]["down"])
             + "\nPrimary: " + Keyboard.longName(this.keys["p1"]["fire_primary"])
             + "\nSecondary: " + Keyboard.longName(this.keys["p1"]["fire_secondary"])
-        this._addPlayerKeysText(400, 450, text)
+        this._addPlayerKeysText(400, 480, text)
 
         text = "Player 2 keys"
             + "\nLeft: " + Keyboard.longName(this.keys["p2"]["left"])
@@ -99,7 +99,7 @@ export default class extends AbstractState {
             + "\nDown: " + Keyboard.longName(this.keys["p2"]["down"])
             + "\nPrimary: " + Keyboard.longName(this.keys["p2"]["fire_primary"])
             + "\nSecondary: " + Keyboard.longName(this.keys["p2"]["fire_secondary"])
-        this._addPlayerKeysText(700, 450, text)
+        this._addPlayerKeysText(700, 480, text)
 
     }
 
@@ -136,9 +136,9 @@ export default class extends AbstractState {
         title.anchor.setTo(0.5, 0)
         this.game.add.existing(title)
 
-        let text = new Phaser.Text(this.game, this.game.world.centerX, 140, "Select both players to start")
+        let text = new Phaser.Text(this.game, this.game.world.centerX, 160, "Select both players to start")
         text.font = 'Arial'
-        text.fontSize = 20
+        text.fontSize = 30
         text.fill = '#fff'
         text.anchor.setTo(0.5, 0)
         this.game.add.existing(text)

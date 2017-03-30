@@ -66,7 +66,7 @@ export default class extends AbstractState {
     _addMainMessage() {
         let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY - 50, this.message)
         text.font = 'Russo One'
-        text.fontSize = 60
+        text.fontSize = 50
         text.padding.set(10, 16)
         text.fill = '#fa6121'
         text.align = 'center'
@@ -84,7 +84,7 @@ export default class extends AbstractState {
     _addPressKeyForMenu() {
         let text = new Phaser.Text(this.game, this.game.world.centerX, this.game.world.centerY + 80, "Press space for the menu")
         text.font = 'Arial'
-        text.fontSize = 20
+        text.fontSize = 30
         text.fill = '#fff'
         text.anchor.setTo(0.5, 0.5)
         this.game.add.existing(text)
