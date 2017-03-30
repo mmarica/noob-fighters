@@ -1,29 +1,30 @@
 import Phaser from 'phaser'
+import AbstractPlayground from './Abstract'
 import Ground from './Cemetery/Ground'
 import Ledge from './Cemetery/Ledge'
 import Crate from './Cemetery/Crate'
 import * as util from '../../utils'
 
-export default class extends Phaser.Group {
+export default class extends AbstractPlayground {
+    /**
+     * Constructor
+     *
+     * @param game Game object
+     */
     constructor(game) {
         super(game)
-        this.enableBody = true
 
         this._addBackground()
         this._addVisualElements()
         this._addSounds()
-
+        this._addPowerupSpots()
     }
 
     /**
-     * Get the list of positions for power-ups
-     *
-     * @returns {[]}
+     * Add positions for power-ups
      */
-    getPowerupSpots() {
-        let game = this.game
-
-        return [
+    _addPowerupSpots() {
+        this.powerupSpots = [
             {x: game.world.centerX - 176, y: 326},
             {x: game.world.centerX + 160, y: 326},
             {x: 60, y: 381},

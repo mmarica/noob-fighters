@@ -1,4 +1,5 @@
 import Keyboard from '../Keyboard'
+import PlaygroundManager from '../PlaygroundManager'
 import Phaser from 'phaser'
 
 // sizing and positioning constants
@@ -36,14 +37,15 @@ export default class extends Phaser.Group {
         // select first playground by default
         this.selection = 0
 
-        // playground types
-        this.types = ["cemetery", "forest"]
+        let manager = new PlaygroundManager(this.game)
 
         // playground names
-        this.names = {
-            cemetery: "Cemetery",
-            forest: "Forest",
-        }
+        this.names = manager.getList()
+
+        // playground types
+        this.types = []
+        for (let type in this.names)
+            this.types.push(type)
 
         // compute horizontal position for the widget
         this.x = game.world.centerX - (WIDTH * this.types.length + H_SPACING * (this.types.length - 1)) / 2

@@ -1,9 +1,7 @@
-import Phaser from 'phaser'
 import AbstractState from './Abstract'
 import AssetLoader from '../objects/AssetLoader'
+import PlaygroundManager from '../objects/PlaygroundManager'
 import Player from '../objects/Player'
-import Cemetery from '../objects/Playground/Cemetery'
-import Forest from '../objects/Playground/Forest'
 import Hud from '../objects/Hud'
 import PowerupManager from '../objects/PowerupManager'
 import Keyboard from '../objects/Keyboard'
@@ -109,17 +107,8 @@ export default class extends AbstractState {
     }
 
     _addPlayGround () {
-        switch (this.map) {
-            case "cemetery":
-                var playground = new Cemetery(this.game)
-                break;
-
-            case "forest":
-                var playground = new Forest(this.game)
-                break;
-        }
-
-        this.playGround = this.game.add.existing(playground)
+        let manager = new PlaygroundManager(this.game)
+        this.playGround = this.game.add.existing(manager.create(this.map))
         this.obstacles = this.playGround.getObstacles()
         this.powerupSpots = this.playGround.getPowerupSpots()
     }

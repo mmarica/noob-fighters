@@ -1,25 +1,29 @@
 import Phaser from 'phaser'
+import AbstractPlayground from './Abstract'
 import Ground from './Forest/Ground'
 import RockLedge from './Forest/Ledge/RockLedge'
 import GrassLedge from './Forest/Ledge/GrassLedge'
 
-export default class extends Phaser.Group {
+export default class extends AbstractPlayground {
+    /**
+     * Constructor
+     *
+     * @param game Game object
+     */
     constructor (game) {
         super(game)
-        this.enableBody = true
 
         this._addBackground()
         this._addVisualElements()
         this._addSound()
+        this._addPowerupSpots()
     }
 
     /**
-     * Get the list of positions for power-ups
-     *
-     * @returns {[]}
+     * Add positions for power-ups
      */
-    getPowerupSpots() {
-        return [
+    _addPowerupSpots() {
+        this.powerupSpots = [
             {x: 98, y: 286},
             {x: 1216, y: 286},
             {x: 1216, y: 470},
