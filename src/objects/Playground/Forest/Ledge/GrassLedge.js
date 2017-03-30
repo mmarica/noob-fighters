@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import AbstractLedge from './Abstract'
+import AbstractLedge from '../../../Abstract/Ledge'
 
 export default class extends AbstractLedge {
     /**

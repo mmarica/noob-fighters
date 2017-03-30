@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import AbstractPlayground from './Abstract'
+import AbstractPlayground from '../Abstract/Playground'
 import Ground from './Forest/Ground'
 import RockLedge from './Forest/Ledge/RockLedge'
 import GrassLedge from './Forest/Ledge/GrassLedge'

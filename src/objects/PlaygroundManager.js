@@ -1,5 +1,6 @@
 import Cemetery from './Playground/Cemetery'
 import Forest from './Playground/Forest'
+import Moon from './Playground/Moon'
 
 export default class {
     /**
@@ -9,16 +10,30 @@ export default class {
      */
     constructor(game) {
         this.game = game
+
+        this.list = {
+            cemetery: "Cemetery",
+            forest: "Forest",
+            moon: "Moon",
+        }
+
+        this.types = []
+        for (let type in this.list)
+            this.types.push(type)
     }
 
     /**
      * Get a {type: name} list of all playgrounds
      */
     getList() {
-        return {
-            cemetery: "Cemetery",
-            forest: "Forest",
-        }
+        return this.list
+    }
+
+    /**
+     * Get a list of all playgrounds types
+     */
+    getTypes() {
+        return this.types
     }
 
     /**
@@ -33,6 +48,9 @@ export default class {
 
             case "forest":
                 return new Forest(this.game)
+
+            case "moon":
+                return new Moon(this.game)
         }
     }
 }

@@ -1,4 +1,5 @@
 import * as util from '../utils'
+import PlaygroundManager from './PlaygroundManager'
 
 export default class {
     static setGame (game) {
@@ -65,7 +66,7 @@ export default class {
                 game.load.audio('cemetery_laugh', './assets/playgrounds/cemetery/sounds/laugh.mp3?__version__');
                 game.load.audio('cemetery_sirens', './assets/playgrounds/cemetery/sounds/sirens.mp3?__version__');
                 game.load.audio('cemetery_twilightzone', './assets/playgrounds/cemetery/sounds/twilightzone.mp3?__version__');
-                break;
+                break
 
             case "forest":
                 game.load.audio('forest_ambient', './assets/playgrounds/forest/sounds/ambient.mp3?__version__');
@@ -76,7 +77,13 @@ export default class {
                 game.load.image('forest_rock', './assets/playgrounds/forest/images/rock.png?__version__')
                 game.load.image('forest_rock_ledge', './assets/playgrounds/forest/images/rock_ledge.png?__version__')
                 game.load.image('forest_grass_ledge', './assets/playgrounds/forest/images/grass_ledge.png?__version__')
-                break;
+                break
+
+            case "moon":
+                game.load.image('moon_bg', './assets/playgrounds/moon/images/bg.png?__version__')
+                game.load.image('moon_ground', './assets/playgrounds/moon/images/ground.png?__version__')
+                game.load.image('moon_rock', './assets/playgrounds/moon/images/rock.png?__version__')
+                break
         }
 
     }
@@ -108,7 +115,8 @@ export default class {
             return
 
         let game = this.game
-        let types = ["cemetery", "forest"]
+        let manager = new PlaygroundManager(this.game)
+        let types = manager.getTypes()
 
         for (let type of types)
             game.load.spritesheet("menu_playground_" + type, "./assets/menu/images/playground_" + type + ".png?__version__", 200, 125);

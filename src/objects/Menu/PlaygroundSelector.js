@@ -34,21 +34,16 @@ export default class extends Phaser.Group {
      * @private
      */
     _initialize() {
-        // select first playground by default
-        this.selection = 0
+        // select moon playground by default
+        this.selection = 2
 
+        // playground names and types
         let manager = new PlaygroundManager(this.game)
-
-        // playground names
         this.names = manager.getList()
-
-        // playground types
-        this.types = []
-        for (let type in this.names)
-            this.types.push(type)
+        this.types = manager.getTypes()
 
         // compute horizontal position for the widget
-        this.x = game.world.centerX - (WIDTH * this.types.length + H_SPACING * (this.types.length - 1)) / 2
+        this.x = this.game.world.centerX - (WIDTH * this.types.length + H_SPACING * (this.types.length - 1)) / 2
 
         // sound to play when selection changes
         this.changeSelectionSound = this.game.add.audio("menu_playground_change")

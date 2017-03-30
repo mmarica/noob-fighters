@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import AbstractLedge from '../../../Abstract/Ledge'
+import AbstractLedge from '../../Abstract/Ledge'
 
 export default class extends AbstractLedge {
     /**
@@ -11,6 +11,6 @@ export default class extends AbstractLedge {
      * @param blockCount Number of blocks in the ledge
      */
     constructor(game, x, y, blockCount) {
-        super(game, x, y, 64, 'forest_rock_ledge', blockCount)
+        super(game, x, y, 32, 'moon_rock', blockCount)
     }
 }
