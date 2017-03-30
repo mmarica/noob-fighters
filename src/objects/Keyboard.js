@@ -1,9 +1,19 @@
-export default class {
-    constructor(game, onKeyDown, onKeyUp) {
-        this.game = game
-        this.onKeyDown = onKeyDown
-        this.onKeyUp = onKeyUp
+import Phaser from 'phaser'
 
+export default class {
+    /**
+     * Constructor
+     *
+     * @param game The game object
+     */
+    constructor(game) {
+        this.game = game
+
+        // handlers for key down and key up events
+        this.onDown = new Phaser.Signal()
+        this.onUp = new Phaser.Signal()
+
+        // down/up state for the keys
         this.keyStates = []
 
         // register handlers for key down and key up events
@@ -21,7 +31,7 @@ export default class {
 
         if (!keyIsDown) {
             this.keyStates[char["code"]] = true
-            this.onKeyDown.method.bind(this.onKeyDown.object)(char)
+            this.onDown.dispatch(char)
         }
     }
 
@@ -36,7 +46,7 @@ export default class {
 
         if (keyIsDown) {
             this.keyStates[char["code"]] = false
-            this.onKeyUp.method.bind(this.onKeyDown.object)(char)
+            this.onUp.dispatch(char)
         }
     }
 
@@ -119,4 +129,3 @@ export default class {
         }
     }
 }
-

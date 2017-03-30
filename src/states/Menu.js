@@ -150,17 +150,8 @@ export default class extends AbstractState {
      * @private
      */
     _initKeyboard() {
-        this.keyboard = new Keyboard(
-            this.game,
-            {
-                object: this,
-                method: this._onKeyDown,
-            },
-            {
-                object: this,
-                method: function () {},
-            }
-        )
+        this.keyboard = new Keyboard(this.game)
+        this.keyboard.onDown.add(this._onKeyDown, this)
     }
 
     /**
