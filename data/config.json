@@ -23,19 +23,22 @@
       "interval_variation": 5,
       "duration": 15
     },
-    "health": {
-      "amount": 35
-    },
-    "speed": {
-      "duration": 10,
-      "percentage": 200
-    },
-    "damage": {
-      "duration": 10,
-      "percentage": 100
-    },
-    "trap": {
-      "amount": 25
+    "types": {
+      "health": {
+        "amount": 35
+      },
+      "speed": {
+        "duration": 10,
+        "percentage": 200
+      },
+      "damage": {
+        "duration": 10,
+        "percentage": 100
+      },
+      "trap": {
+        "amount": 25
+      },
+      "surprise": {}
     }
   }
 }

@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import SecondaryWeapon from './Weapon/Secondary'
 import PrimaryWeapon from './Weapon/Primary'
+import FadingText from './FadingText'
 import * as util from '../utils'
 
 export default class extends Phaser.Sprite {
@@ -91,19 +92,16 @@ export default class extends Phaser.Sprite {
         return this.health
     }
 
-    hurt (amount) {
+    hurt(amount) {
         util.log("player " + (this.id + 1),  "taken damage: " + amount)
+        this.game.add.existing(new FadingText(this.game, this, "-" + amount + " HP"))
+
         this.hitSound.play()
 
         if (this._isActive)
             this.health = Math.max(0, this.health - amount)
 
         return this.health
-    }
-
-    setDamagePercentage(percentage) {
-        this.primaryWeapon.setDamagePercentage(percentage)
-        this.secondaryWeapon.setDamagePercentage(percentage)
     }
 
     firePrimary() {
@@ -160,8 +158,9 @@ export default class extends Phaser.Sprite {
         this.frame = this.data["sprite"][this.orientation]["frame"]
     }
 
-    boostHealth (amount) {
+    boostHealth(amount) {
         util.log("player " + (this.id + 1), "health + " + amount)
+        this.game.add.existing(new FadingText(this.game, this, "+" + amount + " HP"))
 
         if (this._isActive)
             this.health = Math.min(100, this.health + amount)
@@ -169,35 +168,45 @@ export default class extends Phaser.Sprite {
         return this.health
     }
 
-    boostSpeed (duration, percentage) {
+    boostSpeed(duration, percentage) {
         util.log("player " + (this.id + 1), "speed +" + percentage + "% for " + duration + " seconds")
+        this.game.add.existing(new FadingText(this.game, this, "+" + percentage + "% speed\n(" + duration + " sec)"))
+
         this.speed = Math.round(this.defaultSpeed * (100 + percentage) / 100)
-        let event = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.boostSpeedExpired, this);
+        this.game.time.events.add(Phaser.Timer.SECOND * duration, this._boostSpeedExpired, this);
         this._speedTint()
+
     }
 
-    boostSpeedExpired () {
+    _boostSpeedExpired() {
         util.log("player " + (this.id + 1), "speed back to normal")
         this.speed = this.defaultSpeed
         this._defaultTint()
     }
 
-    boostDamage (duration, percentage) {
-        this._damageTint()
+    boostDamage(duration, percentage) {
         util.log("player " + (this.id + 1), "damage +" + percentage + "% for " + duration + " seconds")
-        this.setDamagePercentage(100 + percentage)
-        let event = this.game.time.events.add(Phaser.Timer.SECOND * duration, this.boostDamageExpired, this);
+        this.game.add.existing(new FadingText(this.game, this, "+" + percentage + "% damage\n(" + duration + " sec)"))
+
+        this._setDamagePercentage(100 + percentage)
+        this.game.time.events.add(Phaser.Timer.SECOND * duration, this._boostDamageExpired, this);
+        this._damageTint()
     }
 
-    boostDamageExpired () {
-        this._defaultTint()
+    _boostDamageExpired() {
         util.log("player " + (this.id + 1), "damage back to normal")
-        this.setDamagePercentage(100)
+        this._setDamagePercentage(100)
+        this._defaultTint()
     }
 
     switchTint () {
         this.tintIndex = 1 - this.tintIndex
         this.tint = this.tintIndex == 1 ? this.tintColor : 0xFFFFFF
+    }
+
+    _setDamagePercentage(percentage) {
+        this.primaryWeapon.setDamagePercentage(percentage)
+        this.secondaryWeapon.setDamagePercentage(percentage)
     }
 
     _defaultTint () {

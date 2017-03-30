@@ -5,8 +5,7 @@ import Player from '../objects/Player'
 import Cemetery from '../objects/Playground/Cemetery'
 import Forest from '../objects/Playground/Forest'
 import Hud from '../objects/Hud'
-import Powerup from '../objects/Powerup'
-import FadingText from '../objects/FadingText'
+import PowerupManager from '../objects/PowerupManager'
 import Keyboard from '../objects/Keyboard'
 import * as util from '../utils'
 
@@ -37,10 +36,15 @@ export default class extends AbstractState {
     create () {
         this._addPlayGround()
         this._addPlayers()
+        this._addPowerups()
         this._addHud()
         this._initKeyboard()
         this._activatePlayers()
-        this._startPowerupTimer()
+    }
+
+    _addPowerups() {
+        this.powerupManager = new PowerupManager(this.game, this.players, this.playGround.getPowerupSpots())
+        this.powerupManager.onTake.add(this._onTakePowerup, this)
     }
 
     update() {
@@ -49,9 +53,7 @@ export default class extends AbstractState {
         for (let id = 0; id < 2; id++) {
             let primaryWeapon = this.players[id].getPrimaryWeapon()
 
-            if (this.powerup != null)
-                this.game.physics.arcade.overlap(this.players[id], this.powerup, this.takePowerup, null, this)
-
+            this.powerupManager.checkPlayersOverlapping()
 
             this.game.physics.arcade.overlap([this.players[1 - id]], primaryWeapon.bullets, this.hitPlayer, null, this)
 
@@ -99,11 +101,7 @@ export default class extends AbstractState {
         bullet.kill()
 
         let damage = this.players[1 - player.id].getPrimaryWeapon().getComputedDamage()
-        this._hurtPlayer(player, damage)
-    }
-
-    takePowerup (player, powerup) {
-        powerup.take(player)
+        this.hud.updateHealth(player.id, player.hurt(damage))
     }
 
     hitObstacle (ledge, bullet) {
@@ -245,104 +243,28 @@ export default class extends AbstractState {
                 util.log("secondary", "hit: player " + (player.id + 1) + ", distance: " + distance)
                 let playerDamage = Math.round(damage * (radius - distance) / radius)
                 playerDamage = Math.max(1, playerDamage)
-                this._hurtPlayer(player, playerDamage)
+                this.hud.updateHealth(player.id, player.hurt(playerDamage))
             }
         }
     }
 
-    _hurtPlayer (player, damage) {
-        let health = player.hurt(damage)
-        this.hud.updateHealth(player.id, health)
-        this.game.add.existing(new FadingText(this.game, player, "-" + damage + " HP"))
-    }
+    _onTakePowerup(player, type, config) {
+        switch (type) {
+            case "health":
+                this.hud.updateHealth(player.id, player.boostHealth(config["amount"]))
+                break
 
-    _addPowerup () {
-        // if a power-up is already on the screen, abort
-        if (this.powerup != null)
-            return;
+            case "speed":
+                player.boostSpeed(config["duration"], config["percentage"])
+                break
 
-        // generate a random type
-        let type = Powerup.getRandomType(false)
+            case "damage":
+                player.boostDamage(config["duration"], config["percentage"])
+                break
 
-        // choose a spot as farthest from the players as possible
-        let spots = []
-        for (let spot of this.powerupSpots) {
-            let distance1 = Math.round(this.game.physics.arcade.distanceToXY(this.players[0], spot.x, spot.y))
-            let distance2 = Math.round(this.game.physics.arcade.distanceToXY(this.players[1], spot.x, spot.y))
-            spots.push({
-                distance: Math.min(distance1, distance2),
-                x: spot.x,
-                y: spot.y,
-            })
+            case "trap":
+                this.hud.updateHealth(player.id, player.hurt(config["amount"]))
+                break
         }
-
-        spots.sort(function (x, y) {
-            return x.distance < y.distance ? 1 : -1
-        })
-        let spot = spots[0]
-
-        let x = new Powerup({
-            game: this.game,
-            type: type,
-            x: spot.x,
-            y: spot.y,
-            onPowerupExpire: {
-                object: this,
-                method: this.onPowerupExpire,
-            },
-            onPowerupTakeHealth: {
-                object: this,
-                method: this.onPowerupTakeHealth,
-            },
-            onPowerupTakeSpeed: {
-                object: this,
-                method: this.onPowerupTakeSpeed,
-            },
-            onPowerupTakeDamage: {
-                object: this,
-                method: this.onPowerupTakeDamage,
-            },
-            onPowerupTakeTrap: {
-                object: this,
-                method: this.onPowerupTakeTrap,
-            }
-        })
-
-        this.powerup = this.game.add.existing(x)
-    }
-
-    onPowerupExpire () {
-        this._startPowerupTimer()
-    }
-
-    onPowerupTakeHealth (player, amount) {
-        this._startPowerupTimer()
-        let health = player.boostHealth(amount)
-        this.hud.updateHealth(player.id, health)
-        this.game.add.existing(new FadingText(this.game, player, "+" + amount + " HP"))
-    }
-
-    onPowerupTakeSpeed (player, duration, percentage) {
-        this._startPowerupTimer()
-        player.boostSpeed(duration, percentage)
-        this.game.add.existing(new FadingText(this.game, player, "+" + percentage + "% speed"))
-    }
-
-    onPowerupTakeDamage (player, duration, percentage) {
-        this._startPowerupTimer()
-        player.boostDamage(duration, percentage)
-        this.game.add.existing(new FadingText(this.game, player, "+" + percentage + "% damage"))
-    }
-
-    onPowerupTakeTrap (player, amount) {
-        this._startPowerupTimer()
-        this._hurtPlayer(player, amount)
-    }
-
-    _startPowerupTimer () {
-        this.powerup = null
-        let seconds = this.powerupInterval + Math.round(Math.random() * this.powerupIntervalVariation)
-        util.log("power-up", "next in " + seconds + " seconds")
-        let event = this.game.time.events.add(Phaser.Timer.SECOND * seconds, this._addPowerup, this);
     }
 }

@@ -19,7 +19,8 @@ export default class extends Phaser.Text {
         this.fill = "#fffaa9"
         this.stroke = "#000"
         this.strokeThickness = 2
-        this.anchor.setTo(0.5, 0)
+        this.align = "center"
+        this.anchor.setTo(0.5, 1)
 
         // add the movement and fading animation
         let tween = game.add.tween(this).to( { y: y - 50, alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
