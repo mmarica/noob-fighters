@@ -6,13 +6,12 @@ import * as util from '../utils'
 
 export default class extends Phaser.Sprite {
 
-    constructor ({ game, id, type, x, y, context }) {
+    constructor (game, id, type, x, y) {
         let data = game.cache.getJSON("players")[type]
         let orientation = id == 0 ? "right" : "left"
 
         super(game, x, y, type + "_player", data["sprite"][orientation]["frame"])
 
-        this.context = context
         this.health = 100
         this._isActive = false
         this.id = id
@@ -37,8 +36,7 @@ export default class extends Phaser.Sprite {
 
         this.hitSound = this.game.add.audio(type + "_hurt");
 
-        this._addPrimaryWeapon()
-        this._addSecondaryWeapon()
+        this._addWeapons()
 
         this.goingLeft = false
         this.goingRight = false
@@ -135,20 +133,16 @@ export default class extends Phaser.Sprite {
         this.goingRight = false
     }
 
-    _addPrimaryWeapon() {
+    /**
+     * Add primary and secondary weapons
+     *
+     * @private
+     */
+    _addWeapons() {
         this.primaryWeapon = this.game.add.existing(new PrimaryWeapon(this.game, this.data["weapons"]["primary"], this.type))
         this.primaryWeapon.trackSprite(this)
-    }
 
-    _addSecondaryWeapon () {
-        this.secondaryWeapon = this.game.add.existing(
-            new SecondaryWeapon(
-                this.game,
-                this.data["weapons"]["secondary"],
-                this.type,
-                {object: this.context, method: this.context.onSecondaryExplosion}
-            )
-        )
+        this.secondaryWeapon = this.game.add.existing(new SecondaryWeapon(this.game, this.data["weapons"]["secondary"], this.type))
         this.secondaryWeapon.trackSprite(this)
     }
 

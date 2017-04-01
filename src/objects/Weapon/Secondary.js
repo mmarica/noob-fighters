@@ -8,13 +8,11 @@ export default class extends Phaser.Weapon {
      * @param game       Game object
      * @param data       Weapon data from players.json
      * @param playerType Player type
-     * @param onExplode  Callback for explode event
      */
-    constructor(game, data, playerType, onExplode) {
+    constructor(game, data, playerType) {
         super(game, game.world)
         this.data = data
         this.playerType = playerType
-        this.onExplode = onExplode
 
         this._initialize()
         this._addSounds()
@@ -63,6 +61,7 @@ export default class extends Phaser.Weapon {
         this.bulletKillType = Phaser.Weapon.KILL_LIFESPAN
 
         // add explosion event handler
+        this.onExplode = new Phaser.Signal()
         this.onKill.add(this._onExplode, this)
     }
 
@@ -103,7 +102,6 @@ export default class extends Phaser.Weapon {
         }, sprite)
 
         // execute callback for explosion event
-        let callback = this.onExplode.method.bind(this.onExplode.object)
-        callback(x, y, damage, radius)
+        this.onExplode.dispatch(x, y, damage, radius)
     }
 }

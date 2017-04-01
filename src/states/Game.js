@@ -114,31 +114,22 @@ export default class extends AbstractState {
     }
 
     _addPlayers () {
-        let config = this.game.cache.getJSON("config")
         let data = this.game.cache.getJSON("players")
-
-        this.players = [
-            this.game.add.existing(
-                new Player({
-                    game: this.game,
-                    id: 0,
-                    type: this.types[0],
-                    x: 100,
-                    y: this.world.height - data[this.types[0]]["sprite"]["height"] / 2 - 24,
-                    context: this
-                })
-            ),
-            this.game.add.existing(
-                new Player({
-                    game: this.game,
-                    id: 1,
-                    type: this.types[1],
-                    x: this.world.width - 100,
-                    y: this.world.height - data[this.types[1]]["sprite"]["height"] / 2 - 24,
-                    context: this
-                })
-            ),
+        let startPositions = [
+            [100, ],
+            [, this.world.height - data[this.types[1]]["sprite"]["height"] / 2 - 24],
         ]
+
+        this.players = []
+
+        for (let id = 0; id < 2; id++) {
+            let x = id == 0 ? 100 : this.world.width - 100
+            let y = this.world.height - data[this.types[id]]["sprite"]["height"] / 2 - 24
+            let player = this.game.add.existing(new Player(this.game, id, this.types[id], x, y))
+            this.players.push(player)
+
+            player.getSecondaryWeapon().onExplode.add(this.onSecondaryExplosion, this)
+        }
     }
 
     /**
