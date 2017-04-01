@@ -8,12 +8,21 @@ import Keyboard from '../objects/Keyboard'
 import * as util from '../utils'
 
 export default class extends AbstractState {
-    init (types, map) {
+    /**
+     * Extract the players and playground types from parameters
+     *
+     * @param types
+     * @param map
+     */
+    init(types, map) {
         this.types = types
         this.map = map
     }
 
-    preload () {
+    /**
+     * Load assets
+     */
+    preload() {
         this._addPreloadProgressBar()
 
         for (let type of this.types)
@@ -21,17 +30,9 @@ export default class extends AbstractState {
 
         AssetLoader.loadPlayground(this.map)
         AssetLoader.loadPowerups()
-
-        let config = this.game.cache.getJSON("config")
-
-        this.keys = config["keys"]
-
-        this.powerupInterval = config["power-ups"]["appear"]["interval"]
-        this.powerupIntervalVariation = config["power-ups"]["appear"]["interval_variation"]
-        this.powerup = null
     }
 
-    create () {
+    create() {
         this._addPlayGround()
         this._addPlayers()
         this._addPowerups()
@@ -42,14 +43,14 @@ export default class extends AbstractState {
 
     _addPowerups() {
         this.powerupManager = new PowerupManager(this.game, this.players, this.playGround.getPowerupSpots())
-        this.powerupManager.onTake.add(this._onTakePowerup, this)
+        this.powerupManager.onTake.add(this.onTakePowerup, this)
     }
 
     update() {
         this.game.physics.arcade.collide(this.players[0], this.players[1]);
 
         for (let id = 0; id < 2; id++) {
-            let primaryWeapon = this.players[id].getPrimaryWeapon()
+            let primaryWeapon = this.players[id].primaryWeapon
 
             this.powerupManager.checkPlayersOverlapping()
 
@@ -61,7 +62,7 @@ export default class extends AbstractState {
             for (let obstacle of this.obstacles)
                 this.game.physics.arcade.collide(this.players[id], obstacle)
 
-            let secondaryWeapon = this.players[id].getSecondaryWeapon()
+            let secondaryWeapon = this.players[id].secondaryWeapon
             for (let player of this.players)
                 this.game.physics.arcade.collide(player, secondaryWeapon.bullets)
 
@@ -75,8 +76,8 @@ export default class extends AbstractState {
                 this.camera.fade('#000000');
                 this.camera.onFadeComplete.addOnce(
                     this.gameOver, this, 0,
-                    this.players[0].getName(), this.players[0].getHealth(),
-                    this.players[1].getName(), this.players[1].getHealth()
+                    this.players[0].name, this.players[0].getHealth(),
+                    this.players[1].name, this.players[1].getHealth()
                 );
 
                 break
@@ -98,7 +99,7 @@ export default class extends AbstractState {
     hitPlayer (player, bullet) {
         bullet.kill()
 
-        let damage = this.players[1 - player.id].getPrimaryWeapon().getComputedDamage()
+        let damage = this.players[1 - player.id].primaryWeapon.getComputedDamage()
         this.hud.updateHealth(player.id, player.hurt(damage))
     }
 
@@ -128,7 +129,7 @@ export default class extends AbstractState {
             let player = this.game.add.existing(new Player(this.game, id, this.types[id], x, y))
             this.players.push(player)
 
-            player.getSecondaryWeapon().onExplode.add(this.onSecondaryExplosion, this)
+            player.secondaryWeapon.onExplode.add(this.onSecondaryExplosion, this)
         }
     }
 
@@ -140,13 +141,16 @@ export default class extends AbstractState {
     _addHud() {
         this.hud = this.game.add.existing(
             new Hud(this.game,
-                this.players[0].getName(), this.players[0].getHealth(),
-                this.players[1].getName(), this.players[1].getHealth()
+                this.players[0].name, this.players[0].getHealth(),
+                this.players[1].name, this.players[1].getHealth()
             )
         )
     }
 
     _initKeyboard () {
+        let config = this.game.cache.getJSON("config")
+        this.keys = config["keys"]
+
         this.keyboard = new Keyboard(this.game)
         this.keyboard.onDown.add(this._onKeyDown, this)
         this.keyboard.onUp.add(this._onKeyUp, this)
@@ -228,7 +232,15 @@ export default class extends AbstractState {
         }
     }
 
-    _onTakePowerup(player, type, config) {
+    /**
+     * Handler for taking power-up
+     *
+     * @param player Player object
+     * @param type   Power-up type
+     * @param config Power-up configuration data
+     * @private
+     */
+    onTakePowerup(player, type, config) {
         switch (type) {
             case "health":
                 this.hud.updateHealth(player.id, player.boostHealth(config["amount"]))
