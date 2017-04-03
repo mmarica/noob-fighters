@@ -42,13 +42,17 @@ http://localhost:3000
 + Speed boost
 + Damage boost
 + Trap (health penalty)
-+ Surprise (get one of the above, randomly; good luck!)
++ Surprise (get one of the above, randomly: good luck!)
 
 ### Playgrounds
 + Cemetery
 + Forest
++ Moon
 
 ### TODO
+I am pretty pleased with what I have done until now. This is just a demo side-project after all, so from now on updates will come sporadically... or not at all.
+
+Here goes the whishlist:
 + Add more power-ups
     + Invulnerability
     + Wings
@@ -60,5 +64,3 @@ http://localhost:3000
     + Hannoobal Lecter
     + Noob Vader
     + Noob Raider
-+ Add one more playground
-+ Improve code and comments
