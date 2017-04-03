@@ -49,6 +49,8 @@ export default class extends AbstractPlayground {
         this._level0()
         this._level1()
         this._level2()
+        this._level3()
+        this._level4()
     }
 
     /**
@@ -71,11 +73,11 @@ export default class extends AbstractPlayground {
         let game = this.game
 
         // left
-        let ledge = game.add.existing(new Ledge(game, 250, 620, 5))
+        let ledge = game.add.existing(new Ledge(game, 250, 520, 5))
         this.ledges.push(ledge)
 
         // left
-        ledge = game.add.existing(new Ledge(game, game.world.width - 250 - 32 * 5, 620, 5))
+        ledge = game.add.existing(new Ledge(game, game.world.width - 250 - 32 * 5, 520, 5))
         this.ledges.push(ledge)
     }
 
@@ -90,6 +92,42 @@ export default class extends AbstractPlayground {
         // middle
         let ledge = game.add.existing(new Ledge(game, game.world.centerX - 32 * 1.5, 470, 3))
         ledge.verticalMovement (200, 150, 80, "down")
+        this.ledges.push(ledge)
+    }
+
+    /**
+     * Third level above ground
+     *
+     * @private
+     */
+    _level3() {
+        let game = this.game
+
+        // left
+        let ledge = game.add.existing(new Ledge(game, 0, 320, 6))
+        this.ledges.push(ledge)
+
+        // left
+        ledge = game.add.existing(new Ledge(game, game.world.width - 32 * 6, 320, 6))
+        this.ledges.push(ledge)
+    }
+
+    /**
+     * Fourth level above ground
+     *
+     * @private
+     */
+    _level4() {
+        let game = this.game
+
+        // left
+        let ledge = game.add.existing(new Ledge(game, 260, 120, 3))
+        ledge.verticalMovement (0, 100, 100, "down")
+        this.ledges.push(ledge)
+
+        // left
+        ledge = game.add.existing(new Ledge(game, game.world.width - 260 - 32 * 3, 120, 3))
+        ledge.verticalMovement (0, 100, 100, "down")
         this.ledges.push(ledge)
     }
 
