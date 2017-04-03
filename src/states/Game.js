@@ -167,14 +167,15 @@ export default class extends AbstractState {
      * Update event handler
      */
     update() {
+        // collide players to one another
         this.game.physics.arcade.collide(this.players[0], this.players[1]);
 
         for (let id = 0; id < 2; id++) {
-            let primaryWeapon = this.players[id].primaryWeapon
-
+            // check if the player touches the power-up (if on screen)
             this.powerupManager.checkPlayersOverlapping()
 
             // check if primary weapon bullet hits player
+            let primaryWeapon = this.players[id].primaryWeapon
             this.game.physics.arcade.overlap(
                 [this.players[1 - id]],
                 primaryWeapon.bullets,
@@ -198,22 +199,33 @@ export default class extends AbstractState {
                     }
                 )
 
+            // check collision between player and obstacles
             for (let obstacle of this.obstacles)
                 this.game.physics.arcade.collide(this.players[id], obstacle)
 
+            // check collision between player and secondary weapon bullets
             let secondaryWeapon = this.players[id].secondaryWeapon
             for (let player of this.players)
                 this.game.physics.arcade.collide(player, secondaryWeapon.bullets)
 
+            // check collision between obstacles and secondary weapon bullets
             for (let obstacle of this.obstacles)
                 this.game.physics.arcade.collide(obstacle, secondaryWeapon.bullets)
         }
 
+        // if at least one player has 0 HP, game over!
         for (let player of this.players)
             if (player.getHealth() == 0) {
                 this._deactivatePlayers()
                 this.camera.fade('#000000');
-                this.camera.onFadeComplete.addOnce(this.gameOver, this);
+                this.camera.onFadeComplete.addOnce(
+                    function() {
+                        // go to the game over screen
+                        this.game.sound.stopAll()
+                        this.game.state.start("GameOver", true, false, this.players[0].name, this.players[0].getHealth(), this.players[1].name, this.players[1].getHealth());
+                    },
+                    this
+                );
                 break
             }
     }
@@ -226,13 +238,5 @@ export default class extends AbstractState {
     _deactivatePlayers() {
         for (let player of this.players)
             player.deactivate()
-    }
-
-    /**
-     * Go to the game over screen
-     */
-    gameOver() {
-        this.game.sound.stopAll()
-        this.game.state.start("GameOver", true, false, this.players[0].name, this.players[0].getHealth(), this.players[1].name, this.players[1].getHealth());
     }
 }
