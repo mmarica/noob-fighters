@@ -35,8 +35,8 @@ export default class extends Phaser.Group {
      * @private
      */
     _initialize() {
-        // select moon playground by default
-        this.selection = 2
+        // select first playground by default
+        this.selection = 0
 
         // playground names and types
         let manager = new PlaygroundManager(this.game)
