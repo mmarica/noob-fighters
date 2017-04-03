@@ -211,7 +211,11 @@ export default class extends AbstractState {
             // check collision between obstacles and secondary weapon bullets
             for (let obstacle of this.obstacles)
                 this.game.physics.arcade.collide(obstacle, secondaryWeapon.bullets)
+
         }
+
+        // check collision between secondary weapon bullets of player 1 and secondary weapon bullets of player 2
+        this.game.physics.arcade.collide(this.players[0].secondaryWeapon.bullets, this.players[1].secondaryWeapon.bullets)
 
         // if at least one player has 0 HP, game over!
         for (let player of this.players)
