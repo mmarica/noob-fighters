@@ -88,7 +88,7 @@ export default class extends Phaser.Sprite {
         this.primaryWeapon.trackSprite(this)
 
         this.secondaryWeapon = this.game.add.existing(new SecondaryWeapon(this.game, this.data["weapons"]["secondary"], this.type))
-        this.secondaryWeapon.trackSprite(this)
+        this.secondaryWeapon.trackSprite(this, 0, -10)
     }
 
     /**
