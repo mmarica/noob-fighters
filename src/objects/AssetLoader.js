@@ -80,6 +80,7 @@ export default class {
                 break
 
             case "moon":
+                game.load.audio('moon_ambient', './assets/playgrounds/moon/sounds/ambient.mp3?__version__');
                 game.load.image('moon_bg', './assets/playgrounds/moon/images/bg.png?__version__')
                 game.load.image('moon_ground', './assets/playgrounds/moon/images/ground.png?__version__')
                 game.load.image('moon_lunar_module', './assets/playgrounds/moon/images/lunar_module.png?__version__')

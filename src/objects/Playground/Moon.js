@@ -16,6 +16,7 @@ export default class extends AbstractPlayground {
         this._addBackground()
         this._addVisualElements()
         this._addPowerupSpots()
+        this._addSound()
     }
 
     /**
@@ -153,5 +154,15 @@ export default class extends AbstractPlayground {
 
         // background image
         game.add.sprite(0, 0, 'moon_bg')
+    }
+
+    /**
+     * Add ambient sound
+     *
+     * @private
+     */
+    _addSound() {
+        let music = this.game.add.audio('moon_ambient')
+        music.play('', 0, 0.2, true)
     }
 }
