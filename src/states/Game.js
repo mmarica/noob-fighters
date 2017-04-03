@@ -77,6 +77,7 @@ export default class extends AbstractState {
             this.players.push(player)
 
             player.secondaryWeapon.onExplode.add(this.onSecondaryExplosion, this)
+            player.setGravityPercentage(this.playGround.getGravityPercentage())
         }
     }
 

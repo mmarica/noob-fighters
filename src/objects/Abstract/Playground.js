@@ -6,9 +6,19 @@ export default class extends Phaser.Group {
      *
      * @param game Game object
      */
-    constructor (game) {
+    constructor(game) {
         super(game)
         this.powerupSpots = []
+        this.gravityPercentage = 100
+    }
+
+    /**
+     * Get the gravity percentage
+     *
+     * @returns {number}
+     */
+    getGravityPercentage() {
+        return this.gravityPercentage
     }
 
     /**

@@ -11,6 +11,7 @@ export default class extends AbstractPlayground {
      */
     constructor (game) {
         super(game)
+        this.gravityPercentage = 35
 
         this._addBackground()
         this._addVisualElements()

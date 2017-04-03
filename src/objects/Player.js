@@ -42,7 +42,8 @@ export default class extends Phaser.Sprite {
 
         // body stuff
         this.game.physics.arcade.enable(this)
-        this.body.gravity.y = data["physics"]["gravity"];
+        this.defaultGravity = data["physics"]["gravity"]
+        this.setGravityPercentage(100)
         this.body.collideWorldBounds = true
         this.anchor.setTo(0.5)
 
@@ -133,6 +134,15 @@ export default class extends Phaser.Sprite {
                 this.goingRight = true
                 break;
         }
+    }
+
+    /**
+     * Set gravity percentage
+     *
+     * @param percentage Gravity percentage
+     */
+    setGravityPercentage(percentage) {
+        this.body.gravity.y = Math.round(percentage * this.defaultGravity / 100)
     }
 
     /**
