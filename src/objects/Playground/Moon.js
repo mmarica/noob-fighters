@@ -23,8 +23,13 @@ export default class extends AbstractPlayground {
      */
     _addPowerupSpots() {
         this.powerupSpots = [
-            {x: 98, y: 781},
-            {x: 1216, y: 781},
+            {x: this.game.world.centerX + 20, y: this.game.world.height - 19 - 250},
+            {x: 176, y: 320},
+            {x: 1280 - 176, y: 320},
+            {x: 330, y: 520},
+            {x: 1280 - 330, y: 520},
+            {x: 16, y: 781},
+            {x: 1280 - 16, y: 781},
         ]
     }
 
