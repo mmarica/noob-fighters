@@ -152,6 +152,15 @@ export default class extends AbstractState {
                 this.players[1].name, this.players[1].getHealth()
             )
         )
+
+        // add a barrier so players keep out of the HUD area
+        let wall = this.game.add.sprite(0, 0)
+        this.game.physics.arcade.enable(wall)
+        wall.body.immovable = true
+        wall.body.width = 1280
+        wall.body.height = 40
+
+        this.obstacles.push(wall)
     }
 
     /**
