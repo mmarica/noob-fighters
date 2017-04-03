@@ -206,6 +206,7 @@ export default class extends AbstractState {
                     primaryWeapon.bullets,
                     secondaryWeapon.bullets,
                     function(primaryBullet, secondaryBullet) {
+                        primaryBullet.kill()
                         secondaryBullet.kill()
                     }
                 )
