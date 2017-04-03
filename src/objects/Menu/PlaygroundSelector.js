@@ -23,9 +23,10 @@ export default class extends Phaser.Group {
         this.keys = keys
 
         this._initialize()
-        this._addKeys()
+        this._addKeyInfo()
         this._addPlaygrounds()
         this._addSelector()
+        this._initKeys()
     }
 
     /**
@@ -50,29 +51,40 @@ export default class extends Phaser.Group {
     }
 
     /**
-     * Select the previous playground from the list
+     * Add a handler for key down event
+     *
+     * @private
      */
-    previous() {
-        let current = this.selection
-        this.selection = Math.max(this.selection - 1, 0)
+    _initKeys() {
+        this.game.keyboard.onDown.add(
+            function(char) {
+                let current = this.selection
 
-        if (current != this.selection) {
-            this._updateSelectorPosition()
-            this.changeSelectionSound.play()
-        }
-    }
+                switch (char["code"]) {
+                    // playground selector keys
+                    case this.keys["left"][0]:
+                    case this.keys["left"][1]:
+                        this.selection = Math.max(this.selection - 1, 0)
 
-    /**
-     * Select the next playground from the list
-     */
-    next() {
-        let current = this.selection
-        this.selection = Math.min(this.selection + 1, this.types.length - 1)
+                        if (current != this.selection) {
+                            this._updateSelectorPosition()
+                            this.changeSelectionSound.play()
+                        }
+                        break
 
-        if (current != this.selection) {
-            this._updateSelectorPosition()
-            this.changeSelectionSound.play()
-        }
+                    case this.keys["right"][0]:
+                    case this.keys["right"][1]:
+                        this.selection = Math.min(this.selection + 1, this.types.length - 1)
+
+                        if (current != this.selection) {
+                            this._updateSelectorPosition()
+                            this.changeSelectionSound.play()
+                        }
+                        break
+                }
+            },
+            this
+        )
     }
 
     /**
@@ -126,11 +138,11 @@ export default class extends Phaser.Group {
      * 
      * @private
      */
-    _addKeys() {
+    _addKeyInfo() {
         let x = this.game.world.centerX - (WIDTH * this.types.length + H_SPACING * (this.types.length - 1)) / 4
         let y = this.y
 
-        let text = new Phaser.Text(this.game, x, y, Keyboard.longName(this.keys["previous"][0]) + ", " + Keyboard.longName(this.keys["previous"][1]))
+        let text = new Phaser.Text(this.game, x, y, Keyboard.longName(this.keys["left"][0]) + ", " + Keyboard.longName(this.keys["left"][1]))
         text.font = 'Arial'
         text.fontSize = 14
         text.fill = '#fff'
@@ -142,7 +154,7 @@ export default class extends Phaser.Group {
 
         x = this.game.world.centerX + (WIDTH * this.types.length + H_SPACING * (this.types.length - 1)) / 4
 
-        text = new Phaser.Text(this.game, x, y, Keyboard.longName(this.keys["next"][0]) + ", " + Keyboard.longName(this.keys["next"][1]))
+        text = new Phaser.Text(this.game, x, y, Keyboard.longName(this.keys["right"][0]) + ", " + Keyboard.longName(this.keys["right"][1]))
         text.font = 'Arial'
         text.fontSize = 14
         text.fill = '#fff'

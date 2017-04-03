@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Keyboard from '../objects/Keyboard'
 
 export default class extends Phaser.State {
     /**
@@ -14,5 +15,15 @@ export default class extends Phaser.State {
         this.loaderBar = this.add.sprite(this.game.world.centerX - image.width / 2, this.game.world.centerY, 'loaderBar')
         this.loaderBar.anchor.setTo(0, 0.5)
         this.load.setPreloadSprite(this.loaderBar)
+    }
+
+    /**
+     * Initialize the keyboard object
+     *
+     * @private
+     */
+    _initKeyboard()
+    {
+        this.game.keyboard = new Keyboard(this.game)
     }
 }

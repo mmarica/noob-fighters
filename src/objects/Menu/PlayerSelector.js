@@ -32,53 +32,7 @@ export default class extends Phaser.Group {
         this._addSelector()
         this._addPlayers()
         this._updateSelectorPosition()
-    }
-
-    /**
-     * Select the previous player from the list
-     */
-    previous() {
-        if (this.confirmed)
-            return
-
-        let current = this.selection
-        this.selection = Math.max(this.selection - 1, 0)
-
-        if (current != this.selection) {
-            this.playerSprites[current].animations.stop()
-            this._updateSelectorPosition()
-            this.changeSelectionSound.play()
-        }
-    }
-
-    /**
-     * Select the next player from the list
-     */
-    next() {
-        if (this.confirmed)
-            return
-
-        let current = this.selection
-        this.selection = Math.min(this.selection + 1, this.types.length - 1)
-
-        if (current != this.selection) {
-            this.playerSprites[current].animations.stop()
-            this._updateSelectorPosition()
-            this.changeSelectionSound.play()
-        }
-    }
-
-    /**
-     * Confirm the current player selection
-     */
-    confirm() {
-        if (!this.confirmed) {
-            this.confirmed = true
-            this.game.time.events.remove(this.selectionTimer)
-            this._drawSelectionRectangle()
-            this.confirmSound.play()
-            this.playerSprites[this.selection].animations.stop()
-        }
+        this._initKeys()
     }
 
     /**
@@ -121,6 +75,55 @@ export default class extends Phaser.Group {
 
         // sound to play when confirming the player selection
         this.confirmSound = game.add.audio("menu_player_confirm")
+    }
+
+    /**
+     * Add a handler for key down event
+     *
+     * @private
+     */
+    _initKeys() {
+        this.game.keyboard.onDown.add(
+            function(char) {
+                if (this.confirmed)
+                    return
+
+                let current = this.selection
+
+                switch (char["code"]) {
+                    // player 1 selector keys
+                    case this.keys["up"]:
+                        this.selection = Math.max(this.selection - 1, 0)
+
+                        if (current != this.selection) {
+                            this.playerSprites[current].animations.stop()
+                            this._updateSelectorPosition()
+                            this.changeSelectionSound.play()
+                        }
+                        break
+
+                    case this.keys["down"]:
+                        this.selection = Math.min(this.selection + 1, this.types.length - 1)
+
+                        if (current != this.selection) {
+                            this.playerSprites[current].animations.stop()
+                            this._updateSelectorPosition()
+                            this.changeSelectionSound.play()
+                        }
+                        break
+
+                    case this.keys["fire_primary"]:
+                    case this.keys["fire_secondary"]:
+                        this.confirmed = true
+                        this.game.time.events.remove(this.selectionTimer)
+                        this._drawSelectionRectangle()
+                        this.confirmSound.play()
+                        this.playerSprites[this.selection].animations.stop()
+                        break
+                }
+            },
+            this
+        )
     }
 
     /**
@@ -198,7 +201,7 @@ export default class extends Phaser.Group {
         // key for previous item
         let y = this.y
 
-        let text = new Phaser.Text(game, x - xMul * 40, y + 75, Keyboard.shortName(this.keys["previous"]))
+        let text = new Phaser.Text(game, x - xMul * 40, y + 75, Keyboard.shortName(this.keys["up"]))
         text.font = 'Arial'
         text.fontSize = 14
         text.fill = '#fff'
@@ -211,7 +214,7 @@ export default class extends Phaser.Group {
 
         // keys for confirmation
         y = this.y + (HEIGHT * this.types.length + MARGIN * (this.types.length - 1)) / 2
-        text = new Phaser.Text(game, x - xMul * 40, y, "Confirm:\n" + Keyboard.shortName(this.keys["confirm"][0]) + "\n" + Keyboard.shortName(this.keys["confirm"][1]))
+        text = new Phaser.Text(game, x - xMul * 40, y, "Confirm:\n" + Keyboard.shortName(this.keys["fire_primary"]) + "\n" + Keyboard.shortName(this.keys["fire_secondary"]))
         text.font = 'Arial'
         text.fontSize = 14
         text.fill = '#fff'
@@ -222,7 +225,7 @@ export default class extends Phaser.Group {
         // key for next item
         y = this.y + HEIGHT * this.types.length + MARGIN * (this.types.length - 1)
 
-        text = new Phaser.Text(game, x - xMul * 40, y - 75, Keyboard.shortName(this.keys["next"]))
+        text = new Phaser.Text(game, x - xMul * 40, y - 75, Keyboard.shortName(this.keys["down"]))
         text.font = 'Arial'
         text.fontSize = 14
         text.fill = '#fff'

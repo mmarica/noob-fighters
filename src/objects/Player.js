@@ -13,8 +13,9 @@ export default class extends Phaser.Sprite {
      * @param type Player type
      * @param x    Horizontal position
      * @param y    Vertical position
+     * @param keys Key bindings
      */
-    constructor (game, id, type, x, y) {
+    constructor(game, id, type, x, y, keys) {
         let data = game.cache.getJSON("players")[type]
         let orientation = id == 0 ? "right" : "left"
 
@@ -24,9 +25,11 @@ export default class extends Phaser.Sprite {
         this.type = type
         this.orientation = orientation
         this.data = data
+        this.keys = keys
 
         this._initialize()
         this._addWeapons()
+        this._initKeys()
     }
 
     /**
@@ -71,7 +74,85 @@ export default class extends Phaser.Sprite {
         );
 
         // sound to play when being hurt
-        this.hitSound = this.game.add.audio(this.type + "_hurt");
+        this.hitSound = this.game.add.audio(this.type + "_hurt")
+    }
+
+    /**
+     * Add primary and secondary weapons
+     *
+     * @private
+     */
+    _addWeapons() {
+        this.primaryWeapon = this.game.add.existing(new PrimaryWeapon(this.game, this.data["weapons"]["primary"], this.type))
+        this.primaryWeapon.trackSprite(this)
+
+        this.secondaryWeapon = this.game.add.existing(new SecondaryWeapon(this.game, this.data["weapons"]["secondary"], this.type))
+        this.secondaryWeapon.trackSprite(this)
+    }
+
+    /**
+     * Initialize the key bindings
+     *
+     * @private
+     */
+    _initKeys() {
+        this.game.keyboard.onDown.add(this.onKeyDown, this)
+        this.game.keyboard.onUp.add(this.onKeyUp, this)
+    }
+
+    /**
+     * Handler for key down event
+     *
+     * @param char The key
+     * @private
+     */
+    onKeyDown(char) {
+        let keys = this.keys
+
+        switch (char["code"]) {
+            case keys["fire_primary"]:
+                if (this._isActive)
+                    this.primaryWeapon.fire(this.orientation)
+                break;
+
+            case keys["fire_secondary"]:
+                if (this._isActive)
+                    this.secondaryWeapon.fire(this.orientation)
+                break;
+
+            case keys["up"]:
+                if (this._isActive && this.body.touching.down)
+                    this.body.velocity.y = -(this.data["physics"]["jump"])
+                break;
+
+            case keys["left"]:
+                this.goingLeft = true
+                break;
+
+            case keys["right"]:
+                this.goingRight = true
+                break;
+        }
+    }
+
+    /**
+     * Handler for key up event
+     *
+     * @param char The key
+     * @private
+     */
+    onKeyUp(char) {
+        let keys = this.keys
+
+        switch (char["code"]) {
+            case keys["left"]:
+                this.goingLeft = false
+                break;
+
+            case keys["right"]:
+                this.goingRight = false
+                break;
+        }
     }
 
     /**
@@ -110,10 +191,21 @@ export default class extends Phaser.Sprite {
         this._stopAnimation()
     }
 
+    /**
+     * Get player HP
+     *
+     * @returns {number}
+     */
     getHealth() {
         return this.health
     }
 
+    /**
+     * Hurt player by a specified amount
+     *
+     * @param amount HP to substract
+     * @returns {number}
+     */
     hurt(amount) {
         if (this._isActive) {
             util.log("player " + (this.id + 1),  "taken damage: " + amount)
@@ -125,57 +217,13 @@ export default class extends Phaser.Sprite {
         return this.health
     }
 
-    firePrimary() {
-        if (this._isActive)
-            this.primaryWeapon.fire(this.orientation)
-    }
-
-    fireSecondary() {
-        if (this._isActive)
-            this.secondaryWeapon.fire(this.orientation)
-    }
-
-    jump () {
-        if (this._isActive && this.body.touching.down)
-            this.body.velocity.y = -(this.data["physics"]["jump"]);
-    }
-
-    startLeft () {
-        this.goingLeft = true
-    }
-
-    stopLeft () {
-        this.goingLeft = false
-    }
-
-    startRight () {
-        this.goingRight = true
-    }
-
-    stopRight () {
-        this.goingRight = false
-    }
-
     /**
-     * Add primary and secondary weapons
+     * Heal player
      *
-     * @private
+     * @param amount HP to add
+     * @returns {number}
      */
-    _addWeapons() {
-        this.primaryWeapon = this.game.add.existing(new PrimaryWeapon(this.game, this.data["weapons"]["primary"], this.type))
-        this.primaryWeapon.trackSprite(this)
-
-        this.secondaryWeapon = this.game.add.existing(new SecondaryWeapon(this.game, this.data["weapons"]["secondary"], this.type))
-        this.secondaryWeapon.trackSprite(this)
-    }
-
-    _stopAnimation () {
-        this.animations.stop();
-        this.body.velocity.x = 0;
-        this.frame = this.data["sprite"][this.orientation]["frame"]
-    }
-
-    boostHealth(amount) {
+    heal(amount) {
         if (this._isActive) {
             util.log("player " + (this.id + 1), "health + " + amount)
             this.game.add.existing(new FadingText(this.game, this, "+" + amount + " HP"))
@@ -185,6 +233,12 @@ export default class extends Phaser.Sprite {
         return this.health
     }
 
+    /**
+     * Boost speed by specified percentage
+     *
+     * @param duration   Duration in seconds
+     * @param percentage Boost percentage
+     */
     boostSpeed(duration, percentage) {
         if (!this._isActive)
             return
@@ -204,6 +258,12 @@ export default class extends Phaser.Sprite {
         this._speedTint()
     }
 
+    /**
+     * Boost damage by specified percentage
+     *
+     * @param duration   Duration in seconds
+     * @param percentage Boost percentage
+     */
     boostDamage(duration, percentage) {
         if (!this._isActive)
             return
@@ -223,6 +283,17 @@ export default class extends Phaser.Sprite {
     }
 
     /**
+     * Stop player animation (when left and right keys are not pressed, on game over)
+     *
+     * @private
+     */
+    _stopAnimation() {
+        this.animations.stop();
+        this.body.velocity.x = 0;
+        this.frame = this.data["sprite"][this.orientation]["frame"]
+    }
+
+    /**
      * Apply the damage percentage to the weapons
      *
      * @param percentage Damage percentage
@@ -233,15 +304,30 @@ export default class extends Phaser.Sprite {
         this.secondaryWeapon.setDamagePercentage(percentage)
     }
 
-    _defaultTint () {
+    /**
+     * Default tint color (no power-up active)
+     *
+     * @private
+     */
+    _defaultTint() {
         this.tintColor = 0xFFFFFF
     }
 
-    _damageTint () {
+    /**
+     * Tint color to use when damage power-up is in effect
+     *
+     * @private
+     */
+    _damageTint() {
         this.tintColor = 0xFF4444
     }
 
-    _speedTint () {
+    /**
+     * Tint color to use when speed power-up is in effect
+     *
+     * @private
+     */
+    _speedTint() {
         this.tintColor = 0x44FF44
     }
 }

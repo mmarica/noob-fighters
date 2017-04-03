@@ -4,7 +4,6 @@ import PlaygroundManager from '../objects/PlaygroundManager'
 import Player from '../objects/Player'
 import Hud from '../objects/Hud'
 import PowerupManager from '../objects/PowerupManager'
-import Keyboard from '../objects/Keyboard'
 import * as util from '../utils'
 
 export default class extends AbstractState {
@@ -36,11 +35,11 @@ export default class extends AbstractState {
      * Create the scene
      */
     create() {
+        this._initKeyboard()
         this._addPlayGround()
         this._addPlayers()
         this._addPowerups()
         this._addHud()
-        this._initKeyboard()
         this._activatePlayers()
     }
 
@@ -68,12 +67,13 @@ export default class extends AbstractState {
             [, this.world.height - data[this.playerTypes[1]]["sprite"]["height"] / 2 - 24],
         ]
 
+        let keys = this.game.cache.getJSON("config")["keys"]
         this.players = []
 
         for (let id = 0; id < 2; id++) {
             let x = id == 0 ? 100 : this.world.width - 100
             let y = this.world.height - data[this.playerTypes[id]]["sprite"]["height"] / 2 - 24
-            let player = this.game.add.existing(new Player(this.game, id, this.playerTypes[id], x, y))
+            let player = this.game.add.existing(new Player(this.game, id, this.playerTypes[id], x, y, keys["p" + (1 + 1 * id)]))
             this.players.push(player)
 
             player.secondaryWeapon.onExplode.add(this.onSecondaryExplosion, this)
@@ -122,7 +122,7 @@ export default class extends AbstractState {
     onTakePowerup(player, type, config) {
         switch (type) {
             case "health":
-                this.hud.updateHealth(player.id, player.boostHealth(config["amount"]))
+                this.hud.updateHealth(player.id, player.heal(config["amount"]))
                 break
 
             case "speed":
@@ -151,20 +151,6 @@ export default class extends AbstractState {
                 this.players[1].name, this.players[1].getHealth()
             )
         )
-    }
-
-    /**
-     * Initialize the key bindings
-     *
-     * @private
-     */
-    _initKeyboard() {
-        let config = this.game.cache.getJSON("config")
-        this.keys = config["keys"]
-
-        this.keyboard = new Keyboard(this.game)
-        this.keyboard.onDown.add(this._onKeyDown, this)
-        this.keyboard.onUp.add(this._onKeyUp, this)
     }
 
     /**
@@ -240,64 +226,6 @@ export default class extends AbstractState {
     _deactivatePlayers() {
         for (let player of this.players)
             player.deactivate()
-    }
-
-    /**
-     * Handler for key down event
-     *
-     * @param char The key
-     * @private
-     */
-    _onKeyDown(char) {
-        for (let id in this.players) {
-            let pid = "p" + (1 * id + 1)
-            let keys = this.keys[pid]
-
-            switch (char["code"]) {
-                case keys["fire_primary"]:
-                    this.players[id].firePrimary()
-                    break;
-
-                case keys["fire_secondary"]:
-                    this.players[id].fireSecondary()
-                    break;
-
-                case keys["up"]:
-                    this.players[id].jump()
-                    break;
-
-                case keys["left"]:
-                    this.players[id].startLeft()
-                    break;
-
-                case keys["right"]:
-                    this.players[id].startRight()
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Handler for key up event
-     *
-     * @param char The key
-     * @private
-     */
-    _onKeyUp(char) {
-        for (let id in this.players) {
-            let pid = "p" + (1 * id + 1)
-            let keys = this.keys[pid]
-
-            switch (char["code"]) {
-                case keys["left"]:
-                    this.players[id].stopLeft()
-                    break;
-
-                case keys["right"]:
-                    this.players[id].stopRight()
-                    break;
-            }
-        }
     }
 
     /**

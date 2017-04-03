@@ -22,11 +22,11 @@ export default class extends AbstractState {
      * Create the stage
      */
     create() {
+        this._initKeyboard()
         this._addBackground()
         this._addHeader()
         this._addSelectors()
         this._addPlayersKeyInfo()
-        this._initKeyboard()
     }
 
     /**
@@ -51,30 +51,13 @@ export default class extends AbstractState {
      */
     _addSelectors() {
         let pgKeys = {
-            "previous": [this.keys["p1"]["left"], this.keys["p2"]["left"]],
-            "next": [this.keys["p1"]["right"], this.keys["p2"]["right"]],
+            "left": [this.keys["p1"]["left"], this.keys["p2"]["left"]],
+            "right": [this.keys["p1"]["right"], this.keys["p2"]["right"]],
         }
         this.playgroundSelector = this.game.add.existing(new PlaygroundSelector(this.game, 230, pgKeys))
 
-        let p1Keys = {
-            "previous": this.keys["p1"]["up"],
-            "next": this.keys["p1"]["down"],
-            "confirm": [
-                this.keys["p1"]["fire_primary"],
-                this.keys["p1"]["fire_secondary"],
-            ],
-        }
-        this.p1Selector = this.game.add.existing(new PlayerSelector(this.game, 200, 200, p1Keys, "left"))
-
-        let p2Keys = {
-            "previous": this.keys["p2"]["up"],
-            "next": this.keys["p2"]["down"],
-            "confirm": [
-                this.keys["p2"]["fire_primary"],
-                this.keys["p2"]["fire_secondary"],
-            ],
-        }
-        this.p2Selector = this.game.add.existing(new PlayerSelector(this.game, 1000, 200, p2Keys, "right"))
+        this.p1Selector = this.game.add.existing(new PlayerSelector(this.game, 200, 200, this.keys["p1"], "left"))
+        this.p2Selector = this.game.add.existing(new PlayerSelector(this.game, 1000, 200, this.keys["p2"], "right"))
     }
 
     /**
@@ -145,70 +128,10 @@ export default class extends AbstractState {
     }
 
     /**
-     * Initialize the keyboard binding
-     *
-     * @private
+     * Update event handler
      */
-    _initKeyboard() {
-        this.keyboard = new Keyboard(this.game)
-        this.keyboard.onDown.add(this._onKeyDown, this)
-    }
-
-    /**
-     * Handler for key down event
-     *
-     * @param char The key
-     * @private
-     */
-    _onKeyDown(char) {
-        switch (char["code"]) {
-            // player 1 selector keys
-            case this.keys["p1"]["up"]:
-                this.p1Selector.previous()
-                break
-
-            case this.keys["p1"]["down"]:
-                this.p1Selector.next()
-                break
-
-            case this.keys["p1"]["fire_primary"]:
-            case this.keys["p1"]["fire_secondary"]:
-                this.p1Selector.confirm()
-                this.checkGameStart()
-                break
-
-            // player 2 selector keys
-            case this.keys["p2"]["up"]:
-                this.p2Selector.previous()
-                break
-
-            case this.keys["p2"]["down"]:
-                this.p2Selector.next()
-                break
-
-            case this.keys["p2"]["fire_primary"]:
-            case this.keys["p2"]["fire_secondary"]:
-                this.p2Selector.confirm()
-                this.checkGameStart()
-                break
-
-            // playground selector keys
-            case this.keys["p1"]["left"]:
-            case this.keys["p2"]["left"]:
-                this.playgroundSelector.previous()
-                break
-
-            case this.keys["p1"]["right"]:
-            case this.keys["p2"]["right"]:
-                this.playgroundSelector.next()
-                break
-        }
-    }
-
-    /**
-     * Check if both players have been chosen, so we can start the ganme
-     */
-    checkGameStart() {
+    update() {
+        // check if both players have been chosen, so we can start the ganme
         if (!this.p1Selector.isConfirmed() || !this.p2Selector.isConfirmed())
             return
 
