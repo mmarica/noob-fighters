@@ -82,6 +82,7 @@ export default class {
             case "moon":
                 game.load.image('moon_bg', './assets/playgrounds/moon/images/bg.png?__version__')
                 game.load.image('moon_ground', './assets/playgrounds/moon/images/ground.png?__version__')
+                game.load.image('moon_lunar_module', './assets/playgrounds/moon/images/lunar_module.png?__version__')
                 game.load.image('moon_rock', './assets/playgrounds/moon/images/rock.png?__version__')
                 break
         }

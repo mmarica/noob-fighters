@@ -34,7 +34,7 @@ export default class extends AbstractPlayground {
      * @returns {[]}
      */
     getObstacles () {
-        return [this.ground, ...this.rocks, ...this.ledges]
+        return [this.ground, this.lunarModule, ...this.rocks, ...this.ledges]
     }
 
     /**
@@ -61,6 +61,13 @@ export default class extends AbstractPlayground {
     _level0() {
         let game = this.game
 
+        // the lunar module obstacle in the middle
+        this.lunarModule = game.add.sprite(game.world.centerX, game.world.height - 19, "moon_lunar_module")
+        this.game.physics.arcade.enable(this.lunarModule)
+        this.lunarModule.body.immovable = true
+        this.lunarModule.anchor.setTo(0.5, 1)
+
+        // the ground
         this.ground = game.add.existing(new Ground(game))
     }
 
@@ -90,8 +97,8 @@ export default class extends AbstractPlayground {
         let game = this.game
 
         // middle
-        let ledge = game.add.existing(new Ledge(game, game.world.centerX - 32 * 1.5, 470, 3))
-        ledge.verticalMovement (200, 150, 80, "down")
+        let ledge = game.add.existing(new Ledge(game, game.world.centerX - 32 * 1.5, 400, 3))
+        ledge.verticalMovement (200, 0, 80, "down")
         this.ledges.push(ledge)
     }
 
