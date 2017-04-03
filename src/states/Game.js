@@ -199,6 +199,16 @@ export default class extends AbstractState {
                     }
                 )
 
+            // check if primary weapon bullet hit a secondary weapon bullet (in which case, the secondary weapon explodes)
+            for (let secondaryWeapon of [this.players[0].secondaryWeapon, this.players[1].secondaryWeapon])
+                this.game.physics.arcade.overlap(
+                    primaryWeapon.bullets,
+                    secondaryWeapon.bullets,
+                    function(primaryBullet, secondaryBullet) {
+                        secondaryBullet.kill()
+                    }
+                )
+
             // check collision between player and obstacles
             for (let obstacle of this.obstacles)
                 this.game.physics.arcade.collide(this.players[id], obstacle)
