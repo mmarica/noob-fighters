@@ -133,12 +133,12 @@ export default class extends AbstractPlayground {
         let game = this.game
 
         // left
-        let ledge = game.add.existing(new Ledge(game, 260, 120, 3))
+        let ledge = game.add.existing(new Ledge(game, 280, 120, 3))
         ledge.verticalMovement (0, 200, 100, "down")
         this.ledges.push(ledge)
 
         // left
-        ledge = game.add.existing(new Ledge(game, game.world.width - 260 - 32 * 3, 120, 3))
+        ledge = game.add.existing(new Ledge(game, game.world.width - 280 - 32 * 3, 120, 3))
         ledge.verticalMovement (0, 200, 100, "down")
         this.ledges.push(ledge)
     }
