@@ -26,4 +26,12 @@ export default class extends Phaser.State {
     {
         this.game.keyboard = new Keyboard(this.game)
     }
+
+    /**
+     * Display FPS is in dev mode
+     */
+    render() {
+        if (__DEV__)
+            this.game.debug.text(this.game.time.fps, 2, 14, "#00ff00")
+    }
 }

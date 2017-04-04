@@ -46,6 +46,13 @@ export default class extends Phaser.State {
         ])
 
         AssetLoader.setGame(this.game)
+
+        // legacy update mode
+        this.game.forceSingleUpdate = true
+
+        // compute FPS in dev mode
+        if (__DEV__)
+            this.game.time.advancedTiming = true
     }
 
     /**
