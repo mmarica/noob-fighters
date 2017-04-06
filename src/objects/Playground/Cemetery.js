@@ -63,7 +63,7 @@ export default class extends AbstractPlayground {
         // add the clouds
         this.clouds = [
             game.add.sprite(200, 200, 'cemetery_clouds'),
-            game.add.sprite(900, 650, 'cemetery_clouds')
+            game.add.sprite(900, 450, 'cemetery_clouds')
         ]
 
         // ... and make them move
