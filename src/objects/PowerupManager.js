@@ -18,8 +18,11 @@ export default class {
         this.config = this.game.cache.getJSON("config")["power-ups"]
 
         this.types = []
-        for (let type in this.config["types"])
+        this.usedTypes = {}
+        for (let type in this.config["types"]) {
             this.types.push(type)
+            this.usedTypes[type] = false
+        }
 
         this.powerup = null
         this.onTake = new Phaser.Signal()
@@ -150,7 +153,26 @@ export default class {
      */
     _getRandomType(excludeSurprise) {
         while (true) {
-            let type = this.types[Math.round(Math.random() * (this.types.length - 1))]
+            // check what power-up types have not been used since the last iteration
+            let unusedTypes = []
+            for (let type of this.types) {
+                if (!this.usedTypes[type])
+                    unusedTypes.push(type)
+            }
+
+            // if all types have been used, reset the used list to start over
+            if (!unusedTypes.length) {
+                unusedTypes = []
+
+                for (let type of this.types) {
+                    this.usedTypes[type] = false
+                    unusedTypes.push(type)
+                }
+            }
+
+            // choose a random power-up only from the unused types
+            let type = unusedTypes[Math.round(Math.random() * (unusedTypes.length - 1))]
+            this.usedTypes[type] = true
 
             if (excludeSurprise && type == "surprise")
                 continue
