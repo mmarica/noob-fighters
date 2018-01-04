@@ -2,7 +2,7 @@
 
 Simple (but fun) split-screen game built with Phaser.
 
-Play it live at: http://www.mihai-marica.ro/noob-fighters/. Keep in mind this is a work in progress!
+Play it live at: http://www.marica.nu/noob-fighters/. Keep in mind this is a work in progress!
 
 ## Installation
 
