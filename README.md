@@ -6,17 +6,13 @@ Play it live at: http://www.marica.nu/noob-fighters/. Keep in mind this is a wor
 
 ## Installation
 
-NodeJS is needed. Follow the instructions from the [official page](https://nodejs.org/en/download/package-manager/) to install it.
-
-Run this command in the project folder to install dependencies:
-
-```
-npm install
-```
+You need [Docker](https://www.docker.com) with [Docker Compose plugin](https://docs.docker.com/compose/install/linux/) installed.
 
 ## Run the development server:
 
-```npm run dev```
+Run this command in the project root folder:
+
+```docker compose up```
 
 Access the game at:
 
@@ -48,19 +44,3 @@ http://localhost:3000
 + Cemetery
 + Forest
 + Moon
-
-### TODO
-I am pretty pleased with what I have done until now. This is just a demo side-project after all, so from now on updates will come sporadically... or not at all.
-
-Here goes the whishlist:
-+ Add more power-ups
-    + Invulnerability
-    + Wings
-+ Add more players
-    + Nooby Doo
-    + Snoob Dog
-    + Jean-Noob Piccard
-    + Popeye the Sailor Noob
-    + Hannoobal Lecter
-    + Noob Vader
-    + Noob Raider
